@@ -21,5 +21,5 @@ Median Absolute Deviation is a robust normalization unit based on median as a po
 \examples{
 x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 
-isnt_outlier_double_mad(x)
+is_outlier_double_mad(x)
 }
