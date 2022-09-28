@@ -22,6 +22,8 @@ Imports:
      stats
 Depends: 
     R (>= 2.10)
+Remotes:  
+     r-lib/cli
 RoxygenNote: 7.1.1
 Suggests: 
     knitr,
