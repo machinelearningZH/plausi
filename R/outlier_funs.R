@@ -1,8 +1,7 @@
 
 # MAD Functions
 
-#' MAD -> Calculate MAD
-#' Get Median Absolute Deviation from the Median for asymmetric distributions
+#' Get the Median Absolute Deviation from the Median for asymmetric distributions
 #'
 #' Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symetric distributions only)
 #' https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
@@ -41,9 +40,7 @@ DoubleMAD <- function(x, zero.mad.action="warn"){
 }
 
 
-#' Double Mads from Median
-#'
-#' Find Outliers in terms of their distance in terms of MADs from the Median for the values of a distributions.
+#' Calculate the distance of a value from the Median of a distribution in term of Median Absolute Deviations (MAD)
 #'
 #' @param x vector of numeric values
 #' @param zero.mad.action action in the event of a MAD of zero (Options: "stop", "warn", "na" and "warn and na")
@@ -76,7 +73,7 @@ DoubleMADsFromMedian <- function(x, zero.mad.action="warn"){
 #' Median Absolute Deviation is a robust normalization unit based on median as a population center.
 #'
 #' @param value variable of interest
-#' @param thres z-score threshold (defaults to 3.5, which is a popular choice).
+#' @param thres z-score threshold (defaults to 3.5).
 #'
 #' @return logical vector
 #' @export
@@ -89,9 +86,6 @@ DoubleMADsFromMedian <- function(x, zero.mad.action="warn"){
 is_outlier_double_mad <- function(value, thres=3.5){
 
   ifelse(plausi::DoubleMADsFromMedian(value)>=thres,TRUE,FALSE)
-  # value=value,
-  # mad=plausi::DoubleMADsFromMedian(value)
-  # )
 
 }
 
@@ -106,6 +100,7 @@ is_outlier_double_mad <- function(value, thres=3.5){
 #' @export
 #'
 #' @examples
+
 outlier_range<- function(value, thres=3.5,percent=TRUE){
 
   # iqr_thres as argument to allow for more strict criteria for groups with high variance?
@@ -128,9 +123,6 @@ if(percent==TRUE){
 
   data %>%
     mutate(label=paste(lower,"-",upper))
-  # %>%
-  #   mutate(lower=ifelse(lower<0,0,lower),
-  #          upper=ifelse(upper>100,100,upper))
 
 }
 
