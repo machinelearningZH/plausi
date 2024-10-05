@@ -9,15 +9,12 @@
 
 - [Usage](#usage)
 - [What does the Plausi-Package do?](#what-does-the-plausi-package-do)
-- [How does the score work?](#how-does-the-score-work)
-- [Background](#background)
 - [Licensing](#licensing)
 - [Project team](#project-team)
 - [Feedback and contributing](#feedback-and-contributing)
 
 ## Usage
 - Install R [https://www.r-project.org/](https://www.r-project.org/) 
-- Install the requiered dependencies : `python -m spacy download de_core_news_sm`
 
 **1. Install the plausi-Package**
 
@@ -36,6 +33,8 @@ Key features include:
 - Robust outlier detection for small sample sizes and skewed distributions
 - Calculation of differences between all possible combinations of turnout-levels (e.g., for systematic comparison of voter turnout across all voting districts)
 - Prediction of expected results using by machine learning algorithms (e.g., yes-vote proportions, voter turnout, etc.)
+
+It serves as a basis for the PlausiApp which is used for vote result quality controll in different Cantons (TG / SG / ZH).
 
 ## Licensing
 All code, the index formula and the synthetic text data are licensed under the MIT license. 
