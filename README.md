@@ -36,9 +36,9 @@ Key features include:
 - Calculation of differences between all possible combinations of turnout-levels (e.g., for systematic comparison of voter turnout across all voting districts)
 - Prediction of expected results using by machine learning algorithms (e.g., yes-vote proportions, voter turnout, etc.)
 
-It serves as a basis for the _PlausiApp_ which is used for vote result quality controll in different Cantons (TG / SG / ZH).
+It serves as a basis for the ___PlausiApp___, which is used for vote result quality controll in different Cantons (TG / SG / ZH).
 
-The __PlausiApp__ is made available upon request in a private Repo (mailto:datashop@statistik.zh.ch). 
+The ___PlausiApp___ is made available upon request in a private Repo (mailto:datashop@statistik.zh.ch). 
 
 ## Licensing
 All code, the index formula and the synthetic text data are licensed under the MIT license. 
