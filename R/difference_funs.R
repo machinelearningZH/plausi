@@ -7,6 +7,8 @@
 #'              The proposal ID should match the column name in the dataset.
 #' @param vorl2 A character vector specifying the proposal ID for the second proposal (e.g., "eidg1", "kant2").
 #'              This should also correspond to a column name in the dataset.
+#' @param geocols Geo-Column
+#'              This should also correspond to a column name in the dataset.
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
 #' @importFrom dplyr "%>%"

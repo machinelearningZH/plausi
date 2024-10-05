@@ -98,8 +98,6 @@ is_outlier_double_mad <- function(value, thres=3.5){
 #'
 #' @return tibble with numeric range
 #' @export
-#'
-#' @examples
 
 outlier_range<- function(value, thres=3.5,percent=TRUE){
 

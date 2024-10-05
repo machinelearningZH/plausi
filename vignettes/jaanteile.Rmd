@@ -1,5 +1,5 @@
 ---
-title: "Vorhersage Ja-Anteile"
+title: "Ja-Anteile plausibilisieren"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{prediction}
@@ -15,133 +15,76 @@ knitr::opts_chunk$set(
 )
 ```
 
-Ein Glücksfall: stabiles Abstimmungsverhalten über die Zeit. Die ideologische Positionierung einer Gemeinde verändert sich nur sehr langsam. Daher können wir für einen Abstimmungssontag anhand der Daten der Vergangenheit Vorlagen identifizieren, welche ähnliche Zustimmungsmuster aufweisen und für die Gemeinden eine Vorhersage treffen und simulieren, was wir anhand der Vergangneheit erwarten würden.
+Die Stabilität des Abstimmungsverhaltens der Gemeinden ist aus Sicht Plausibilisierung ein echter Glücksfall. Die ideologische Ausrichtung einer Gemeinde ändert sich oft nur sehr langsam. Das eröffnet die Möglichkeit, auf Basis vergangener Abstimmungen Vorlagen zu identifizieren, die ähnliche Zustimmungsmuster aufweisen wie die aktuellen Abstimmungsvorlagen. An einem laufenden Abstimmungssonntag können wir so präzise Vorhersagen treffen und simulieren, welche Ergebnisse aufgrund der historischen Daten zu erwarten wären.
+
 ```{r setup}
+
+# Installiere das "swissdd"-Package um die Abstimmungsdaten von opendata.swiss zu beziehen
+devtools::install_github("politanch/swissdd")
+
 library(plausi)
 library(tidyverse)
 library(swissdd)
 library(caret)
 
 # BFS Nummern ausgewählter Gemeinden
-bfs_nrs <- c(6,7,10,11,12,87,219,294 ,181,38,60,92,119,182,218)
+bfs_nrs <- c(6,7,10,11,12,87,219,294,181,38,60,92,119,182,218,261)
 
+# Sys.setenv(https_proxy="")
 
-Sys.setenv(https_proxy="")
 # Beziehe historische Daten
 results <- swissdd::get_nationalvotes(from_date="2017-03-01", to_date="2020-09-27")
 
-# Formattiere historische Daten um : eine Spalte je Vorlage
+# Füge einen künstlichen Fehler ein 
+ results<- results %>%
+            mutate(jaStimmenInProzent=ifelse(mun_id==7 & id == 6310, jaStimmenInProzent+15, jaStimmenInProzent))
+
+# Formattiere historische Daten um ins Wide-Format (=eine Spalte je Vorlage)
 testdata <- results %>%
-  filter(canton_id==1) %>% 
+  filter(canton_id==1 & mun_id %in% bfs_nrs) %>% 
   mutate(id=paste0("v",id)) %>%
   select(jaStimmenInProzent, id, mun_id, mun_name) %>%
   pivot_wider(names_from=id, values_from = jaStimmenInProzent) %>% 
- drop_na()
+  drop_na()
 
-# Trainingsdatensatz erstellen (nur ausgezählte Gemeinden)
-train <- testdata %>% 
-  mutate_at(vars(v6310,v6330),
-            ~ifelse(mun_id %in% bfs_nrs,NA, .))
+# Gewisse Gemeinden sind etwas schwerer hervorzussagen - wenn sie 'extreme sind'. 
+# Upsampling für höheres Gewicht! 
 
-predicted_results <- predict_votes(c("v6330","v6310"),train=train, test=testdata ,exclude_votes = TRUE, geovars=c("mun_id","mun_name" ))
+traindata <- testdata %>%
+        mutate(ntimes = ifelse(mun_id %in% c(261, 12), 3, 1)) 
 
+traindata <- as_tibble(lapply(traindata, rep, traindata$ntimes)) %>%
+        select(-ntimes)
 
-# Vorhersagefehler
+# Sage Resultate vorher
+predicted_results <- predict_votes(c("v6350","v6310"),
+                                   train=traindata, 
+                                   test=testdata,
+                                   method = "svmRadial",
+                                   exclude_votes = TRUE, 
+                                   geovars=c("mun_id","mun_name" ))
+
+# Mittlerer Vorhersagefehler (RMSE) pro Vorlage
 predicted_results %>% 
   group_by(vorlage) %>% 
   summarize(rmse=RMSE(pred,real))
 
-```
-# Modelle vergleichen
-
-Plausi baut auf dem caret-package auf und lässt es somit zu, zwischen unzähligen Machine-Learning Algorithmen zu wählen und einfach umzustellen. Dies erleichtert es Modelle hinsichtlich Vorhersagegenauigkeit zu vergleichen.
-
-Das 'gvcEarth' Model, ein MARS-Modell aus dem 'earth' package (Splines) wie auch ein svm-Modell schneiden am besten ab. Doch neben der Vorhersagegenauigkeit sollte das Modell auch möglichst robust gegenüber einzelnen vermeintlich falschen Resultaten sein bzw. diese sollten die Vorhersage für eine Gemeinde nicht zu stark beeinflussen.
-
-- gcvEarth offers the best accuracy, however seems to be prone to overfit in case of false results (real example: Rüti with switched yes and no-shares)
-- svmRadial is a bit less acurate on average however seems not to be affected by single false results
-
-```{r define models}
-# Modelle die verglichen werden sollen
-models <- c("gcvEarth","glmboost","pls","pcr","svmRadial")
-
-# Funktion für Vergleich unterschiedlicher Modelle
-test_models <- function(votes, train,test, model,...){
-
-  
-plausi::predict_votes(votes = votes, 
-                          train = train,
-                          test=test,
-                           method = model,
-                          exclude_votes = TRUE,
-                      
-              ...) %>% 
-    dplyr::mutate(mod=model) 
- 
- 
-  
-}
-
-#Vergleich anhand der Vorhersage für drei Vorlagen
-comparison <- map_dfr(models, ~test_models(votes=colnames(train)[c(-1,-2)][1:3],
-                                        train=train,
-                                        test=testdata,
-                                        model=.x,
-                                        geovars=c("mun_id","mun_name")))
-
-# Vorhersagefehler je Modell pro Vorlage
-comparison %>% 
-  group_by(vorlage,mod) %>% 
-  summarize(rmse=RMSE(pred,real,na.rm=TRUE))
-
-
-```
-
-
-# Streuung der Vorhersagefehler je Vorlage in der Vergangenheit
-
-<<<<<<< HEAD
-```{r}
-=======
-```{r predictions}
->>>>>>> master
-
-# predict_single_vote("v6310", traindata=testdata, testprop = 0.1,geovars=c("mun_id","mun_name"))
-
-
-predictions <- predict_votes(colnames(testdata)[c(-1,-2)][1:20], train=testdata, testprop = 0.3,geovars=c("mun_id","mun_name"))
-
-
-gem_pred <- predictions %>% 
+# Berechne Abweichung des gemeldeten Resultats von der Vorhersage und kennzeichne Werte, die mehr als drei durchschnittliche Vorhersagefehler von der Vorhersage abweichen als auffällig
+# Auffällige Ja-Anteile weichen über drei mittleren Vorhersagefehlern von der Vorhersage ab
+gem_pred <- predicted_results%>% 
   mutate(error=real-pred) %>% 
   group_by(vorlage) %>% 
   mutate(rmse=RMSE(pred,real)) %>% 
-  mutate(error_rmse=error/rmse) %>% 
-  mutate(outlier=is_outlier_double_mad(error_rmse))
-  
+  mutate(error_rmse=error/rmse) %>%   
+  mutate(outlier=error_rmse>3)
 
-ggplot(gem_pred, aes(vorlage, error))+
-  geom_jitter(aes(color=outlier))+
+# Knonau mit dem künstlichen Fehler wird als auffällig gekennzeichnet
+gem_pred %>% filter(outlier==TRUE)
+
+# Grafische Darstellung
+ggplot(gem_pred, aes(error,vorlage))+
+  geom_point(aes(color=outlier))+
   geom_violin(alpha=0.5)+
   scale_color_viridis_d()+
   theme_minimal()
-
 ```
-
-# Fehlerbereich pro Gemeinde in Vergangenheit
-
-```{r echo=FALSE}
-#  
-# 
-# gem_pred %>% 
-# group_by(mun_id,mun_name) %>% 
-# summarize(range_lower=outlier_range(error_rmse)$lower,range_uppper=outlier_range(error_rmse)$upper)
-
-
-# 
-# what <- predictions %>% 
-#   mutate(error=real-pred)
-
-
-```
-

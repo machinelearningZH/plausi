@@ -7,93 +7,93 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-__WORK IN PROGRESS__
+<!-- __WORK IN PROGRESS__ -->
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-   comment = "#>",
-   message = FALSE,
-   warning= FALSE
- )
-```
+<!-- ```{r, include = FALSE} -->
+<!-- knitr::opts_chunk$set( -->
+<!--   collapse = TRUE, -->
+<!--    comment = "#>", -->
+<!--    message = FALSE, -->
+<!--    warning= FALSE -->
+<!--  ) -->
+<!-- ``` -->
 
-```{r setup}
-library(plausi)
-library(caret)
-library(tidyverse)
-```
+<!-- ```{r setup} -->
+<!-- library(plausi) -->
+<!-- library(caret) -->
+<!-- library(tidyverse) -->
+<!-- ``` -->
 
-# Parameter-Tuning mit dem Caret package
+<!-- # Parameter-Tuning mit dem Caret package -->
 
-```{r}
-# BFS Nummern ausgewählter Gemeinden
-bfs_nrs <- c(6,7,10,11,12,87,219,294 ,181,38,60,92,119,182,218)
+<!-- ```{r} -->
+<!-- # BFS Nummern ausgewählter Gemeinden -->
+<!-- bfs_nrs <- c(6,7,10,11,12,87,219,294 ,181,38,60,92,119,182,218) -->
 
-Sys.setenv(https_proxy="")
-# Beziehe historische Daten
-results <- swissdd::get_nationalvotes(from_date="2015-03-01", to_date="2020-11-29")
+<!-- Sys.setenv(https_proxy="") -->
+<!-- # Beziehe historische Daten -->
+<!-- results <- swissdd::get_nationalvotes(from_date="2015-03-01", to_date="2020-11-29") -->
 
-# Formattiere historische Daten um : eine Spalte je Vorlage
-testdata <- results %>%
-  filter(canton_id==1) %>% 
-  mutate(id=paste0("v",id)) %>%
-  dplyr::select(jaStimmenInProzent, id, mun_id, mun_name) %>%
-  pivot_wider(names_from=id, values_from = jaStimmenInProzent) %>% 
-  drop_na()
+<!-- # Formattiere historische Daten um : eine Spalte je Vorlage -->
+<!-- testdata <- results %>% -->
+<!--   filter(canton_id==1) %>%  -->
+<!--   mutate(id=paste0("v",id)) %>% -->
+<!--   dplyr::select(jaStimmenInProzent, id, mun_id, mun_name) %>% -->
+<!--   pivot_wider(names_from=id, values_from = jaStimmenInProzent) %>%  -->
+<!--   drop_na() -->
 
-traind <- testdata %>% 
-  mutate_at(vars(v6360),# vars(v6360,v6370),
-            ~ifelse(mun_id %in% bfs_nrs,., NA)) %>% 
-  drop_na()
+<!-- traind <- testdata %>%  -->
+<!--   mutate_at(vars(v6360),# vars(v6360,v6370), -->
+<!--             ~ifelse(mun_id %in% bfs_nrs,., NA)) %>%  -->
+<!--   drop_na() -->
 
-svmGrid <- expand.grid(sigma= 2^c(-25, -20, -15,-10, -5, 0), C= 2^c(0:5))
+<!-- svmGrid <- expand.grid(sigma= 2^c(-25, -20, -15,-10, -5, 0), C= 2^c(0:5)) -->
 
-svm_mod <- train(
-  v6360 ~ ., 
-  data = traind %>% dplyr::select(-mun_id,-mun_name),
-  method = "svmRadial",               
-  trControl = trainControl(method = "cv", number = 10),
-  tuneGrid = svmGrid,
-  tuneLength = 10
-)
+<!-- svm_mod <- train( -->
+<!--   v6360 ~ .,  -->
+<!--   data = traind %>% dplyr::select(-mun_id,-mun_name), -->
+<!--   method = "svmRadial",                -->
+<!--   trControl = trainControl(method = "cv", number = 10), -->
+<!--   tuneGrid = svmGrid, -->
+<!--   tuneLength = 10 -->
+<!-- ) -->
 
-svm_mod
-
-
-svm_mod$results
-
-ggplot(svm_mod) + 
-  theme_light()
+<!-- svm_mod -->
 
 
-testdata$newpred <- predict(svm_mod, testdata)
+<!-- svm_mod$results -->
 
-testdata %>% select(mun_id,mun_name, v6360,newpred)
-```
+<!-- ggplot(svm_mod) +  -->
+<!--   theme_light() -->
 
-# Paramter-Tuning mit dem plausi-package
-Das Tuning-Grid kann den Funktionen des plausi-packages ebenfalls übergeben werden.
-```{r}
-# works
-predict_single_vote("v6360",
-                    traindata=traind, 
-                    testdata=testdata,
-                    method="svmRadial",
-                    geovars=c("mun_id","mun_name" ),
-                    tuneGrid=svmGrid,
-                    tuneLength = 10)
 
-# working - dots are now passed as intended
-predict_votes(votes=c("v6360"),
-                    train=traind, 
-                    test=testdata,
-                    method="svmRadial",
-                    geovars=c("mun_id","mun_name"),
-                    tuneGrid=svmGrid,
-                    tuneLength = 10)
+<!-- testdata$newpred <- predict(svm_mod, testdata) -->
 
-```
+<!-- testdata %>% select(mun_id,mun_name, v6360,newpred) -->
+<!-- ``` -->
+
+<!-- # Paramter-Tuning mit dem plausi-package -->
+<!-- Das Tuning-Grid kann den Funktionen des plausi-packages ebenfalls übergeben werden. -->
+<!-- ```{r} -->
+<!-- # works -->
+<!-- predict_single_vote("v6360", -->
+<!--                     traindata=traind,  -->
+<!--                     testdata=testdata, -->
+<!--                     method="svmRadial", -->
+<!--                     geovars=c("mun_id","mun_name" ), -->
+<!--                     tuneGrid=svmGrid, -->
+<!--                     tuneLength = 10) -->
+
+<!-- # working - dots are now passed as intended -->
+<!-- predict_votes(votes=c("v6360"), -->
+<!--                     train=traind,  -->
+<!--                     test=testdata, -->
+<!--                     method="svmRadial", -->
+<!--                     geovars=c("mun_id","mun_name"), -->
+<!--                     tuneGrid=svmGrid, -->
+<!--                     tuneLength = 10) -->
+
+<!-- ``` -->
 
 ```{r echo=FALSE}
 
@@ -276,5 +276,51 @@ predict_votes(votes=c("v6360"),
 
 
 ```
+
+
+<!-- # Modelle vergleichen -->
+
+<!-- Plausi baut auf dem caret-package auf und lässt es somit zu, zwischen unzähligen Machine-Learning Algorithmen zu wählen und einfach umzustellen. Dies erleichtert es Modelle hinsichtlich Vorhersagegenauigkeit zu vergleichen. -->
+
+<!-- Das 'gvcEarth' Model, ein MARS-Modell aus dem 'earth' package (Splines) wie auch ein svm-Modell schneiden am besten ab. Doch neben der Vorhersagegenauigkeit sollte das Modell auch möglichst robust gegenüber einzelnen vermeintlich falschen Resultaten sein bzw. diese sollten die Vorhersage für eine Gemeinde nicht zu stark beeinflussen. -->
+
+<!-- - gcvEarth offers the best accuracy, however seems to be prone to overfit in case of false results (real example: Rüti with switched yes and no-shares) -->
+<!-- - svmRadial is a bit less acurate on average however seems not to be affected by single false results -->
+
+<!-- ```{r define models} -->
+<!-- # Modelle die verglichen werden sollen -->
+<!-- models <- c("gcvEarth","glmboost","pls","pcr","svmRadial") -->
+
+<!-- # Funktion für Vergleich unterschiedlicher Modelle -->
+<!-- test_models <- function(votes, train,test, model,...){ -->
+
+
+<!-- plausi::predict_votes(votes = votes,  -->
+<!--                           train = train, -->
+<!--                           test=test, -->
+<!--                            method = model, -->
+<!--                           exclude_votes = TRUE, -->
+
+<!--               ...) %>%  -->
+<!--     dplyr::mutate(mod=model)  -->
+
+
+
+<!-- } -->
+
+<!-- #Vergleich anhand der Vorhersage für drei Vorlagen -->
+<!-- comparison <- map_dfr(models, ~test_models(votes=colnames(train)[c(-1,-2)][1:3], -->
+<!--                                         train=train, -->
+<!--                                         test=testdata, -->
+<!--                                         model=.x, -->
+<!--                                         geovars=c("mun_id","mun_name"))) -->
+
+<!-- # Vorhersagefehler je Modell pro Vorlage -->
+<!-- comparison %>%  -->
+<!--   group_by(vorlage,mod) %>%  -->
+<!--   summarize(rmse=RMSE(pred,real,na.rm=TRUE)) -->
+
+
+<!-- ``` -->
 
 

@@ -2,22 +2,23 @@
 % Please edit documentation in R/difference_funs.R
 \name{get_differences}
 \alias{get_differences}
-\title{Berechnung der Stimmbeteiligungsdifferenz zwischen allen Vorlagen}
+\title{Calculation of voter turnout differences between all vote topics ("Vorlagen")}
 \usage{
 get_differences(df, vorl1, vorl2, geo_cols = c("gemwkid", "gemeinde"))
 }
 \arguments{
-\item{df}{Datensatz mit Gemeinde-ID und den Stimmbeteiligungen für verschiedene Vorlagen (eigene Spalten)}
+\item{df}{A data frame containing the municipality ID and voter turnout for various vote topics,
+with each vote topic in a separate column.}
 
-\item{vorl1}{Vektor mit Vorlagen-ID, die als Spaltennamen im Datensatz vorhanden sind (Ebene und Index: Beispiel eidg1, kant2 etc.)}
+\item{vorl1}{A vector of proposal IDs corresponding to column names in the dataset (e.g., "eidg1", "kant2").}
 
-\item{vorl2}{Vektor mit Vorlagen-ID (Ebene und Index: Beispiel eidg1, kant2 etc.)}
+\item{vorl2}{A vector of proposal IDs (e.g., "eidg1", "kant2") for comparison with `vorl1`.}
 }
 \value{
-Stimmbeteiligungsdifferenzen zwischen zwei Vorlagen in einem tibble
+A tibble containing voter turnout differences between all possible combinations of vote topics.
 }
 \description{
-Berechnung der Stimmbeteiligungsdifferenz zwischen allen Vorlagen
+Calculation of voter turnout differences between all vote topics ("Vorlagen")
 }
 \examples{
 library(tibble)

@@ -2,22 +2,29 @@
 % Please edit documentation in R/difference_funs.R
 \name{cross_fun}
 \alias{cross_fun}
-\title{Berechnung der Stimmbeteiligungsdifferenz zwischen zwei Vorlagen}
+\title{Calculation of the voter turnout difference between two vote topics ("Vorlagen")}
 \usage{
 cross_fun(df, vorl1, vorl2, geo_cols = geocols)
 }
 \arguments{
-\item{df}{Datensatz mit Gemeinde-ID und den Stimmbeteiligungen für verschiedene Vorlagen (eigene Spalten, mit Vorlagen-ID als Spaltenname)}
+\item{df}{A data frame containing the municipality ID and voter turnout for various proposals.
+Each column represents a specific proposal, and the column names should correspond
+to the proposal IDs (e.g., 'eidg1', 'kant2').}
 
-\item{vorl1}{Vektor mit Vorlagen-ID (Ebene und Index: Beispiel eidg1, kant2 etc.)}
+\item{vorl1}{A character vector specifying the proposal ID for the first proposal (e.g., "eidg1", "kant2").
+The proposal ID should match the column name in the dataset.}
 
-\item{vorl2}{Vektor mit Vorlagen-ID (Ebene und Index: Beispiel eidg1, kant2 etc.)}
+\item{vorl2}{A character vector specifying the proposal ID for the second proposal (e.g., "eidg1", "kant2").
+This should also correspond to a column name in the dataset.}
+
+\item{geocols}{Geo-Column
+This should also correspond to a column name in the dataset.}
 }
 \value{
-Stimmbeteiligungsdifferenz zwischen zwei Vorlagen in einem tibble
+Tibble with the turnout difference between two vote topics
 }
 \description{
-Berechnung der Stimmbeteiligungsdifferenz zwischen zwei Vorlagen
+Calculation of the voter turnout difference between two vote topics ("Vorlagen")
 }
 \examples{
 

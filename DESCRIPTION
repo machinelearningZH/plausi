@@ -2,7 +2,7 @@ Package: plausi
 Type: Package
 Title: popular vote forensics
 Version: 0.1.0.9999
-Authors@R:   c(person(given = "Thomas",
+Authors@R: c(person(given = "Thomas",
              family = "Lo Russo",
              role = c("aut", "cre"),
              email = "thomas.lorusso@statistik.ji.zh.ch"),
@@ -22,9 +22,9 @@ Imports:
      stats
 Depends: 
     R (>= 2.10)
-Remotes:  
+Remotes: 
      r-lib/cli
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Suggests: 
     knitr,
     rmarkdown

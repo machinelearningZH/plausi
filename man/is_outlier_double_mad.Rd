@@ -9,7 +9,7 @@ is_outlier_double_mad(value, thres = 3.5)
 \arguments{
 \item{value}{variable of interest}
 
-\item{thres}{z-score threshold (defaults to 3.5, which is a popular choice).}
+\item{thres}{z-score threshold (defaults to 3.5).}
 }
 \value{
 logical vector
@@ -21,5 +21,5 @@ Median Absolute Deviation is a robust normalization unit based on median as a po
 \examples{
 x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 
-is_outlier_double_mad(x)
+isnt_outlier_double_mad(x)
 }

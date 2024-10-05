@@ -11,21 +11,20 @@ Um Anomalien in der Stimmbeteiligung ausfindig zu machen bietet das plausi packa
 
 In der Regel bestehen relativ klare Muster - gewisse Vorlagen mobilisieren stärker als andere. Hierbei sind sowohl das Thema der Vorlage, die Intensität des Abstimmungskampfes als auch die Bezugsebene des Geschäfts. ausschlaggebend. Kantonale Vorlagen weissen i.d.R. flächendekend eine tiefere Beteiligung aus als nationale Vorlagen, die am selben Abstimmungstag zur Abstimmung kommen. Dies können wir uns zu Plausibilisierungszwecken zu nutze machen. Das folgende Beispiel mit den offenen Daten zu den Abstimmungsdaten die auf [opendata.swiss](https://opendata.swiss/de/dataset/echtzeitdaten-am-abstimmungstag-zu-eidgenoessischen-abstimmungsvorlagen) verfügbar sind, dient der Veranschaulichung.
 
-```{r setup, message=FALSE}
 
+``` r
 # Installiere das "swissdd"-Package um die Abstimmungsdaten von opendata.swiss zu beziehen
-devtools::install_github("politanch/swissdd")
+# devtools::install_github("politanch/swissdd")
 
 # Load libraries
 library(plausi)
 library(swissdd)
 library(tidyverse)
-
 ```
 # Datenbezug
 Der Reproduzierbarkeit halber baut das Beispiel auf offen verfügbaren Daten auf. Mit dem `swissdd` package können die Daten für einen Abstimmungstermin der Wahl bezogen werden. 
-```{r ,message=FALSE, warning=FALSE}
 
+``` r
 # Sys.getenv("https_proxy")
 # Sys.setenv(https_proxy="")
 
@@ -55,7 +54,8 @@ diff <- get_differences(data_wide,combinations$V1,combinations$V2,geo_cols=c("ca
 
 Nun haben wir die Stimmbeteiligungsdifferenzen zwischen den verschiedenen Vorlagen für jedes Gebiet berechnet. In einem nächsten Schritt können wir ausfindig machen, welche Gebiete statistisch auffällige Differenzen je Vorlagenkombination aufweisen. Hierfür nutzen wir die `is_outlier_double_mad`-Funktion aus dem plausi-Package. 
 
-```{r ,message=FALSE, warning=FALSE}
+
+``` r
 diff2 <- diff %>% 
   group_by(combination) %>% 
   # Threshold für Ausreisser : Abweichung von mehr als 5 medianen Abweichungen vom Median anstatt der üblichen 3.5.
@@ -64,21 +64,37 @@ diff2 <- diff %>%
 
 Ein Plot hilft dabei ein Bild von der Verteilung der Differenzen  zu erhalten und besonders auffällige Werte zu erkennen. 
 
-```{r}
+
+``` r
 ggplot(diff2, aes(combination, difference))+
   geom_violin()+
   geom_jitter(alpha=0.3, aes(color=outlier))+
   theme_minimal()+
   scale_fill_viridis_d()
-
 ```
+
+![](/cloud/project/vignettes/stimmbeteiligung_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 Bei einigen Kombinationen bestehen in Einzelfällen Unterschiede von gegen 3 Prozentpunkten.
 
-```{r}
+
+``` r
 diff2 %>% 
   arrange(desc(abs(difference))) %>% 
   head()
+```
+
+```
+## # A tibble: 6 × 6
+## # Groups:   combination [6]
+##   canton_name mun_name       mun_id combination difference outlier
+##   <fct>       <fct>          <fct>  <chr>            <dbl> <lgl>  
+## 1 Zürich      Buch am Irchel 24     6310_6320         2.82 TRUE   
+## 2 Zürich      Buch am Irchel 24     6320_6340        -2.82 TRUE   
+## 3 Zürich      Regensberg     95     6340_6350        -2.54 TRUE   
+## 4 Zürich      Buch am Irchel 24     6320_6330        -2.54 TRUE   
+## 5 Zürich      Buch am Irchel 24     6320_6350        -2.54 TRUE   
+## 6 Zürich      Regensberg     95     6310_6340         2.22 TRUE
 ```
 
 # Verantwortliche Vorlage identifizieren
@@ -89,8 +105,8 @@ Um herauszufinden welche der Vorlagen dazu führen, dass Kombinationen aufällig
 - Formattiere Daten um um zählen zu können wie oft eine Vorlage in auffälligen Kombinationen vorkommt.
 - Ordne nach Häufigkeit
 
-```{r , message=FALSE, waning=FALSE}
 
+``` r
 problem_vorlagen <- diff2 %>% 
   separate(combination,into=c("vorlage1","vorlage2"), sep="_") %>% 
   filter(outlier==TRUE) %>% 
@@ -100,6 +116,23 @@ problem_vorlagen <- diff2 %>%
   arrange(desc(n))
 
 problem_vorlagen
-  
+```
+
+```
+## # A tibble: 79 × 4
+## # Groups:   mun_name, mun_id [23]
+##    mun_name             mun_id vorlage_id     n
+##    <fct>                <fct>  <chr>      <int>
+##  1 Buch am Irchel       24     6320           4
+##  2 Hüttikon             87     6320           4
+##  3 Oetwil am See        157    6320           4
+##  4 Regensberg           95     6340           4
+##  5 Bülach               53     6350           3
+##  6 Dorf                 26     6310           3
+##  7 Maschwanden          8      6340           3
+##  8 Schöfflisdorf        99     6340           3
+##  9 Thalheim an der Thur 39     6350           3
+## 10 Bachs                81     6330           2
+## # ℹ 69 more rows
 ```
 

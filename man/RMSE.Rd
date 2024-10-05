@@ -10,6 +10,8 @@ RMSE(m, o, na.rm = TRUE)
 \item{m}{predicted value (fitted by modelling)}
 
 \item{o}{oserved 'true' value}
+
+\item{na.rm}{remove NA values, defaults to TRUE}
 }
 \value{
 numeric value

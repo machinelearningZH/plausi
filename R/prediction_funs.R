@@ -27,7 +27,7 @@
 #' predict_single_vote("Eidg1",votedata, to_exclude_vars = "Kant1")
 #'
 
-predict_single_vote <- function(x,traindata,testdata=NULL,method="bagEarth",trControl=NULL,to_exclude_vars=NULL,geovars=c("gemeinde","v_gemwkid"),testprop=NA,...){
+predict_single_vote <- function(x,traindata,testdata=NULL,method="svmRadial",trControl=NULL,to_exclude_vars=NULL,geovars=c("gemeinde","v_gemwkid"),testprop=NA,...){
 
   if(is.null(testdata)) testdata <- traindata
 
@@ -134,6 +134,7 @@ predict_votes <- function(votes,train,test=NULL,method="bagEarth",trControl=NULL
 #'
 #' @param m predicted value (fitted by modelling)
 #' @param o oserved 'true' value
+#' @param na.rm remove NA values, defaults to TRUE
 #'
 #' @return numeric value
 #' @export

@@ -8,7 +8,7 @@ predict_single_vote(
   x,
   traindata,
   testdata = NULL,
-  method = "bagEarth",
+  method = "svmRadial",
   trControl = NULL,
   to_exclude_vars = NULL,
   geovars = c("gemeinde", "v_gemwkid"),

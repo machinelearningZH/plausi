@@ -2,7 +2,7 @@
 % Please edit documentation in R/outlier_funs.R
 \name{DoubleMADsFromMedian}
 \alias{DoubleMADsFromMedian}
-\title{Double Mads from Median}
+\title{Calculate the distance of a value from the Median of a distribution in term of Median Absolute Deviations (MAD)}
 \usage{
 DoubleMADsFromMedian(x, zero.mad.action = "warn")
 }
@@ -15,7 +15,7 @@ DoubleMADsFromMedian(x, zero.mad.action = "warn")
 numeric vector
 }
 \description{
-Find Outliers in terms of their distance in terms of MADs from the Median for the values of a distributions.
+Calculate the distance of a value from the Median of a distribution in term of Median Absolute Deviations (MAD)
 }
 \examples{
 x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
