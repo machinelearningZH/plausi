@@ -24,6 +24,8 @@ __remotes::install_url("https://gitlab.com/plausi_pkg/plausi.git")__
 
 **2. Explore the methodology in the Documentation**
 
+https://plausi.gitlab.io/plausi_pkg/
+
 ## What does the Plausi Package do?
 
 The Plausi package is designed for R-supported election forensics. It provides functions that enable the identification of statistical irregularities and anomalies in vote results.
