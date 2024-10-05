@@ -11,9 +11,15 @@ Um Anomalien in der Stimmbeteiligung ausfindig zu machen bietet das plausi packa
 
 In der Regel bestehen relativ klare Muster - gewisse Vorlagen mobilisieren stärker als andere. Hierbei sind sowohl das Thema der Vorlage, die Intensität des Abstimmungskampfes als auch die Bezugsebene des Geschäfts. ausschlaggebend. Kantonale Vorlagen weissen i.d.R. flächendekend eine tiefere Beteiligung aus als nationale Vorlagen, die am selben Abstimmungstag zur Abstimmung kommen. Dies können wir uns zu Plausibilisierungszwecken zu nutze machen. Das folgende Beispiel dient der Veranschaulichung.
 ```{r setup, message=FALSE}
+
+# Install the "swissdd"-Package to retrieve Vote Results from opendata.swiss
+devtools::install_github("politanch/swissdd")
+
+# Load libraries
 library(plausi)
 library(swissdd)
 library(tidyverse)
+
 ```
 # Datenbezug
 Der Reproduzierbarkeit halber baut das Beispiel auf offen verfügbaren Daten auf. Mit dem `swissdd` package können die Daten für einen Abstimmungstermin der Wahl bezogen werden. 
