@@ -44,7 +44,7 @@ The ___PlausiApp___ is made available upon request in a private Repo (mailto:dat
 The package is licensed under the MIT license. 
 
 ## Project team
-This is a joint project of the [Vote & Election-Team] (https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/wahlen-und-abstimmungen.html) and [Team Data](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/data.html) of the Statistical Office of the Canton of Zurich. Responsible: Simon Graf, Thomas Lo Russo and Thomas Knecht
+This is a joint project of the [Vote & Election-Team](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/wahlen-und-abstimmungen.html) and [Team Data](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/data.html) of the Statistical Office of the Canton of Zurich. Responsible: Simon Graf, Thomas Lo Russo and Thomas Knecht
 
 ## Feedback and contributing
 We would love to hear from you. Please share your feedback and let us know how you use the code. You can [write an email](mailto:wahlen@statistik.zh.ch) or share your ideas by opening an issue or a pull requests.
