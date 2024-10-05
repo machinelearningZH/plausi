@@ -41,11 +41,11 @@ It serves as a basis for the ___PlausiApp___, which is used for vote result qual
 The ___PlausiApp___ is made available upon request in a private Repo (mailto:datashop@statistik.zh.ch). 
 
 ## Licensing
-All code, the index formula and the synthetic text data are licensed under the MIT license. 
+The package is licensed under the MIT license. 
 
 ## Project team
-This is a project of [Team Data of the Statistical Office of the Canton of Zurich](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/data.html). Responsible: Simon Graf, Thomas Lo Russo and Thomas Knecht
+This is a joint project of the [Vote & Election-Team] (https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/wahlen-und-abstimmungen.html) and [Team Data](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/data.html) of the Statistical Office of the Canton of Zurich. Responsible: Simon Graf, Thomas Lo Russo and Thomas Knecht
 
 ## Feedback and contributing
-We would love to hear from you. Please share your feedback and let us know how you use the code. You can [write an email](mailto:datashop@statistik.zh.ch) or share your ideas by opening an issue or a pull requests.
+We would love to hear from you. Please share your feedback and let us know how you use the code. You can [write an email](mailto:wahlen@statistik.zh.ch) or share your ideas by opening an issue or a pull requests.
 
