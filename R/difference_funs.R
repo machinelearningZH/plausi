@@ -1,13 +1,17 @@
-#' Berechnung der Stimmbeteiligungsdifferenz zwischen zwei Vorlagen
+#' Calculation of the voter turnout difference between two vote topics ("Vorlagen")
 #'
-#' @param df Datensatz mit Gemeinde-ID und den Stimmbeteiligungen für verschiedene Vorlagen (eigene Spalten, mit Vorlagen-ID als Spaltenname)
-#' @param vorl1 Vektor mit Vorlagen-ID (Ebene und Index: Beispiel eidg1, kant2 etc.)
-#' @param vorl2 Vektor mit Vorlagen-ID (Ebene und Index: Beispiel eidg1, kant2 etc.)
+#' @param df A data frame containing the municipality ID and voter turnout for various proposals.
+#'           Each column represents a specific proposal, and the column names should correspond
+#'           to the proposal IDs (e.g., 'eidg1', 'kant2').
+#' @param vorl1 A character vector specifying the proposal ID for the first proposal (e.g., "eidg1", "kant2").
+#'              The proposal ID should match the column name in the dataset.
+#' @param vorl2 A character vector specifying the proposal ID for the second proposal (e.g., "eidg1", "kant2").
+#'              This should also correspond to a column name in the dataset.
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
 #' @importFrom dplyr "%>%"
 #'
-#' @return Stimmbeteiligungsdifferenz zwischen zwei Vorlagen in einem tibble
+#' @return Tibble with the turnout difference between two vote topics
 #' @export
 #'
 #' @examples
@@ -35,11 +39,12 @@ cross_fun <- function(df, vorl1, vorl2,geo_cols=geocols){
 }
 
 
-#' Berechnung der Stimmbeteiligungsdifferenz zwischen allen Vorlagen
+#' Calculation of voter turnout differences between all vote topics ("Vorlagen")
 #'
-#' @param df Datensatz mit Gemeinde-ID und den Stimmbeteiligungen für verschiedene Vorlagen (eigene Spalten)
-#' @param vorl1 Vektor mit Vorlagen-ID, die als Spaltennamen im Datensatz vorhanden sind (Ebene und Index: Beispiel eidg1, kant2 etc.)
-#' @param vorl2 Vektor mit Vorlagen-ID (Ebene und Index: Beispiel eidg1, kant2 etc.)
+#' @param df A data frame containing the municipality ID and voter turnout for various vote topics,
+#'           with each vote topic in a separate column.
+#' @param vorl1 A vector of proposal IDs corresponding to column names in the dataset (e.g., "eidg1", "kant2").
+#' @param vorl2 A vector of proposal IDs (e.g., "eidg1", "kant2") for comparison with `vorl1`.
 #' @importFrom dplyr "%>%"
 #' @importFrom dplyr select
 #' @importFrom dplyr bind_cols
@@ -47,7 +52,7 @@ cross_fun <- function(df, vorl1, vorl2,geo_cols=geocols){
 #' @importFrom dplyr ends_with
 #' @importFrom purrr map2
 #'
-#' @return Stimmbeteiligungsdifferenzen zwischen zwei Vorlagen in einem tibble
+#' @return A tibble containing voter turnout differences between all possible combinations of vote topics.
 #' @export
 #'
 #' @examples
