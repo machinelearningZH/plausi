@@ -38,7 +38,7 @@ Key features include:
 
 It serves as a basis for the ___PlausiApp___, which is used for vote result quality controll in different Cantons (TG / SG / ZH).
 
-The ___PlausiApp___ is made available upon request in a private Repo (mailto:datashop@statistik.zh.ch). 
+For the moment, the ___PlausiApp___ is made available upon request via a private Repo (mailto:wahlen@statistik.zh.ch). 
 
 ## Licensing
 The package is licensed under the MIT license. 
