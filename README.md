@@ -1,6 +1,6 @@
 
 # 🗳️ Plausi Package
-** Detect Anomalies in Vote-Results - with a little help of Statistics & Machine Learning**
+**Detect Anomalies in Vote-Results - with a little help of Statistics & Machine Learning**
 
 ![](https://opendata.swiss/content/uploads/2016/02/kt_zh.png)
 
