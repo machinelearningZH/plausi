@@ -2,7 +2,7 @@
 title: "Auffällige Stimmbeteiligungswerte identifizieren"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{participation}
+  %\VignetteIndexEntry{Auffällige Stimmbeteiligungswerte identifizieren}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

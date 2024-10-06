@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>popular vote forensics • plausi</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
@@ -24,83 +24,102 @@
      });
 </script>
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">plausi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9999</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/jaanteile.html">Vorhersage Ja-Anteile</a>
-    </li>
-    <li>
-      <a href="articles/model_selection.html">Modelle für Vorhersage optimieren</a>
-    </li>
-    <li>
-      <a href="articles/stimmbeteiligung.html">Auffällige Stimmbeteiligungswerte identifizieren</a>
-    </li>
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
+    <a class="navbar-brand me-2" href="index.html">plausi</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9999</small>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/hochrechnung.html">hochrechnung</a></li>
+    <li><a class="dropdown-item" href="articles/jaanteile.html">Ja-Anteile plausibilisieren</a></li>
+    <li><a class="dropdown-item" href="articles/model_selection.html">Modelle für Vorhersage optimieren</a></li>
+    <li><a class="dropdown-item" href="articles/stimmbeteiligung.html">Auffällige Stimmbeteiligungswerte identifizieren</a></li>
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
+      </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
-
-      
-
-      </header><div class="row">
+</nav><div class="container template-home">
+<div class="row">
   <div class="contents col-md-9">
-<div id="plausi" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#plausi" class="anchor"></a>plausi</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="id_️-plausi-package">🗳️ Plausi Package<a class="anchor" aria-label="anchor" href="#id_%EF%B8%8F-plausi-package"></a>
+</h1></div>
+<p><strong>Detect Anomalies in Vote-Results - with the power of Statistics &amp; Machine Learning</strong></p>
 <p><img src="https://opendata.swiss/content/uploads/2016/02/kt_zh.png"></p>
-<div id="r-package-für-die-plausibilisierung-von-abstimmungsresultaten" class="section level2">
-<h2 class="hasAnchor">
-<a href="#r-package-f%C3%BCr-die-plausibilisierung-von-abstimmungsresultaten" class="anchor"></a>R-Package für die Plausibilisierung von Abstimmungsresultaten</h2>
-<p>Das plausi-package dient der R-gestützten Abstimmungsforensik. Es enthält Funktionen die es erlauben statistische Auffälligkeiten und Anomalien in Abstimmungsresultaten zu identifizieren.</p>
-<ul>
-<li>robuste Ausreissererkennung für kleine Fallzahlen wie auch schiefe Verteilungen</li>
-<li>Berechnung von Differenzen zwischen allen möglichen Kombinationen von Vorlagen (z.B. zwecks systematischem Vergleich der Stimmbeteiligung verschiedener Vorlagen über alle Auszählkreise hinweg)</li>
-<li>Vorhersage von zu erwartenden Resultaten via unterschiedlichen Machine-Learning Algorithmen (Ja-Anteile, Stimmbeteiligung etc.)</li>
+<details><summary>
+Contents
+</summary><ul>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#what-does-the-plausi-package-do">What does the Plausi-Package do?</a></li>
+<li><a href="#licensing">Licensing</a></li>
+<li><a href="#project-team">Project team</a></li>
+<li><a href="#feedback-and-contributing">Feedback and contributing</a></li>
 </ul>
-<p>Installation via gittea (Mitarbeitende Stat ZH):</p>
-<p><strong>remotes::install_url(“<a href="http://10.73.108.152:8788/STAT/plausi/archive/develop.zip" class="uri">http://10.73.108.152:8788/STAT/plausi/archive/develop.zip</a>”)</strong></p>
-<p>Installation via gitlab (Externe):</p>
-<p><strong>remotes::install_url(“<a href="https://gitlab.com/tlorusso/plausi.git" class="uri">https://gitlab.com/tlorusso/plausi.git</a>”)</strong></p>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<ul>
+<li>Install R <a href="https://www.r-project.org/" class="external-link">https://www.r-project.org/</a>
+</li>
+</ul>
+<p><strong>1. Install the plausi-Package</strong></p>
+<p>Installation from gitlab:</p>
+<p><strong>remotes::install_url(“<a href="https://gitlab.com/plausi_pkg/plausi.git" class="external-link uri">https://gitlab.com/plausi_pkg/plausi.git</a>”)</strong></p>
+<p><strong>2. Explore the methodology in the Documentation</strong></p>
+<p><a href="https://plausi.gitlab.io/plausi_pkg/" class="external-link uri">https://plausi.gitlab.io/plausi_pkg/</a></p>
 </div>
+<div class="section level2">
+<h2 id="what-does-the-plausi-package-do">What does the Plausi Package do?<a class="anchor" aria-label="anchor" href="#what-does-the-plausi-package-do"></a>
+</h2>
+<p>The Plausi package is designed for R-supported election forensics. It provides functions that enable the identification of statistical irregularities and anomalies in vote results.</p>
+<p>Key features include:</p>
+<ul>
+<li>Robust outlier detection for small sample sizes and skewed distributions</li>
+<li>Calculation of differences between all possible combinations of turnout-levels (e.g., for systematic comparison of voter turnout across all voting districts)</li>
+<li>Prediction of expected results using by machine learning algorithms (e.g., yes-vote proportions, voter turnout, etc.)</li>
+</ul>
+<p>It serves as a basis for the <strong><em>PlausiApp</em></strong>, which is used for vote result quality controll in different Cantons (TG / SG / ZH).</p>
+<p>For the moment, the <strong><em>PlausiApp</em></strong> is made available upon request via a private Repo (<a href="mailto:wahlen@statistik.zh.ch" class="uri">mailto:wahlen@statistik.zh.ch</a>).</p>
+</div>
+<div class="section level2">
+<h2 id="licensing">Licensing<a class="anchor" aria-label="anchor" href="#licensing"></a>
+</h2>
+<p>The package is licensed under the MIT license.</p>
+</div>
+<div class="section level2">
+<h2 id="project-team">Project team<a class="anchor" aria-label="anchor" href="#project-team"></a>
+</h2>
+<p>This is a joint project of the <a href="https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/wahlen-und-abstimmungen.html" class="external-link">Vote &amp; Election-Team</a> and <a href="https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/data.html" class="external-link">Team Data</a> of the Statistical Office of the Canton of Zurich. Responsible: Simon Graf, Thomas Lo Russo and Thomas Knecht</p>
+</div>
+<div class="section level2">
+<h2 id="feedback-and-contributing">Feedback and contributing<a class="anchor" aria-label="anchor" href="#feedback-and-contributing"></a>
+</h2>
+<p>We would love to hear from you. Please share your feedback and let us know how you use the code. You can <a href="mailto:wahlen@statistik.zh.ch">write an email</a> or share your ideas by opening an issue or a pull requests.</p>
+</div>
+</details>
 </div>
   </div>
 
@@ -109,39 +128,48 @@
  <!-- <div id="codefund"><!-- fallback content </div>-->
 <!--  <script src="https://codefund.app/properties/148/funder.js" async="async"></script>-->
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-2" class="external-link">GPL-2</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing plausi</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Thomas Lo Russo <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Simon Graf <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Simon Graf <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
-      <footer><div class="copyright">
-  <p>Developed by Thomas Lo Russo, Simon Graf.</p>
+    <footer><div class="copyright">
+  <p>Developed by .</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style>
-<link href="https://fonts.googleapis.com/css?family=Lato&amp;subset=latin,latin-ext" rel="stylesheet">
-<a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/politanch"><img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px">Buy me a coffee</span></a>
-
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> .</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
-  
+
+
 
 
   </body>

@@ -2,7 +2,7 @@
 title: "Ja-Anteile plausibilisieren"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{prediction}
+  %\VignetteIndexEntry{Ja-Anteile plausibilisieren}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -23,9 +23,11 @@ Die Stabilität des Abstimmungsverhaltens der Gemeinden ist aus Sicht Plausibili
 devtools::install_github("politanch/swissdd")
 
 library(plausi)
-library(tidyverse)
+library(tidyr)
+library(dplyr)
 library(swissdd)
 library(caret)
+library(kernlab)
 
 # BFS Nummern ausgewählter Gemeinden
 bfs_nrs <- c(6,7,10,11,12,87,219,294,181,38,60,92,119,182,218,261)

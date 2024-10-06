@@ -6,13 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Auffällige Stimmbeteiligungswerte identifizieren • plausi</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Auffällige Stimmbeteiligungswerte identifizieren">
-<meta property="og:description" content="plausi">
-<meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#293c55">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -24,186 +22,194 @@
      });
 </script>
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">plausi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9999</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/jaanteile.html">Vorhersage Ja-Anteile</a>
-    </li>
-    <li>
-      <a href="../articles/model_selection.html">model_selection</a>
-    </li>
-    <li>
-      <a href="../articles/stimmbeteiligung.html">Auffällige Stimmbeteiligungswerte identifizieren</a>
-    </li>
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
+    <a class="navbar-brand me-2" href="../index.html">plausi</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9999</small>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/hochrechnung.html">hochrechnung</a></li>
+    <li><a class="dropdown-item" href="../articles/jaanteile.html">Ja-Anteile plausibilisieren</a></li>
+    <li><a class="dropdown-item" href="../articles/model_selection.html">Modelle für Vorhersage optimieren</a></li>
+    <li><a class="dropdown-item" href="../articles/stimmbeteiligung.html">Auffällige Stimmbeteiligungswerte identifizieren</a></li>
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+      </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
-      
 
-      </header><script src="stimmbeteiligung_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Auffällige Stimmbeteiligungswerte identifizieren</h1>
             
       
-      
+
       <div class="hidden name"><code>stimmbeteiligung.Rmd</code></div>
 
     </div>
 
     
     
-<p>Um Anomalien in der Stimmbeteiligung ausfindig zu machen bietet das plausi package Funktionen, die es erlauben die Differenz zwischen der Beteiligungswerten verschiedener Vorlagen systematisch über alle Zählkreise hinweg zu vergleichen.</p>
-<p>In der Regel bestehen relativ klare Muster - gewisse Vorlagen mobilisieren stärker als andere. Hierbei ist das Thema der Vorlage, die Intensität des Abstimmungskampfes wichtig als auch die Bezugsebene des Geschäfts. Kantonale Vorlagen weissen i.d.R. eine tiefere Beteiligung aus als nationale Vorlagen, die am selben Abstimmungstag zur Abstimmung kommen.</p>
+<p>Um Anomalien in der Stimmbeteiligung ausfindig zu machen bietet das
+plausi package Funktionen, die es erlauben die Differenz zwischen der
+Beteiligungswerten verschiedener Vorlagen systematisch über alle
+Zählkreise hinweg zu vergleichen.</p>
+<p>In der Regel bestehen relativ klare Muster - gewisse Vorlagen
+mobilisieren stärker als andere. Hierbei sind sowohl das Thema der
+Vorlage, die Intensität des Abstimmungskampfes als auch die Bezugsebene
+des Geschäfts. ausschlaggebend. Kantonale Vorlagen weissen i.d.R.
+flächendekend eine tiefere Beteiligung aus als nationale Vorlagen, die
+am selben Abstimmungstag zur Abstimmung kommen. Dies können wir uns zu
+Plausibilisierungszwecken zu nutze machen. Das folgende Beispiel mit den
+offenen Daten zu den Abstimmungsdaten die auf <a href="https://opendata.swiss/de/dataset/echtzeitdaten-am-abstimmungstag-zu-eidgenoessischen-abstimmungsvorlagen" class="external-link">opendata.swiss</a>
+verfügbar sind, dient der Veranschaulichung.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">plausi</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/politanch/swissdd">swissdd</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## ************************************************************</code></pre>
-<pre><code>## *                       swissdd 1.0.3                      *</code></pre>
-<pre><code>## *                  developed by politan.ch                 *</code></pre>
-<pre><code>## *                                                          *</code></pre>
-<pre><code>## *                     Data sources:                        *</code></pre>
-<pre><code>## *                Federal Statistical Office                *</code></pre>
-<pre><code>## *                 https://www.bfs.admin.ch/                *</code></pre>
-<pre><code>## *                                                          *</code></pre>
-<pre><code>## *                      Swissvotes                          *</code></pre>
-<pre><code>## *                  https://swissvotes.ch/                  *</code></pre>
-<pre><code>## *                                                          *</code></pre>
-<pre><code>## ************************************************************</code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
-<pre><code>## v ggplot2 3.3.2     v purrr   0.3.4
-## v tibble  3.0.2     v dplyr   1.0.0
-## v tidyr   1.1.0     v stringr 1.4.0
-## v readr   1.3.1     v forcats 0.5.0</code></pre>
-<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<div id="datenbezug" class="section level1">
-<h1 class="hasAnchor">
-<a href="#datenbezug" class="anchor"></a>Datenbezug</h1>
-<p>Via swissdd package können die Daten für einen Abstimmungstermin der Wahl bezogen werden.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Sys.getenv("https_proxy")</span>
-<span class="co"># Sys.setenv(https_proxy="")</span>
-
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">swissdd</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/swissdd/man/get_nationalvotes.html">get_nationalvotes</a></span><span class="op">(</span>votedates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"2020-09-27"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">combinations</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/combn.html">combn</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">data_wide</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">canton_name</span>,<span class="va">mun_name</span>, <span class="va">mun_id</span>, <span class="va">stimmbeteiligungInProzent</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from<span class="op">=</span><span class="va">id</span>,values_from<span class="op">=</span><span class="va">stimmbeteiligungInProzent</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span><span class="op">(</span><span class="va">is.character</span>,<span class="va">as.factor</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">canton_name</span><span class="op">==</span><span class="st">"Zürich"</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/cross_fun.html">cross_fun</a></span><span class="op">(</span><span class="va">data_wide</span>, <span class="va">combinations</span><span class="op">$</span><span class="va">V1</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,<span class="va">combinations</span><span class="op">$</span><span class="va">V2</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,geo_cols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"canton_name"</span>,<span class="st">"mun_name"</span>,<span class="st">"mun_id"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning: `...` is not empty.
-## 
-## We detected these problematic arguments:
-## * `needs_dots`
-## 
-## These dots only exist to allow future extensions and should be empty.
-## Did you misspecify an argument?</code></pre>
-<pre><code>## # A tibble: 163 x 5
-##    canton_name mun_name           mun_id combination difference
-##    &lt;fct&gt;       &lt;fct&gt;              &lt;fct&gt;  &lt;chr&gt;            &lt;dbl&gt;
-##  1 Zürich      Aeugst am Albis    1      6310_6330        0.632
-##  2 Zürich      Affoltern am Albis 2      6310_6330        0.586
-##  3 Zürich      Bonstetten         3      6310_6330        0.932
-##  4 Zürich      Hausen am Albis    4      6310_6330        0.588
-##  5 Zürich      Hedingen           5      6310_6330        0.833
-##  6 Zürich      Kappel am Albis    6      6310_6330        0.383
-##  7 Zürich      Knonau             7      6310_6330        0.533
-##  8 Zürich      Maschwanden        8      6310_6330        1.32 
-##  9 Zürich      Mettmenstetten     9      6310_6330        0.446
-## 10 Zürich      Obfelden           10     6310_6330        0.593
-## # ... with 153 more rows</code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_differences.html">get_differences</a></span><span class="op">(</span><span class="va">data_wide</span>,<span class="va">combinations</span><span class="op">$</span><span class="va">V1</span>,<span class="va">combinations</span><span class="op">$</span><span class="va">V2</span>,geo_cols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"canton_name"</span>,<span class="st">"mun_name"</span>,<span class="st">"mun_id"</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">diff2</span> <span class="op">&lt;-</span> <span class="va">diff</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">combination</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>outlier<span class="op">=</span><span class="fu"><a href="../reference/is_outlier_double_mad.html">is_outlier_double_mad</a></span><span class="op">(</span><span class="va">difference</span>,thres<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">diff2</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">combination</span>, <span class="va">difference</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu">geom_violin</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu">geom_jitter</span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.3</span>, <span class="fu">aes</span><span class="op">(</span>color<span class="op">=</span><span class="va">outlier</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
-  <span class="fu">scale_fill_viridis_d</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="stimmbeteiligung_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<code class="sourceCode R"><span><span class="co"># Installiere das "swissdd"-Package um die Abstimmungsdaten von opendata.swiss zu beziehen</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"politanch/swissdd"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load libraries</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">plausi</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/politanch/swissdd" class="external-link">swissdd</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="datenbezug">Datenbezug<a class="anchor" aria-label="anchor" href="#datenbezug"></a>
+</h2>
+<p>Der Reproduzierbarkeit halber baut das Beispiel auf offen verfügbaren
+Daten auf. Mit dem <code>swissdd</code> package können die Daten für
+einen Abstimmungstermin der Wahl bezogen werden.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Sys.getenv("https_proxy")</span></span>
+<span><span class="co"># Sys.setenv(https_proxy="")</span></span>
+<span></span>
+<span><span class="co"># Bezug der Resultate vom 27. September 2020</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">swissdd</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/swissdd/man/get_nationalvotes.html" class="external-link">get_nationalvotes</a></span><span class="op">(</span>votedates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2020-09-27"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Alle möglichen Kombinationen von Vorlagen</span></span>
+<span><span class="va">combinations</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/combn.html" class="external-link">combn</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Reduziere den Datensatz auf die Stimmbeteiligung und die Gebietsattribute </span></span>
+<span><span class="va">data_wide</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">canton_name</span>,<span class="va">mun_name</span>, <span class="va">mun_id</span>, <span class="va">stimmbeteiligungInProzent</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="co">#Transformation ins Wide-format</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from<span class="op">=</span><span class="va">id</span>,values_from<span class="op">=</span><span class="va">stimmbeteiligungInProzent</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_if</a></span><span class="op">(</span><span class="va">is.character</span>,<span class="va">as.factor</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="co">#Nur Daten für den Kanton Zürich</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">canton_name</span><span class="op">==</span><span class="st">"Zürich"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Differenzen im Wide-Format</span></span>
+<span><span class="co"># cross_fun(data_wide, combinations$V1[2],combinations$V2[2],geo_cols=c("canton_name","mun_name","mun_id"))</span></span>
+<span></span>
+<span><span class="co"># Berechne Stimmbeteiligungsdifferenzen</span></span>
+<span><span class="va">diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_differences.html">get_differences</a></span><span class="op">(</span><span class="va">data_wide</span>,<span class="va">combinations</span><span class="op">$</span><span class="va">V1</span>,<span class="va">combinations</span><span class="op">$</span><span class="va">V2</span>,geo_cols<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"canton_name"</span>,<span class="st">"mun_name"</span>,<span class="st">"mun_id"</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 </div>
-<div id="welche-vorlagen-sind-auffällig" class="section level1">
-<h1 class="hasAnchor">
-<a href="#welche-vorlagen-sind-auff%C3%A4llig" class="anchor"></a>Welche Vorlagen sind auffällig?</h1>
-<p>Um herauszufinden welche der Vorlagen dazu führen, dass Kombinationen aufällig sind:</p>
+<div class="section level2">
+<h2 id="identifiziere-auffällige-stimmbeteiligungsdifferenzen">Identifiziere auffällige Stimmbeteiligungsdifferenzen<a class="anchor" aria-label="anchor" href="#identifiziere-auff%C3%A4llige-stimmbeteiligungsdifferenzen"></a>
+</h2>
+<p>Nun haben wir die Stimmbeteiligungsdifferenzen zwischen den
+verschiedenen Vorlagen für jedes Gebiet berechnet. In einem nächsten
+Schritt können wir ausfindig machen, welche Gebiete statistisch
+auffällige Differenzen je Vorlagenkombination aufweisen. Hierfür nutzen
+wir die <code>is_outlier_double_mad</code>-Funktion aus dem
+plausi-Package.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diff2</span> <span class="op">&lt;-</span> <span class="va">diff</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">combination</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="co"># Threshold für Ausreisser : Abweichung von mehr als 5 medianen Abweichungen vom Median anstatt der üblichen 3.5.</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>outlier<span class="op">=</span><span class="fu"><a href="../reference/is_outlier_double_mad.html">is_outlier_double_mad</a></span><span class="op">(</span><span class="va">difference</span>,thres<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Ein Plot hilft dabei ein Bild von der Verteilung der Differenzen zu
+erhalten und besonders auffällige Werte zu erkennen.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">diff2</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">combination</span>, <span class="va">difference</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html" class="external-link">geom_violin</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.3</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">outlier</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="stimmbeteiligung_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p>Bei einigen Kombinationen bestehen in Einzelfällen Unterschiede von
+gegen 3 Prozentpunkten.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diff2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">difference</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># Groups:   combination [6]</span></span></span>
+<span><span class="co">##   canton_name mun_name       mun_id combination difference outlier</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Zürich      Buch am Irchel 24     6310_6320         2.82 TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> Zürich      Buch am Irchel 24     6320_6340        -<span style="color: #BB0000;">2.82</span> TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> Zürich      Regensberg     95     6340_6350        -<span style="color: #BB0000;">2.54</span> TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> Zürich      Buch am Irchel 24     6320_6330        -<span style="color: #BB0000;">2.54</span> TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> Zürich      Buch am Irchel 24     6320_6350        -<span style="color: #BB0000;">2.54</span> TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> Zürich      Regensberg     95     6310_6340         2.22 TRUE</span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="verantwortliche-vorlage-identifizieren">Verantwortliche Vorlage identifizieren<a class="anchor" aria-label="anchor" href="#verantwortliche-vorlage-identifizieren"></a>
+</h2>
+<p>Um herauszufinden welche der Vorlagen dazu führen, dass Kombinationen
+aufällig sind:</p>
 <ul>
 <li>Extrahiere Vorlage-Ids aus Kombinationen</li>
-<li>Formattiere Daten um um zählen zu können wie oft eine Vorlage in auffälligen Kombinationen vorkommt.</li>
+<li>Formattiere Daten um um zählen zu können wie oft eine Vorlage in
+auffälligen Kombinationen vorkommt.</li>
+<li>Ordne nach Häufigkeit</li>
 </ul>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">problem_vorlagen</span> <span class="op">&lt;-</span> <span class="va">diff2</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">combination</span>,into<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"vorlage1"</span>,<span class="st">"vorlage2"</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"_"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">outlier</span><span class="op">==</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span> cols <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">canton_name</span>,<span class="va">mun_name</span>,<span class="va">mun_id</span>, <span class="va">difference</span>, <span class="va">outlier</span><span class="op">)</span>, names_to<span class="op">=</span><span class="st">"vorlage"</span>, values_to<span class="op">=</span><span class="st">"vorlage_id"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">mun_name</span>,<span class="va">mun_id</span>,<span class="va">vorlage_id</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## `summarise()` regrouping output by 'mun_name', 'mun_id' (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">problem_vorlagen</span> <span class="op">&lt;-</span> <span class="va">diff2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html" class="external-link">separate</a></span><span class="op">(</span><span class="va">combination</span>,into<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vorlage1"</span>,<span class="st">"vorlage2"</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"_"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">outlier</span><span class="op">==</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span> cols <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">canton_name</span>,<span class="va">mun_name</span>,<span class="va">mun_id</span>, <span class="va">difference</span>, <span class="va">outlier</span><span class="op">)</span>, names_to<span class="op">=</span><span class="st">"vorlage"</span>, values_to<span class="op">=</span><span class="st">"vorlage_id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">mun_name</span>,<span class="va">mun_id</span>,<span class="va">vorlage_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">problem_vorlagen</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 79 × 4</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># Groups:   mun_name, mun_id [23]</span></span></span>
+<span><span class="co">##    mun_name             mun_id vorlage_id     n</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Buch am Irchel       24     6320           4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Hüttikon             87     6320           4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Oetwil am See        157    6320           4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Regensberg           95     6340           4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Bülach               53     6350           3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Dorf                 26     6310           3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Maschwanden          8      6340           3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Schöfflisdorf        99     6340           3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Thalheim an der Thur 39     6350           3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Bachs                81     6330           2</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 69 more rows</span></span></span></code></pre>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#datenbezug">Datenbezug</a></li>
-      <li><a href="#welche-vorlagen-sind-auff%C3%A4llig">Welche Vorlagen sind auffällig?</a></li>
-      </ul>
-</div>
       <!-- codefund -->
    <!--<div id="codefund"><!-- fallback content </div> -->
 <!--  <script src="https://codefund.app/properties/148/funder.js" async="async"></script>-->
@@ -213,22 +219,20 @@
 
 
 
-      <footer><div class="copyright">
+    <footer><div class="copyright">
   <p>Developed by .</p>
 </div>
 
 <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#000000 !important;background-color:#FFFFFF !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 0px 9px !important;font-size: 17px !important;letter-spacing:-0.08px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Lato', sans-serif !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#000000 !important;}</style>
-<link href="https://fonts.googleapis.com/css?family=Lato&amp;subset=latin,latin-ext" rel="stylesheet">
-<a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/politanch"><img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px">Buy me a coffee</span></a>
-
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> .</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
-  
+
+
 
 
   </body>

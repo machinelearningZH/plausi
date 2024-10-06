@@ -2,7 +2,7 @@
 title: "Modelle für Vorhersage optimieren"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{model_selection}
+  %\VignetteIndexEntry{Modelle für Vorhersage optimieren}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
