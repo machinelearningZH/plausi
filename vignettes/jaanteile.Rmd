@@ -11,14 +11,14 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
-)
+  comment = "#>",
+  warning = FALSE, 
+  message = FALSE) 
 ```
 
 Die Stabilität des Abstimmungsverhaltens der Gemeinden ist aus Sicht Plausibilisierung ein echter Glücksfall. Die ideologische Ausrichtung einer Gemeinde ändert sich oft nur sehr langsam. Das eröffnet die Möglichkeit, auf Basis vergangener Abstimmungen Vorlagen zu identifizieren, die ähnliche Zustimmungsmuster aufweisen wie die aktuellen Abstimmungsvorlagen. An einem laufenden Abstimmungssonntag können wir so präzise Vorhersagen treffen und simulieren, welche Ergebnisse aufgrund der historischen Daten zu erwarten wären.
 
 ```{r setup}
-
 # Installiere das "swissdd"-Package um die Abstimmungsdaten von opendata.swiss zu beziehen
 devtools::install_github("politanch/swissdd")
 
@@ -33,7 +33,10 @@ library(kernlab)
 bfs_nrs <- c(6,7,10,11,12,87,219,294,181,38,60,92,119,182,218,261)
 
 # Sys.setenv(https_proxy="")
+```
 
+
+```{r}
 # Beziehe historische Daten
 results <- swissdd::get_nationalvotes(from_date="2017-03-01", to_date="2020-09-27")
 
@@ -70,7 +73,10 @@ predicted_results <- predict_votes(c("v6350","v6310"),
 predicted_results %>% 
   group_by(vorlage) %>% 
   summarize(rmse=RMSE(pred,real))
+```
 
+
+```{r}
 # Berechne Abweichung des gemeldeten Resultats von der Vorhersage und kennzeichne Werte, die mehr als drei durchschnittliche Vorhersagefehler von der Vorhersage abweichen als auffällig
 # Auffällige Ja-Anteile weichen über drei mittleren Vorhersagefehlern von der Vorhersage ab
 gem_pred <- predicted_results%>% 
@@ -84,7 +90,7 @@ gem_pred <- predicted_results%>%
 gem_pred %>% filter(outlier==TRUE)
 
 # Grafische Darstellung
-ggplot(gem_pred, aes(error,vorlage))+
+ggplot(gem_pred, aes(vorlage,real))+
   geom_point(aes(color=outlier))+
   geom_violin(alpha=0.5)+
   scale_color_viridis_d()+

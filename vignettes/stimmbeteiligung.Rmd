@@ -11,6 +11,14 @@ Um Anomalien in der Stimmbeteiligung ausfindig zu machen bietet das plausi packa
 
 In der Regel bestehen relativ klare Muster - gewisse Vorlagen mobilisieren stärker als andere. Hierbei sind sowohl das Thema der Vorlage, die Intensität des Abstimmungskampfes als auch die Bezugsebene des Geschäfts. ausschlaggebend. Kantonale Vorlagen weissen i.d.R. flächendekend eine tiefere Beteiligung aus als nationale Vorlagen, die am selben Abstimmungstag zur Abstimmung kommen. Dies können wir uns zu Plausibilisierungszwecken zu nutze machen. Das folgende Beispiel mit den offenen Daten zu den Abstimmungsdaten die auf [opendata.swiss](https://opendata.swiss/de/dataset/echtzeitdaten-am-abstimmungstag-zu-eidgenoessischen-abstimmungsvorlagen) verfügbar sind, dient der Veranschaulichung.
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE, 
+  message = FALSE) 
+```
+
 ```{r setup, message=FALSE}
 
 # Installiere das "swissdd"-Package um die Abstimmungsdaten von opendata.swiss zu beziehen
