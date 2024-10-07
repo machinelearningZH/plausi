@@ -1,8 +1,8 @@
 
 # 🗳️ Plausi Package
-**Detect Anomalies in Vote-Results - with the power of Statistics & Machine Learning**
+**Detect Anomalies in Vote-Results - powered by Statistics & Machine Learning**
 
-![](https://opendata.swiss/content/uploads/2016/02/kt_zh.png)
+![](https://raw.githubusercontent.com/statistikZH/statR/dev/inst/extdata/Stempel_STAT-01.png){ width=50% }
 
 <details>
 <summary>Contents</summary>
@@ -34,9 +34,9 @@ Key features include:
 
 - Robust outlier detection for small sample sizes and skewed distributions
 - Calculation of differences between all possible combinations of turnout-levels (e.g., for systematic comparison of voter turnout across all voting districts)
-- Prediction of expected results using by machine learning algorithms (e.g., yes-vote proportions, voter turnout, etc.)
+- Prediction of expected results using machine learning algorithms (e.g., yes-vote proportions, voter turnout, etc.)
 
-It serves as a basis for the ___PlausiApp___, which is used for vote result quality controll in different Cantons (TG / SG / ZH).
+It serves as a basis for the ___PlausiApp___, which is used for vote result quality control in different Cantons (TG / SG / ZH).
 
 For the moment, the ___PlausiApp___ is made available upon request via a private Repo (mailto:wahlen@statistik.zh.ch). 
 

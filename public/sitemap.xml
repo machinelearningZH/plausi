@@ -1,0 +1,25 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/hochrechnung.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/jaanteile.html</loc></url>
+<url><loc>/articles/model_selection.html</loc></url>
+<url><loc>/articles/stimmbeteiligung.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/DoubleMAD.html</loc></url>
+<url><loc>/reference/DoubleMADsFromMedian.html</loc></url>
+<url><loc>/reference/RMSE.html</loc></url>
+<url><loc>/reference/cross_fun.html</loc></url>
+<url><loc>/reference/get_differences.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/is_outlier_double_mad.html</loc></url>
+<url><loc>/reference/isnt_out_mad.html</loc></url>
+<url><loc>/reference/isnt_out_turkey.html</loc></url>
+<url><loc>/reference/isnt_out_z.html</loc></url>
+<url><loc>/reference/outlier_range.html</loc></url>
+<url><loc>/reference/predict_single_vote.html</loc></url>
+<url><loc>/reference/predict_votes.html</loc></url>
+<url><loc>/reference/votedata.html</loc></url>
+</urlset>
+

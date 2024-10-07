@@ -1,5 +1,6 @@
 url: ~
 template:
   bootstrap: 5
-  bootswatch: zephyr
-destination: public
+  bslib:
+    bootswatch: lux
+    pkgdown-nav-height: 100px
