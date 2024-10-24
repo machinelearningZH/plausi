@@ -2,41 +2,42 @@
 % Please edit documentation in R/difference_funs.R
 \name{cross_fun}
 \alias{cross_fun}
-\title{Calculation of the voter turnout difference between two vote topics ("Vorlagen")}
+\title{Calculation of the voter turnout difference between two votes}
 \usage{
-cross_fun(df, vorl1, vorl2, geo_cols = geocols)
+cross_fun(df, issue1, issue2, geo_cols = geocols)
 }
 \arguments{
-\item{df}{A data frame containing the municipality ID and voter turnout for various proposals.
-Each column represents a specific proposal, and the column names should correspond
-to the proposal IDs (e.g., 'eidg1', 'kant2').}
+\item{df}{A table containing the municipality ID and voter turnout for
+various issues. Each column represents a specific issue, and the column names
+should correspond to the issue IDs (e.g., 'eidg1', 'kant2').}
 
-\item{vorl1}{A character vector specifying the proposal ID for the first proposal (e.g., "eidg1", "kant2").
-The proposal ID should match the column name in the dataset.}
+\item{issue1, issue2}{A character vector specifying the name of the columns
+containing the voter turnout of the issues of interest (e.g., "eidg1",
+"kant2").}
 
-\item{vorl2}{A character vector specifying the proposal ID for the second proposal (e.g., "eidg1", "kant2").
-This should also correspond to a column name in the dataset.}
-
-\item{geocols}{Geo-Column
-This should also correspond to a column name in the dataset.}
+\item{geocols}{The name of the geo-column containing an identifier of the
+counting circle.}
 }
 \value{
-Tibble with the turnout difference between two vote topics
+A dataframe with the turnout difference between two vote topics
 }
 \description{
-Calculation of the voter turnout difference between two vote topics ("Vorlagen")
+This function creates a table with the differences in turnout between two
+votes for every counting circle in the original data.
 }
 \examples{
 
-testdata <- tibble(gemwkid = c(13,49,41,43,44),
-eidg1 = c(60.90,61.18,65.27,55.36,57.68),
-eidg2 = c(62.16,62.54,66.95,56.65,58.68),
-kant1 = c(57.73,60.27,63.31,51.93,54.49))
+testdata <- data.frame(
+  gemwkid = c(13,49,41,43,44),
+  eidg1 = c(60.90,61.18,65.27,55.36,57.68),
+  eidg2 = c(62.16,62.54,66.95,56.65,58.68),
+  kant1 = c(57.73,60.27,63.31,51.93,54.49)
+)
 
-cross_fun(testdata,"eidg1","eidg2")
+cross_fun(testdata, "eidg1", "eidg2", "gemwkid")
 
  # generate combinations
-combinations <-as.data.frame(t(combn(c("eidg1","eidg2","kant1"),2)))
+combinations <- as.data.frame(t(combn(c("eidg1","eidg2","kant1"),2)))
 
 # difference between columns named as the first combination
 cross_fun(crosscheckdata,combinations$V1[1],combinations$V2[1])
