@@ -7,17 +7,25 @@
 \format{
 A dataframe with 171 rows and 79 columns.
 \describe{
-  \item{gemeinde}{municipality name}
-  \item{v_gemwkid}{vote id}
-  \item{Eidg1}{Yes-Share of an on going federal vote}
-  \item{Kant1}{Yes-Share of an on going  cantonal vote}
-  \item{v_....}{yes shares of past votes}
+  \item{gemeinde}{name of counting circle}
+  \item{v_gemwkid}{FSO number of the municipality (for the counting circles
+  of Zürich and Winterthur, this consists of a numeric, a zero and the FSO
+  number of the municipality)}
+  \item{Eidg1}{yes-share of the current incomplete federal vote}
+  \item{Kant1}{yes-share of the current incomplete cantonal vote}
+  \item{v_....}{yes-shares of past votes}
 }
 }
 \usage{
 votedata
 }
 \description{
-Test data containing past results and incomplete results for two votes
+Test data containing past results covering 5 years of federal and cantonal
+votes in the canton of Zurich as well as incomplete results of two current
+issues.
+
+The units presented are counting circles. Counting circles usually correspond
+to municipalities, with the exception of the cities Zürich and Winterthur,
+which are divided into and published as sub units.
 }
 \keyword{datasets}
