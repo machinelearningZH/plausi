@@ -2,20 +2,37 @@
 % Please edit documentation in R/outlier_funs.R
 \name{outlier_range}
 \alias{outlier_range}
-\title{Get boundaries beyond which a value is an outlier via Median Absolute Deviation from the Median for asymmetric distributions}
+\title{Get boundaries beyond which a value is an outlier via MAD from the median for asymmetric distributions and IQR}
 \usage{
-outlier_range(value, thres = 3.5, percent = TRUE)
+outlier_range(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE)
 }
 \arguments{
-\item{value}{variable of interest}
+\item{x}{a vector of numeric values}
 
-\item{thres}{z-score threshold (defaults to 3.5, which is a popular choice).}
+\item{zero_mad_action}{Determines the action in the event of an MAD of zero.
+Defaults to NULL. The options are:
+\itemize{
+\item \strong{NULL}: process runs with no warning
+\item \strong{"warn"}: a warning will be displayed
+\item \strong{"stop"}: process is stopped
+}}
 
-\item{percent}{defaults to TRUE. Values below zero are set to 0, values over 100 to 100.}
+\item{thres}{z-score threshold (defaults to 3.5)}
+
+\item{percent}{Indicator for the scale of the data. If function is run for percantage data, the lower limit will not be negative
+while the upper limit does not exceed 100 percent. Defaults to TRUE.}
 }
 \value{
-tibble with numeric range
+data.frame with numeric range
 }
 \description{
-Get boundaries beyond which a value is an outlier via Median Absolute Deviation from the Median for asymmetric distributions
+Outlier detection based on Median Absolute Deviation (MAD) for asymetric distributions and interquartile range. The function
+calculates the distance to the median for every value in the distribution relative to the left or right side MAD. It then
+compares the value to your threshold and labels the outliers.
+}
+\examples{
+x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
+
+outlier_range(x)
+
 }

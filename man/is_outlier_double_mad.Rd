@@ -2,7 +2,7 @@
 % Please edit documentation in R/outlier_funs.R
 \name{is_outlier_double_mad}
 \alias{is_outlier_double_mad}
-\title{Detect Outliers via Median Absolute Deviation from the Median for asymmetric distributions}
+\title{Detect outliers using MAD from the median for asymmetric distributions}
 \usage{
 is_outlier_double_mad(x, zero_mad_action = NULL, thres = 3.5)
 }
@@ -17,17 +17,19 @@ Defaults to NULL. The options are:
 \item \strong{"stop"}: process is stopped
 }}
 
-\item{thres}{z-score threshold (defaults to 3.5).}
+\item{thres}{z-score threshold (defaults to 3.5)}
 }
 \value{
 logical vector
 }
 \description{
-Outlier detection based on MAD for asymetric distributions. The function calculates the distance to the median for every value in the
-distribution relative to the left or right side MAD. It then compares the value to your threshold and labels the outliers.
+Outlier detection based on Median Absolute Deviation (MAD) for asymetric distributions. The function calculates the distance
+to the median for every value in the distribution relative to the left or right side MAD. It then compares the value to your
+threshold and labels the outliers.
 }
 \examples{
 x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 
 is_outlier_double_mad(x)
+
 }
