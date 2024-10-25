@@ -1,15 +1,18 @@
-
-# MAD Functions
-
-#' Get the Median Absolute Deviation from the Median for asymmetric distributions
+#' Get the left and right Median Absolute Deviations (MAD) from the median for asymmetric distributions
 #'
 #' Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symetric distributions only)
+#' The function splits the values along the median and returns separate MADs for the left and the right side of the distribution.
 #' https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
 #'
+#' @param x a vector of numeric values
+#' @param zero_mad_action Determines the action in the event of an MAD of zero.
+#' Defaults to NULL. The options are:
+#' * \strong{NULL}: process runs with no warning
+#' * \strong{"warn"}: a warning will be displayed
+#' * \strong{"stop"}: process is stopped
 #'
-#' @param x numeric vector
-#' @param zero.mad.action defaults to "warn" : if MAD = 0 a warning will be displayed
-#' @return numeric value
+#' @return numeric vector of length 2
+#'
 #' @importFrom stats median
 #'
 #' @export
@@ -17,62 +20,84 @@
 #' @examples
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
-#' DoubleMAD(x)
+#' double_mad(x)
 #'
 
-DoubleMAD <- function(x, zero.mad.action="warn"){
-  # The zero.mad.action determines the action in the event of an MAD of zero.
-  # Possible values: "stop", "warn", "na" and "warn and na".
-  x         <- x[!is.na(x)]
-  m         <- stats::median(x)
-  abs.dev   <- abs(x - m)
-  left.mad  <- stats::median(abs.dev[x<=m])
-  right.mad <- stats::median(abs.dev[x>=m])
-  if (left.mad == 0 || right.mad == 0){
-    if (zero.mad.action == "stop") stop("MAD is 0")
-    if (zero.mad.action %in% c("warn", "warn and na")) warning("MAD is 0")
-    if (zero.mad.action %in% c(  "na", "warn and na")){
-      if (left.mad  == 0) left.mad  <- NA
-      if (right.mad == 0) right.mad <- NA
-    }
+double_mad <- function(x, zero_mad_action = NULL){
+
+  if (!is.numeric(x)) {
+    stop("Your input must be numeric.")
   }
-  return(c(left.mad, right.mad))
+
+  # drop all NAs
+  x <- x[!is.na(x)]
+
+  # calculate the median
+  median_x <- stats::median(x)
+
+  # calculate the absolute deviations
+  abs_dev <- abs(x - median_x)
+
+  # calculate the left and the right MADs
+  left_mad <- stats::median(abs_dev[x <= median_x])
+  right_mad <- stats::median(abs_dev[x >= median_x])
+
+  # handling of MAD = 0
+  if (!is.null(zero_mad_action) && (left_mad == 0 || right_mad == 0)) {
+    if (zero_mad_action == "stop") stop("MAD is 0")
+    if (zero_mad_action == "warn") warning("MAD is 0")
+  }
+
+  return(c(left_mad, right_mad))
 }
 
 
-#' Calculate the distance of a value from the Median of a distribution in term of Median Absolute Deviations (MAD)
+
+#' Calculate the distance of a value from the median of a distribution in relation to its Median Absolute Deviation (MAD)
 #'
-#' @param x vector of numeric values
-#' @param zero.mad.action action in the event of a MAD of zero (Options: "stop", "warn", "na" and "warn and na")
+#' Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symetric distributions only)
+#' The function splits the values along the median and returns the distance for every value from the median, relative to the left or right side MAD.
+#' https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
+#'
+#' @inheritParams double_mad
 #' @importFrom stats median
 #'
-#' @return numeric vector
+#' @return numeric vector of length length(x)
 #' @export
 #'
 #' @examples
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
-#' DoubleMADsFromMedian(x)
+#' double_mad_from_median(x)
 
-DoubleMADsFromMedian <- function(x, zero.mad.action="warn"){
-  # The zero.mad.action determines the action in the event of an MAD of zero.
-  # Possible values: "stop", "warn", "na" and "warn and na".
-  two.sided.mad <- DoubleMAD(x, zero.mad.action)
-  m <- stats::median(x, na.rm=TRUE)
-  x.mad <- rep(two.sided.mad[1], length(x))
-  x.mad[x > m] <- two.sided.mad[2]
-  mad.distance <- abs(x - m) / x.mad
-  mad.distance[x==m] <- 0
-  return(mad.distance)
+double_mad_from_median <- function(x, zero_mad_action = NULL){
+
+  # get left/right MAD
+  two_sided_mad <- double_mad(x, zero_mad_action)
+
+  # calculate the median
+  median_x <- stats::median(x)
+
+  # create vector of left/right MADs (don't do it with length(x)/2 since it is possible that x == median_x exists multiple times in the vector)
+  left_mad <- rep(two_sided_mad[1], length(x[x <= median_x]))
+  right_mad <- rep(two_sided_mad[2], length(x[x > median_x]))
+  x_mad <- c(left_mad, right_mad)
+
+  # calculate MAD distance, that is distance of every value to the median, relative to the left/right MAD
+  mad_distance <- abs(x - median_x) / x_mad
+  mad_distance[x == median_x] <- 0
+
+  return(mad_distance)
 }
+
 
 
 #' Detect Outliers via Median Absolute Deviation from the Median for asymmetric distributions
 #'
-#' Outlier detection based on MAD for asymetric distributions. Calculates separate MADs for each half of the distribution.
-#' Median Absolute Deviation is a robust normalization unit based on median as a population center.
+#' Outlier detection based on MAD for asymetric distributions. The function calculates the distance to the median for every value in the
+#' distribution relative to the left or right side MAD. It then compares the value to your threshold and labels the outliers.
 #'
-#' @param value variable of interest
+#' @inheritParams double_mad
 #' @param thres z-score threshold (defaults to 3.5).
 #'
 #' @return logical vector
@@ -81,13 +106,56 @@ DoubleMADsFromMedian <- function(x, zero.mad.action="warn"){
 #' @examples
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
-#' isnt_outlier_double_mad(x)
+#' is_outlier_double_mad(x)
 
-is_outlier_double_mad <- function(value, thres=3.5){
+is_outlier_double_mad <- function(x, zero_mad_action = NULL, thres = 3.5){
 
-  ifelse(plausi::DoubleMADsFromMedian(value)>=thres,TRUE,FALSE)
+  ifelse(plausi::double_mad_from_median(x, zero_mad_action) >= thres, TRUE, FALSE)
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #' Get boundaries beyond which a value is an outlier via Median Absolute Deviation from the Median for asymmetric distributions

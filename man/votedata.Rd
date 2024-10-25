@@ -7,13 +7,13 @@
 \format{
 A dataframe with 171 rows and 79 columns.
 \describe{
-  \item{gemeinde}{name of counting circle}
-  \item{v_gemwkid}{FSO number of the municipality (for the counting circles
-  of Zürich and Winterthur, this consists of a numeric, a zero and the FSO
-  number of the municipality)}
-  \item{Eidg1}{yes-share of the current incomplete federal vote}
-  \item{Kant1}{yes-share of the current incomplete cantonal vote}
-  \item{v_....}{yes-shares of past votes}
+\item{gemeinde}{name of counting circle}
+\item{v_gemwkid}{FSO number of the municipality (for the counting circles
+of Zürich and Winterthur, this consists of a numeric, a zero and the FSO
+number of the municipality)}
+\item{Eidg1}{yes-share of the current incomplete federal vote}
+\item{Kant1}{yes-share of the current incomplete cantonal vote}
+\item{v_....}{yes-shares of past votes}
 }
 }
 \usage{

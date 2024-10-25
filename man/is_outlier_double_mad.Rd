@@ -4,10 +4,18 @@
 \alias{is_outlier_double_mad}
 \title{Detect Outliers via Median Absolute Deviation from the Median for asymmetric distributions}
 \usage{
-is_outlier_double_mad(value, thres = 3.5)
+is_outlier_double_mad(x, zero_mad_action = NULL, thres = 3.5)
 }
 \arguments{
-\item{value}{variable of interest}
+\item{x}{a vector of numeric values}
+
+\item{zero_mad_action}{Determines the action in the event of an MAD of zero.
+Defaults to NULL. The options are:
+\itemize{
+\item \strong{NULL}: process runs with no warning
+\item \strong{"warn"}: a warning will be displayed
+\item \strong{"stop"}: process is stopped
+}}
 
 \item{thres}{z-score threshold (defaults to 3.5).}
 }
@@ -15,11 +23,11 @@ is_outlier_double_mad(value, thres = 3.5)
 logical vector
 }
 \description{
-Outlier detection based on MAD for asymetric distributions. Calculates separate MADs for each half of the distribution.
-Median Absolute Deviation is a robust normalization unit based on median as a population center.
+Outlier detection based on MAD for asymetric distributions. The function calculates the distance to the median for every value in the
+distribution relative to the left or right side MAD. It then compares the value to your threshold and labels the outliers.
 }
 \examples{
 x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 
-isnt_outlier_double_mad(x)
+is_outlier_double_mad(x)
 }

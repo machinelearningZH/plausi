@@ -17,7 +17,7 @@ isnt_out_turkey(x, k = 1.5, na.rm = TRUE)
 logical vector
 }
 \description{
-Tukey’s fences is a technique used in box plots. The non-outlier range is defined with [Q1−k(Q3−Q1), Q3+k(Q3−Q1)], where Q1 and Q3 are the lower and upper quartiles respectively, k - some nonnegative constant (popular choice is 1.5).
+Tukey’s fences is a technique used in box plots. The non-outlier range is defined with \link{Q1−k(Q3−Q1), Q3+k(Q3−Q1)}, where Q1 and Q3 are the lower and upper quartiles respectively, k - some nonnegative constant (popular choice is 1.5).
 }
 \examples{
 x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
