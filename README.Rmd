@@ -9,6 +9,8 @@ output: github_document
 **Predict votes and detect anomalies using R.**
 
 <!-- badges: start -->
+[![tic](https://github.com/machinelearningZH/plausi/workflows/tic/badge.svg)](https://github.com/machinelearningZH/plausi/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
 The Plausi package is designed for R-supported election forensics. It provides functions that enable the identification of statistical irregularities and anomalies in vote results.
@@ -37,7 +39,7 @@ devtools::install_github("machinelearningZH/plausi")
 
 Shall we simply reference TLR's vignettes? Or do we need actual examples here? And if we need examples, shall we just quickly run some examples using OGD?
 
-```{r example}
+```{r eval=FALSE}
 library(plausi)
 ## basic example code
 ```

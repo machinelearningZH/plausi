@@ -6,6 +6,10 @@
 **Predict votes and detect anomalies using R.**
 
 <!-- badges: start -->
+
+[![tic](https://github.com/machinelearningZH/plausi/workflows/tic/badge.svg)](https://github.com/machinelearningZH/plausi/actions)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
 The Plausi package is designed for R-supported election forensics. It
