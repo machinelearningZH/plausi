@@ -7,7 +7,6 @@ on:
     - main
     - cran-*
     - develop
-    - github_actions
   pull_request:
     branches:
     - main
