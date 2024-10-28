@@ -12,7 +12,7 @@
 #' @param geocols The name of the geo-column containing an identifier of the
 #' counting circle.
 #'
-#' @return A dataframe with the turnout difference between two vote topics
+#' @return A dataframe with the turnout difference between two vote topics.
 #' @export
 #'
 #' @examples
@@ -32,6 +32,7 @@
 #' # difference between columns named as the first combination
 #' cross_fun(crosscheckdata,combinations$V1[1],combinations$V2[1])
 #'
+
 cross_fun <- function(df, issue1, issue2, geo_cols = geocols){
 
   # define the name of the new comparison variable
@@ -63,7 +64,8 @@ cross_fun <- function(df, issue1, issue2, geo_cols = geocols){
 
 }
 
-# cross_fun_old <- function(df, issue1, issue2, geo_cols = geocols){
+# OLD FUNCTION:
+# cross_fun <- function(df, issue1, issue2, geo_cols = geocols){
 #
 #   # define name of comparison variable
 #   varname <- paste0(issue1, "_", issue2)

@@ -7,7 +7,7 @@
 is_outlier_double_mad(x, zero_mad_action = NULL, thres = 3.5)
 }
 \arguments{
-\item{x}{a vector of numeric values}
+\item{x}{A vector of numeric values.}
 
 \item{zero_mad_action}{Determines the action in the event of an MAD of zero.
 Defaults to NULL. The options are:
@@ -17,10 +17,10 @@ Defaults to NULL. The options are:
 \item \strong{"stop"}: process is stopped
 }}
 
-\item{thres}{z-score threshold (defaults to 3.5)}
+\item{thres}{Z-score threshold (defaults to 3.5).}
 }
 \value{
-logical vector
+A ogical vector.
 }
 \description{
 Outlier detection based on Median Absolute Deviation (MAD) for asymetric distributions. The function calculates the distance

@@ -7,7 +7,7 @@
 outlier_range(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE)
 }
 \arguments{
-\item{x}{a vector of numeric values}
+\item{x}{A vector of numeric values.}
 
 \item{zero_mad_action}{Determines the action in the event of an MAD of zero.
 Defaults to NULL. The options are:
@@ -17,13 +17,13 @@ Defaults to NULL. The options are:
 \item \strong{"stop"}: process is stopped
 }}
 
-\item{thres}{z-score threshold (defaults to 3.5)}
+\item{thres}{Z-score threshold (defaults to 3.5).}
 
 \item{percent}{Indicator for the scale of the data. If function is run for percantage data, the lower limit will not be negative
 while the upper limit does not exceed 100 percent. Defaults to TRUE.}
 }
 \value{
-data.frame with numeric range
+A data.frame with numeric range.
 }
 \description{
 Outlier detection based on Median Absolute Deviation (MAD) for asymetric distributions and interquartile range. The function

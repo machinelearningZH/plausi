@@ -19,7 +19,7 @@ containing the voter turnout of the issues of interest (e.g., "eidg1",
 counting circle.}
 }
 \value{
-A dataframe with the turnout difference between two vote topics
+A dataframe with the turnout difference between two vote topics.
 }
 \description{
 This function creates a table with the differences in turnout between two

@@ -7,14 +7,14 @@
 is_outtlier_single_mad(x, thres = 3, na.rm = TRUE)
 }
 \arguments{
-\item{x}{a vector of numeric values}
+\item{x}{A vector of numeric values.}
 
-\item{thres}{z-score threshold (defaults to 3)}
+\item{thres}{Z-score threshold (defaults to 3).}
 
-\item{na.rm}{remove NAs, defaults to TRUE}
+\item{na.rm}{Remove NAs, defaults to TRUE.}
 }
 \value{
-logical vector
+A logical vector.
 }
 \description{
 Outlier detection based on Median Absolute Deviation (MAD) for symetric distributions. The function calculates the distance

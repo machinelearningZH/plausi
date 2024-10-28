@@ -7,13 +7,13 @@
 is_outlier_turkey(x, k = 1.5, na.rm = TRUE)
 }
 \arguments{
-\item{x}{a vector of numeric values}
+\item{x}{A vector of numeric values.}
 
 \item{thres}{Turkey's fences threshold (defaults to 1.5). Amount of how many IQRs bellow and above the first and third quartiles are
 accapted as within the bandwidth.}
 }
 \value{
-logical vector
+A logical vector.
 }
 \description{
 Outlier detection based on turkey's fences. Tukey’s fences is a technique used in box plots. The non-outlier range is defined as

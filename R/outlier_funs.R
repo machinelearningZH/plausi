@@ -4,14 +4,14 @@
 #' The function splits the values along the median and returns separate MADs for the left and the right side of the distribution.
 #' https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
 #'
-#' @param x a vector of numeric values
+#' @param x A vector of numeric values.
 #' @param zero_mad_action Determines the action in the event of an MAD of zero.
 #' Defaults to NULL. The options are:
 #' * \strong{NULL}: process runs with no warning
 #' * \strong{"warn"}: a warning will be displayed
 #' * \strong{"stop"}: process is stopped
 #'
-#' @return numeric vector of length 2
+#' @return A numeric vector of length 2.
 #'
 #' @importFrom stats median
 #'
@@ -55,15 +55,16 @@ double_mad <- function(x, zero_mad_action = NULL){
 
 #' Calculate the distance of a value from the median of a distribution in relation to its Median Absolute Deviation (MAD)
 #'
-#' Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symetric distributions only)
-#' The function splits the values along the median and returns the distance for every value from the median, relative to the left or right side MAD.
+#' This function is suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for
+#' symetric distributions only). The function splits the values along the median and returns the distance for every value from the
+#' median, relative to the left or right side MAD.
 #' https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
 #'
 #' @inheritParams double_mad
 #'
 #' @importFrom stats median
 #'
-#' @return numeric vector of length length(x)
+#' @return A numeric vector of length \code{length(x)}.
 #' @export
 #'
 #' @examples
@@ -101,9 +102,9 @@ double_mad_from_median <- function(x, zero_mad_action = NULL){
 #' threshold and labels the outliers.
 #'
 #' @inheritParams double_mad
-#' @param thres z-score threshold (defaults to 3.5)
+#' @param thres Z-score threshold (defaults to 3.5).
 #'
-#' @return logical vector
+#' @return A ogical vector.
 #' @export
 #'
 #' @examples
@@ -133,7 +134,7 @@ is_outlier_double_mad <- function(x, zero_mad_action = NULL, thres = 3.5){
 #' @importFrom stats median
 #' @importFrom stats IQR
 #'
-#' @return data.frame with numeric range
+#' @return A data.frame with numeric range.
 #' @export
 #'
 #' @examples
@@ -177,13 +178,13 @@ outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE
 #'
 #'
 #' @inheritParams double_mad
-#' @param thres z-score threshold (defaults to 3)
-#' @param na.rm remove NAs, defaults to TRUE
+#' @param thres Z-score threshold (defaults to 3).
+#' @param na.rm Remove NAs, defaults to TRUE.
 #'
 #' @importFrom stats median
 #' @importFrom stats mad
 #'
-#' @return logical vector
+#' @return A logical vector.
 #' @export
 #'
 #' @examples
@@ -209,7 +210,7 @@ is_outtlier_single_mad <- function(x, thres = 3, na.rm = TRUE) {
 #'
 #' @importFrom stats sd
 #'
-#' @return logical vector
+#' @return A logical vector.
 #' @export
 #'
 #' @examples
@@ -239,7 +240,7 @@ is_outlier_z <- function(x, thres = 3, na.rm = TRUE) {
 #'
 #' @importFrom stats quantile
 #'
-#' @return logical vector
+#' @return A logical vector.
 #'
 #' @export
 #'

@@ -7,7 +7,7 @@
 double_mad(x, zero_mad_action = NULL)
 }
 \arguments{
-\item{x}{a vector of numeric values}
+\item{x}{A vector of numeric values.}
 
 \item{zero_mad_action}{Determines the action in the event of an MAD of zero.
 Defaults to NULL. The options are:
@@ -18,7 +18,7 @@ Defaults to NULL. The options are:
 }}
 }
 \value{
-numeric vector of length 2
+A numeric vector of length 2.
 }
 \description{
 Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symetric distributions only)

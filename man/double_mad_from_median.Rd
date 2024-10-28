@@ -7,7 +7,7 @@
 double_mad_from_median(x, zero_mad_action = NULL)
 }
 \arguments{
-\item{x}{a vector of numeric values}
+\item{x}{A vector of numeric values.}
 
 \item{zero_mad_action}{Determines the action in the event of an MAD of zero.
 Defaults to NULL. The options are:
@@ -18,11 +18,12 @@ Defaults to NULL. The options are:
 }}
 }
 \value{
-numeric vector of length length(x)
+A numeric vector of length \code{length(x)}.
 }
 \description{
-Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symetric distributions only)
-The function splits the values along the median and returns the distance for every value from the median, relative to the left or right side MAD.
+This function is suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for
+symetric distributions only). The function splits the values along the median and returns the distance for every value from the
+median, relative to the left or right side MAD.
 https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
 }
 \examples{

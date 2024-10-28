@@ -15,6 +15,18 @@ predict_single_vote(
   testprop = NA,
   ...
 )
+
+predict_single_vote(
+  x,
+  traindata,
+  testdata = NULL,
+  method = "svmRadial",
+  trControl = NULL,
+  to_exclude_vars = NULL,
+  geovars = c("gemeinde", "v_gemwkid"),
+  testprop = NA,
+  ...
+)
 }
 \arguments{
 \item{x}{column name of the dependent variable}
@@ -37,11 +49,18 @@ predict_single_vote(
 }
 \value{
 data.frame
+
+data.frame
 }
 \description{
 Train a model for a specific vote
+
+Train a model for a specific vote
 }
 \examples{
+
+predict_single_vote("Eidg1",votedata, to_exclude_vars = "Kant1")
+
 
 predict_single_vote("Eidg1",votedata, to_exclude_vars = "Kant1")
 
