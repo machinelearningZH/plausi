@@ -2,41 +2,13 @@
 % Please edit documentation in R/prediction_funs.R
 \name{predict_votes}
 \alias{predict_votes}
-\title{#' Train a model for a specific vote
-#'
-#' @param x column name of the dependent variable
-#' @param traindata data used to train the model containing the dependent variable and the predictor-columns
-#' @param testdata optional dataset structured identically as the trainingdataset on which the prediction should be run. Defaults to NULL, which entails that the prediction is run on the trainingdataset.
-#' @param method method available in the caret-package which should be used for the prediction
-#' @param trControl parameters to tune the model
-#' @param to_exclude_vars variables that should be excluded from the model
-#' @param geovars variables containing labels and ids of the spatial units
-#' @param testprop optional argument to generate a training dataset by splitting the dataset (testprop=share of observations to be randomly kept)
-#' @param ... optional parameters that can be passed to the caret::train function
-#'
-#' @importFrom tidyr drop_na
-#' @importFrom stats as.formula
-#' @importFrom stats predict
-#' @importFrom dplyr "\%>\%"
-#' @importFrom dplyr select
-#' @importFrom dplyr mutate
-#' @importFrom caret trainControl
-#' @importFrom caret train
-#' @importFrom purrr map_dfr
-#'
-#' @return data.frame
-#' @export
-#'
-#' @examples
-#'
-#' predict_single_vote("Eidg1",votedata, to_exclude_vars = "Kant1")
-#'}
+\title{Run predictions for multiple votes}
 \usage{
 predict_votes(
-  votes,
-  train,
-  test = NULL,
-  method = "bagEarth",
+  x,
+  traindata,
+  testdata = NULL,
+  method = "svmRadial",
   trControl = NULL,
   exclude_votes = FALSE,
   geovars = c("gemeinde", "v_gemwkid"),
@@ -45,107 +17,43 @@ predict_votes(
 )
 }
 \arguments{
-\item{votes}{names of the dependent variable-columns}
+\item{x}{Column names of the dependent variables.}
 
-\item{train}{data used to train the model containing the variables to be predicted and the predictor-columns}
+\item{traindata}{Data used to train the model containing the dependent variable and the predictor columns.}
 
-\item{test}{optional dataset structured identically as the trainingdataset on which the prediction}
+\item{testdata}{Optional dataset structured identically as the training dataset on which the prediction
+should be run. Defaults to NULL, which entails that the prediction is run on the training dataset.}
 
-\item{method}{method available in the caret-package which should be used for the prediction}
+\item{method}{A string specifying which classification or
+regression model to use. Possible values are found using
+\code{names(getModelInfo())}. See
+\url{http://topepo.github.io/caret/train-models-by-tag.html}. A
+list of functions can also be passed for a custom model
+function. See
+\url{http://topepo.github.io/caret/using-your-own-model-in-train.html}
+for details.}
 
-\item{trControl}{parameters to tune the model}
+\item{trControl}{A list of values that define how this function
+acts. See \code{\link[caret]{trainControl}} and
+\url{http://topepo.github.io/caret/using-your-own-model-in-train.html}.
+(NOTE: If given, this argument must be named.)}
 
-\item{exclude_votes}{if TRUE the variables to be predicted will be excluded from each others models}
+\item{exclude_votes}{If set to TRUE, the variables to be predicted will be excluded from each others models.
+This can make sense on a vote Sunday due to differences in the counting processes.}
 
-\item{geovars}{variables containing labels and ids of the spatial units}
+\item{geovars}{Variables containing labels and IDs of the spatial units.}
 
-\item{testprop}{optional argument to generate a training dataset by splitting the dataset (testprop=share of observations to be randomly kept)}
+\item{testprop}{Optional argument to generate a training dataset by splitting the dataset (testprop = share of observations to be randomly kept).}
 
-\item{...}{optional parameters that can be passed to the caret::train function}
+\item{...}{Optional parameters that can be passed to the \link[caret:train]{caret::train()} function.}
 }
 \value{
 data.frame
 }
 \description{
-
+This function can be used to predict the outcome of multiple votes based on a number of past vote results.
+It uses the machine learning models available in the caret package.
 }
-\details{
-if(is.null(testdata)) testdata <- traindata
-}
-\section{Um Trainingsdaten aus tatsächlichen Daten zu simulieren (Trainingsdatensatz wird anhand von 'testprop' generiert)}{
-if (!is.na(testprop)){
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{if(!is.na(testdata)) message("By setting a testprop the traindata is split into randomly generated training data. There is thus no need to supply a real testdata-set via testdata argument.")
-
-set.seed(101) # Set Seed so that same sample can be reproduced in future also
-# Now Selecting 75\% of data as sample from total 'n' rows of the data
-# sample <- sample.int(n = nrow(preddataframe), size = floor(.75*nrow(preddataframe)), replace = F)
-
-sample <- sample.int(n = nrow(traindata), size = floor(testprop*nrow(traindata)), replace = F)
-
-traindata[-sample, ][[x]] <- NA
-}\if{html}{\out{</div>}}
-
-}
-}
-
-\section{schliesse Beobachtungen aus Trainingsdatensatz aus, die NAs enthalten}{
-traindata <- traindata \%>\% tidyr::drop_na(x)
-}
-
-\section{Schliesse die zuvorhersagenden Abstimmungen gegenseitig aus den modellen aus, wenn to_exclude_vars übergeben werden}{
-if(!is.null(to_exclude_vars)) to_exclude_vars<-  to_exclude_vars\link{!to_exclude_vars \%in\% x}
-}
-
-\section{varname <-  as.name(x)}{
-form <- stats::as.formula(paste(x,'~.'))
-
-if(is.null(trControl)) trControl <- caret::trainControl(method = "cv", number = 10)
-}
-
-\section{stelle sicher, dass Vektor aller Vorlagen die augeschlossen werden sollen (z.B. Vorlagen vom selben Abstimmungssonntag), nicht die zu vorhersagende Vorlage enthält}{
-if(!is.null(to_exclude_vars)) traindata <- traindata\link{, !names(traindata) \%in\% to_exclude_vars}
-if(!is.null(to_exclude_vars)&!is.null(testdata)) testdata <- testdata\link{, !names(testdata) \%in\% to_exclude_vars}
-}
-
-\section{Um zu prüfen, ob gegenseitiger Ausschluss von Vorlagen desselben Abstimmungssonntags funktioniert ->}{
-
-}
-
-\section{print(colnames(traindata))}{
-
-}
-
-\section{Trainiere Model}{
-cv_model_mars <- caret::train(
-form,
-data = traindata \%>\% dplyr::select(!tidyselect::all_of(geovars)),
-method = method,
-trControl = trControl,
-...
-)
-}
-
-\section{lastmod <<-cv_model_mars}{
-
-}
-
-\section{cv_model_mars$results}{
-testdata$pred <- stats::predict(cv_model_mars,testdata)
-}
-
-\section{TO DO :}{
-
-}
-
-\section{Gebietslabel / ID nicht hart vorgeben, sondern via parameter der Funktion übernehmen}{
-
-}
-
-\section{Objekt mit modell und Daten als Output}{
-
-}
-
 \examples{
 
 predict_votes(c("Eidg1","Kant1"), votedata, exclude_votes=TRUE)
