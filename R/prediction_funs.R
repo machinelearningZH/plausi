@@ -36,7 +36,7 @@ train_prediction_model <- function(
     trControl = NULL,
     to_exclude_vars = NULL,
     geovars = c("gemeinde", "v_gemwkid"),
-    testprop = NA,
+    training_prop = NA,
     ...
 ){
 
@@ -55,14 +55,14 @@ train_prediction_model <- function(
   # drop the dependent variable from the variables to exclude from the model (especially relevant for the function predict_multiple_votes)
   if(!is.null(to_exclude_vars)) to_exclude_vars <- to_exclude_vars[!to_exclude_vars %in% x]
 
-  # if testprop is defined, build the training dataset accordingly
-  if (!is.na(testprop)){
+  # if training_prop is defined, build the training dataset accordingly
+  if (!is.na(training_prop)){
 
     # set seed so that same sample can be reproduced in future
     set.seed(101)
 
     # selecting share of data as sample from total n rows of the data and overwrite the data not in the sample with NA
-    sample <- sample.int(n = nrow(traindata), size = floor(testprop * nrow(traindata)), replace = F)
+    sample <- sample.int(n = nrow(traindata), size = floor(training_prop * nrow(traindata)), replace = F)
     traindata[-sample, x] <- NA
   }
 
@@ -197,7 +197,7 @@ predict_multiple_votes <- function(
     trControl = NULL,
     exclude_votes = TRUE, # Question wether to even make this changeable...
     geovars = c("gemeinde", "v_gemwkid"),
-    testprop = NA,
+    training_prop = NA,
     ...
   ){
 
@@ -215,7 +215,7 @@ predict_multiple_votes <- function(
       trControl = trControl,
       to_exclude_vars = to_exclude_vars,
       geovars = geovars,
-      testprop = testprop,
+      training_prop = training_prop,
       ...
     )
 

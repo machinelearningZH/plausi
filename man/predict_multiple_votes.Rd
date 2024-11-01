@@ -12,7 +12,7 @@ predict_multiple_votes(
   trControl = NULL,
   exclude_votes = TRUE,
   geovars = c("gemeinde", "v_gemwkid"),
-  testprop = NA,
+  training_prop = NA,
   ...
 )
 }
@@ -43,6 +43,9 @@ This makes sense on a vote Sunday due to differences in the counting processes. 
 votes in the data can contain NAs and should therefore be excluded. Defaults to TRUE.}
 
 \item{geovars}{Variables containing labels and IDs of the spatial units.}
+
+\item{training_prop}{Optional argument to define a share of observations to be randomly kept in the training
+data. It generates a training dataset by excluding the inverse proportion from the training data.}
 
 \item{...}{Optional parameters that can be passed to the \link[caret:train]{caret::train()} function.}
 }
