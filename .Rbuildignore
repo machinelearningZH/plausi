@@ -6,3 +6,4 @@
 ^\.ccache$
 ^\.github$
 ^tic\.R$
+^LICENSE\.md$
