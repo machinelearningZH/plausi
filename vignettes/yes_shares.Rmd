@@ -1,8 +1,8 @@
 ---
-title: "Ja-Anteile plausibilisieren"
+title: "Verify Yes-Shares"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Ja-Anteile plausibilisieren}
+  %\VignetteIndexEntry{Verify Yes-Shares}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,35 +16,34 @@ knitr::opts_chunk$set(
   message = FALSE) 
 ```
 
-Die Stabilität des Abstimmungsverhaltens der Gemeinden ist aus Sicht Plausibilisierung ein echter Glücksfall. Die ideologische Ausrichtung einer Gemeinde ändert sich oft nur sehr langsam. Das eröffnet die Möglichkeit, auf Basis vergangener Abstimmungen Vorlagen zu identifizieren, die ähnliche Zustimmungsmuster aufweisen wie die aktuellen Abstimmungsvorlagen. An einem laufenden Abstimmungssonntag können wir so präzise Vorhersagen treffen und simulieren, welche Ergebnisse aufgrund der historischen Daten zu erwarten wären.
+The stability of municipal voting behavior presents a significant advantage from a result verification standpoint. Municipal ideological alignment generally shifts only gradually, allowing for the identification of historical referenda that exhibit approval patterns similar to those of current proposals. Leveraging this stability, we can make precise predictions and run simulations on voting days to estimate expected outcomes based on historical data trends.
 
 ```{r setup}
-# Installiere das "swissdd"-Package um die Abstimmungsdaten von opendata.swiss zu beziehen
+# Installation of the "swissdd"-Package to load vote-results from opendata.swiss
 devtools::install_github("politanch/swissdd")
 
 library(plausi)
 library(tidyr)
 library(dplyr)
 library(swissdd)
-library(caret)
 library(kernlab)
+library(caret)
 
-# BFS Nummern ausgewählter Gemeinden
+# Municipality-codes ("BFS-Nummern") of selected municipalities
 bfs_nrs <- c(6,7,10,11,12,87,219,294,181,38,60,92,119,182,218,261)
-
-# Sys.setenv(https_proxy="")
 ```
 
 
 ```{r}
-# Beziehe historische Daten
+# Get historical data
+
 results <- swissdd::get_nationalvotes(from_date="2017-03-01", to_date="2020-09-27")
 
-# Füge einen künstlichen Fehler ein 
+# Introduce an artificial error
  results<- results %>%
             mutate(jaStimmenInProzent=ifelse(mun_id==7 & id == 6310, jaStimmenInProzent+15, jaStimmenInProzent))
 
-# Formattiere historische Daten um ins Wide-Format (=eine Spalte je Vorlage)
+# Transpose historical data into wide format (= one column per ballot / vote topic)
 testdata <- results %>%
   filter(canton_id==1 & mun_id %in% bfs_nrs) %>% 
   mutate(id=paste0("v",id)) %>%
@@ -52,8 +51,7 @@ testdata <- results %>%
   pivot_wider(names_from=id, values_from = jaStimmenInProzent) %>% 
   drop_na()
 
-# Gewisse Gemeinden sind etwas schwerer hervorzussagen - wenn sie 'extreme sind'. 
-# Upsampling für höheres Gewicht! 
+# "Some municipalities are more challenging to predict, especially if their voting patterns are 'extreme'. We can address this by increasing their weighting through upsampling.
 
 traindata <- testdata %>%
         mutate(ntimes = ifelse(mun_id %in% c(261, 12), 3, 1)) 
@@ -61,7 +59,7 @@ traindata <- testdata %>%
 traindata <- as_tibble(lapply(traindata, rep, traindata$ntimes)) %>%
         select(-ntimes)
 
-# Sage Resultate vorher
+# Predict results
 predicted_results <- predict_votes(c("v6350","v6310"),
                                    train=traindata, 
                                    test=testdata,
@@ -69,7 +67,7 @@ predicted_results <- predict_votes(c("v6350","v6310"),
                                    exclude_votes = TRUE, 
                                    geovars=c("mun_id","mun_name" ))
 
-# Mittlerer Vorhersagefehler (RMSE) pro Vorlage
+# Root mean squared error (RMSE) per ballot 
 predicted_results %>% 
   group_by(vorlage) %>% 
   summarize(rmse=RMSE(pred,real))
@@ -77,8 +75,8 @@ predicted_results %>%
 
 
 ```{r}
-# Berechne Abweichung des gemeldeten Resultats von der Vorhersage und kennzeichne Werte, die mehr als drei durchschnittliche Vorhersagefehler von der Vorhersage abweichen als auffällig
-# Auffällige Ja-Anteile weichen über drei mittleren Vorhersagefehlern von der Vorhersage ab
+# Calculate the deviation of the reported result from the prediction and flag values that deviate by more than three RMSE as anomalous
+
 gem_pred <- predicted_results%>% 
   mutate(error=real-pred) %>% 
   group_by(vorlage) %>% 
@@ -86,10 +84,10 @@ gem_pred <- predicted_results%>%
   mutate(error_rmse=error/rmse) %>%   
   mutate(outlier=error_rmse>3)
 
-# Knonau mit dem künstlichen Fehler wird als auffällig gekennzeichnet
+# Knonau with the anomalous result gets flagged
 gem_pred %>% filter(outlier==TRUE)
 
-# Grafische Darstellung
+# Plot the deviations
 ggplot(gem_pred, aes(vorlage,real))+
   geom_point(aes(color=outlier))+
   geom_violin(alpha=0.5)+
