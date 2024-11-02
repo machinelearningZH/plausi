@@ -60,12 +60,12 @@ traindata <- as_tibble(lapply(traindata, rep, traindata$ntimes)) %>%
         select(-ntimes)
 
 # Predict results
-predicted_results <- predict_votes(c("v6350","v6310"),
-                                   train=traindata, 
-                                   test=testdata,
+predicted_results <- plausi::predict_multiple_votes(x=c("v6350","v6310"),
+                                   traindata=traindata, 
+                                   testdata=testdata,
                                    method = "svmRadial",
-                                   exclude_votes = TRUE, 
                                    geovars=c("mun_id","mun_name" ))
+
 
 # Root mean squared error (RMSE) per ballot 
 predicted_results %>% 
