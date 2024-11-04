@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   message = FALSE) 
 ```
 
-The stability of municipal voting behavior presents a significant advantage from a result verification standpoint. Municipal ideological alignment generally shifts only gradually, allowing for the identification of historical referenda that exhibit approval patterns similar to those of current proposals. Leveraging this stability, we can make precise predictions and run simulations on voting days to estimate expected outcomes based on historical data trends.
+The stability of municipal voting behavior presents a significant advantage from a result verification standpoint. Municipal ideological alignment generally shifts only gradually, allowing for the identification of historical referenda that exhibit approval patterns similar to those of current proposals. Leveraging this stability, we can make precise predictions and run simulations on voting sundays to estimate the expected outcomes based on historical data trends.
 
 ```{r setup}
 # Installation of the "swissdd"-Package to load vote-results from opendata.swiss
@@ -51,7 +51,7 @@ testdata <- results %>%
   pivot_wider(names_from=id, values_from = jaStimmenInProzent) %>% 
   drop_na()
 
-# "Some municipalities are more challenging to predict, especially if their voting patterns are 'extreme'. We can address this by increasing their weighting through upsampling.
+# "Some municipalities are more challenging to predict, especially if their voting patterns deviate significantly (e.g. the city of Zurich in our case). We can address this by increasing their weighting through upsampling.
 
 traindata <- testdata %>%
         mutate(ntimes = ifelse(mun_id %in% c(261, 12), 3, 1)) 
@@ -88,7 +88,7 @@ gem_pred <- predicted_results%>%
 gem_pred %>% filter(outlier==TRUE)
 
 # Plot the deviations
-ggplot(gem_pred, aes(vorlage,real))+
+ggplot(gem_pred, aes(vorlage,error))+
   geom_point(aes(color=outlier))+
   geom_violin(alpha=0.5)+
   scale_color_viridis_d()+

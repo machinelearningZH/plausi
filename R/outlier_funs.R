@@ -190,10 +190,10 @@ outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE
 #' @examples
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
-#' is_outtlier_single_mad(x)
+#' is_outlier_single_mad(x)
 #'
 
-is_outtlier_single_mad <- function(x, thres = 3, na.rm = TRUE) {
+is_outlier_single_mad <- function(x, thres = 3, na.rm = TRUE) {
 
   abs(x - stats::median(x, na.rm)) >= thres * stats::mad(x, na.rm)
 
@@ -206,7 +206,7 @@ is_outtlier_single_mad <- function(x, thres = 3, na.rm = TRUE) {
 #' from the mean in number of standard deviations.
 #'
 #'
-#' @inheritParams is_outtlier_single_mad
+#' @inheritParams is_outlier_single_mad
 #'
 #' @importFrom stats sd
 #'
