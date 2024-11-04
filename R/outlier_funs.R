@@ -235,9 +235,9 @@ is_outlier_z <- function(x, thres = 3, na.rm = TRUE) {
 #'
 #'
 #' @inheritParams double_mad
-#' @param thres Turkey's fences threshold (defaults to 1.5). Amount of how many IQRs bellow and above the first and third quartiles are
-#' accapted as within the bandwidth.
-#'
+#' @param k Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.
+#' @param na.rm if TRUE, removes NA values before calculations. Default is TRUE.
+#' 
 #' @importFrom stats quantile
 #'
 #' @return A logical vector.

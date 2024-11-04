@@ -19,6 +19,9 @@ knitr::opts_chunk$set(
 The stability of municipal voting behavior presents a significant advantage from a result verification standpoint. Municipal ideological alignment generally shifts only gradually, allowing for the identification of historical referenda that exhibit approval patterns similar to those of current proposals. Leveraging this stability, we can make precise predictions and run simulations on voting sundays to estimate the expected outcomes based on historical data trends.
 
 ```{r setup}
+
+library(devtools)
+
 # Installation of the "swissdd"-Package to load vote-results from opendata.swiss
 devtools::install_github("politanch/swissdd")
 
