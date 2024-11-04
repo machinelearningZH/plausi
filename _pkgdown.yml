@@ -1,5 +1,5 @@
 url: ~
-destination: public
+destination: docs
 template:
   bootstrap: 5
   bslib:
