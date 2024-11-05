@@ -21,7 +21,7 @@ Defaults to NULL. The options are:
 A numeric vector of length 2.
 }
 \description{
-Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symetric distributions only)
+Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symmetric distributions only)
 The function splits the values along the median and returns separate MADs for the left and the right side of the distribution.
 https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
 }
