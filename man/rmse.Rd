@@ -25,7 +25,7 @@ errors) and therefore an indicator of how precise the prediction of a specific v
 library(dplyr)
 library(tidyr)
 
-pred_data  <- predict_votes(c("Eidg1","Kant1"), votedata, exclude_votes = TRUE)
+pred_data  <- predict_multiple_votes(c("Eidg1","Kant1"), votedata, exclude_votes = TRUE)
 
 pred_data \%>\%
 drop_na() \%>\%

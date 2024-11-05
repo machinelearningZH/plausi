@@ -9,7 +9,7 @@
 #' @param issue1,issue2 A character vector specifying the name of the columns
 #' containing the voter turnout of the issues of interest (e.g., "eidg1",
 #' "kant2").
-#' @param geocols The name of the geo-column containing an identifier of the
+#' @param geo_cols The name of the geo-column containing an identifier of the
 #' counting circle.
 #'
 #' @return A dataframe with the turnout difference between two vote topics.

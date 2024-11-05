@@ -253,7 +253,7 @@ predict_multiple_votes <- function(
 #' library(dplyr)
 #' library(tidyr)
 #'
-#' pred_data  <- predict_votes(c("Eidg1","Kant1"), votedata, exclude_votes = TRUE)
+#' pred_data  <- predict_multiple_votes(c("Eidg1","Kant1"), votedata, exclude_votes = TRUE)
 #'
 #' pred_data %>%
 #' drop_na() %>%
