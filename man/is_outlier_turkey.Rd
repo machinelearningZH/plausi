@@ -9,7 +9,7 @@ is_outlier_turkey(x, thres = 1.5, na.rm = TRUE)
 \arguments{
 \item{x}{A vector of numeric values.}
 
-\item{k}{Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.}
+\item{thres}{Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.}
 
 \item{na.rm}{if TRUE, removes NA values before calculations. Default is TRUE.}
 }

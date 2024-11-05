@@ -4,7 +4,7 @@
 \alias{cross_fun}
 \title{Calculation of the voter turnout difference between two votes}
 \usage{
-cross_fun(df, issue1, issue2, geo_cols)
+cross_fun(df, issue1, issue2, geo_cols = geocols)
 }
 \arguments{
 \item{df}{A table containing the municipality ID and voter turnout for
