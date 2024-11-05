@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 ```{r setup, message=FALSE}
 
 # Installiere das "swissdd"-Package um die Abstimmungsdaten von opendata.swiss zu beziehen
-library(devtoo)
+library(devtools)
 
 devtools::install_github("politanch/swissdd")
 

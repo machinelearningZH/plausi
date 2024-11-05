@@ -156,11 +156,9 @@ outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE
   # limit bandwidth in case of percentage scale
   if(percent == TRUE){
 
-    data <- data |>
-      mutate(
-        lower = ifelse(lower < 0, 0, lower),
-        upper = ifelse(upper > 100, 100, upper)
-      )
+    data$lower <- ifelse(data$lower < 0, 0, data$lower)
+    data$upper <- ifelse(data$upper > 100, 100, data$upper)
+    
   }
 
   # add label column
