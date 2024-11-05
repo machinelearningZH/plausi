@@ -231,8 +231,6 @@ is_outlier_z <- function(x, thres = 3, na.rm = TRUE) {
 
 }
 
-
-
 #' Detect outliers using turkey's fences
 #'
 #' Outlier detection based on turkey's fences. Tukey’s fences is a technique used in box plots. The non-outlier range is defined as
@@ -241,7 +239,7 @@ is_outlier_z <- function(x, thres = 3, na.rm = TRUE) {
 #'
 #'
 #' @inheritParams double_mad
-#' @param k Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.
+#' @param thres Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.
 #' @param na.rm if TRUE, removes NA values before calculations. Default is TRUE.
 #' 
 #' @importFrom stats quantile
