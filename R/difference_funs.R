@@ -30,7 +30,7 @@
 #' combinations <- as.data.frame(t(combn(c("eidg1","eidg2","kant1"),2)))
 #'
 #' # difference between columns named as the first combination
-#' cross_fun(crosscheckdata,combinations$V1[1],combinations$V2[1])
+#' cross_fun(testdata,combinations$V1[1],combinations$V2[1], "gemwkid")
 #'
 
 cross_fun <- function(df, issue1, issue2, geo_cols){
