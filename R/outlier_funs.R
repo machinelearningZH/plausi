@@ -1,6 +1,6 @@
 #' Get the left and right Median Absolute Deviations (MAD) from the median for asymmetric distributions
 #'
-#' Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symetric distributions only)
+#' Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symmetric distributions only)
 #' The function splits the values along the median and returns separate MADs for the left and the right side of the distribution.
 #' https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
 #'
@@ -145,6 +145,10 @@ is_outlier_double_mad <- function(x, zero_mad_action = NULL, thres = 3.5){
 
 outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE){
 
+  if (!is.numeric(x)) {
+    stop("Your input must be numeric.")
+  }
+
   # create table
   data <- data.frame(
     median = stats::median(x),
@@ -156,13 +160,17 @@ outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE
   # limit bandwidth in case of percentage scale
   if(percent == TRUE){
 
-    data$lower <- ifelse(data$lower < 0, 0, data$lower)
-    data$upper <- ifelse(data$upper > 100, 100, data$upper)
-    
+
+    data["lower"] <- ifelse(data$lower < 0, 0, data$lower)
+    data["upper"] <- ifelse(data$upper > 100, 100, data$upper)
+
   }
 
   # add label column
   data["label"] <- paste0(data$lower, " - ", data$upper)
+
+  # return the table
+  return(data)
 
 }
 
@@ -193,7 +201,7 @@ outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE
 
 is_outlier_single_mad <- function(x, thres = 3, na.rm = TRUE) {
 
-  abs(x - stats::median(x, na.rm)) >= thres * stats::mad(x, na.rm)
+  abs(x - stats::median(x, na.rm = na.rm)) >= thres * stats::mad(x, na.rm = na.rm)
 
 }
 
@@ -219,7 +227,7 @@ is_outlier_single_mad <- function(x, thres = 3, na.rm = TRUE) {
 
 is_outlier_z <- function(x, thres = 3, na.rm = TRUE) {
 
-  abs(x - mean(x, na.rm)) >= thres * stats::sd(x, na.rm)
+  abs(x - mean(x, na.rm = na.rm)) >= thres * stats::sd(x, na.rm = na.rm)
 
 }
 
@@ -248,12 +256,12 @@ is_outlier_z <- function(x, thres = 3, na.rm = TRUE) {
 #' is_outlier_turkey(x)
 #'
 
-is_outlier_turkey <- function(x, k = 1.5, na.rm = TRUE) {
+is_outlier_turkey <- function(x, thres = 1.5, na.rm = TRUE) {
 
-  quar <- stats::quantile(x, probs = c(0.25, 0.75), na.rm)
+  quar <- stats::quantile(x, probs = c(0.25, 0.75), na.rm = na.rm)
 
   iqr <- diff(quar)
 
-  (quar[1] - k * iqr >= x) | (x >= quar[2] + k * iqr)
+  (quar[1] - thres * iqr > x) | (x > quar[2] + thres * iqr) # must not be >= or <= since identical values would be counted as outliers
 
 }

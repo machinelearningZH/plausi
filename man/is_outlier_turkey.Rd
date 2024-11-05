@@ -4,7 +4,7 @@
 \alias{is_outlier_turkey}
 \title{Detect outliers using turkey's fences}
 \usage{
-is_outlier_turkey(x, k = 1.5, na.rm = TRUE)
+is_outlier_turkey(x, thres = 1.5, na.rm = TRUE)
 }
 \arguments{
 \item{x}{A vector of numeric values.}
