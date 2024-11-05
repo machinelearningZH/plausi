@@ -38,6 +38,6 @@ testdata <- data.frame(
 combinations <-as.data.frame(t(combn(c("eidg1", "eidg2", "kant1"), 2)))
 
 # calculate all possible differences between columns
-get_differences(testdata,combinations$V1,combinations$V2)
+get_differences(testdata,combinations$V1,combinations$V2, "gemwkid")
 
 }

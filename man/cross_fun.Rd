@@ -4,7 +4,7 @@
 \alias{cross_fun}
 \title{Calculation of the voter turnout difference between two votes}
 \usage{
-cross_fun(df, issue1, issue2, geo_cols = geocols)
+cross_fun(df, issue1, issue2, geo_cols)
 }
 \arguments{
 \item{df}{A table containing the municipality ID and voter turnout for
@@ -40,6 +40,6 @@ cross_fun(testdata, "eidg1", "eidg2", "gemwkid")
 combinations <- as.data.frame(t(combn(c("eidg1","eidg2","kant1"),2)))
 
 # difference between columns named as the first combination
-cross_fun(crosscheckdata,combinations$V1[1],combinations$V2[1])
+cross_fun(testdata,combinations$V1[1],combinations$V2[1], "gemwkid")
 
 }

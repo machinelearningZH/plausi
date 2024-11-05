@@ -114,7 +114,7 @@ cross_fun <- function(df, issue1, issue2, geo_cols){
 #' combinations <-as.data.frame(t(combn(c("eidg1", "eidg2", "kant1"), 2)))
 #'
 #' # calculate all possible differences between columns
-#' get_differences(testdata,combinations$V1,combinations$V2)
+#' get_differences(testdata,combinations$V1,combinations$V2, "gemwkid")
 #'
 
 get_differences <- function(df, comb1, comb2, geo_cols = c("gemwkid", "gemeinde")){
