@@ -9,8 +9,9 @@ is_outlier_turkey(x, k = 1.5, na.rm = TRUE)
 \arguments{
 \item{x}{A vector of numeric values.}
 
-\item{thres}{Turkey's fences threshold (defaults to 1.5). Amount of how many IQRs bellow and above the first and third quartiles are
-accapted as within the bandwidth.}
+\item{k}{Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.}
+
+\item{na.rm}{if TRUE, removes NA values before calculations. Default is TRUE.}
 }
 \value{
 A logical vector.

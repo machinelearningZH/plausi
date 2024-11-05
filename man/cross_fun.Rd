@@ -4,7 +4,7 @@
 \alias{cross_fun}
 \title{Calculation of the voter turnout difference between two votes}
 \usage{
-cross_fun(df, issue1, issue2, geo_cols = geocols)
+cross_fun(df, issue1, issue2, geo_cols)
 }
 \arguments{
 \item{df}{A table containing the municipality ID and voter turnout for
@@ -15,7 +15,7 @@ should correspond to the issue IDs (e.g., 'eidg1', 'kant2').}
 containing the voter turnout of the issues of interest (e.g., "eidg1",
 "kant2").}
 
-\item{geocols}{The name of the geo-column containing an identifier of the
+\item{geo_cols}{The name of the geo-column containing an identifier of the
 counting circle.}
 }
 \value{
