@@ -11,6 +11,7 @@
 #' "kant2").
 #' @param geo_cols The name of the geo-column containing an identifier of the
 #' counting circle.
+#' @importFrom stats reshape
 #'
 #' @return A dataframe with the turnout difference between two vote topics.
 #' @export
