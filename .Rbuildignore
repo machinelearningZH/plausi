@@ -7,3 +7,9 @@
 ^\.github$
 ^tic\.R$
 ^LICENSE\.md$
+^plausi\.Rcheck$
+^plausi.*\.tar\.gz$
+^plausi.*\.tgz$
+^doc$
+^Meta$
+^vignettes
