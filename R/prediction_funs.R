@@ -252,6 +252,7 @@ predict_multiple_votes <- function(
 #'
 #' library(dplyr)
 #' library(tidyr)
+#' library(kernlab)
 #'
 #' pred_data  <- predict_multiple_votes(c("Eidg1","Kant1"), votedata, exclude_votes = TRUE)
 #'
