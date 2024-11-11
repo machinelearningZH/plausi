@@ -24,6 +24,7 @@ errors) and therefore an indicator of how precise the prediction of a specific v
 
 library(dplyr)
 library(tidyr)
+library(kernlab)
 
 pred_data  <- predict_multiple_votes(c("Eidg1","Kant1"), votedata, exclude_votes = TRUE)
 
