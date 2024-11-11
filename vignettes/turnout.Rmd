@@ -32,7 +32,7 @@ library(tidyverse)
 
 ```
 
-# Data Retrieval
+## Data Retrieval
 
 For reproducibility, this example uses openly available data. With the `swissdd` package, data can be retrieved for a selected vote date.
 
@@ -60,7 +60,7 @@ data_wide <- data %>%
 diff <- get_differences(data_wide,combinations$V1,combinations$V2,geo_cols=c("canton_name","mun_name","mun_id")) 
 ```
 
-# Identify Suspicious Voter Turnout Differences
+## Identify Suspicious Voter Turnout Differences
 
 Now that we have calculated the voter turnout differences between the various proposals for each municipality, the next step is to identify which municipalities show statistically suspicious differences for each proposal combination. For this, we use the `is_outlier_double_mad` function from the plausi package.
 
@@ -68,7 +68,8 @@ Now that we have calculated the voter turnout differences between the various pr
 diff2 <- diff %>% 
   group_by(combination) %>% 
   # Threshold für Ausreisser : Abweichung von mehr als 5 medianen Abweichungen vom Median anstatt der üblichen 3.5.
-  mutate(outlier=is_outlier_double_mad(difference,thres=5))
+  mutate(outlier=is_outlier_double_mad(difference,thres=5)) %>% 
+  mutate(median_difference=median(difference))
 ```
 
 A plot helps to visualize the distribution of differences and to identify particularly  values.
@@ -78,7 +79,7 @@ ggplot(diff2, aes(combination, difference))+
   geom_violin()+
   geom_jitter(alpha=0.3, aes(color=outlier))+
   theme_minimal()+
-  scale_fill_viridis_d()
+  scale_color_viridis_d()
 
 ```
 
@@ -90,24 +91,42 @@ diff2 %>%
   head()
 ```
 
-# Identify the Responsible Proposal
-To determine which proposals cause combinations to stand out:
+## Finding Municipalities with the Most Notable Turnout Differences
 
-Extract proposal IDs from combinations
-Format data to count how often a proposal appears in notable combinations
-Sort by frequency
+To pinpoint municipalities with the most suspicious turnout differences that may require further investigation, we count the number of flagged outlier combinations for each municipality.
+
+By ranking municipalities based on the number of these anomalous combinations, we can efficiently prioritize our review efforts. Municipalities with the highest count of flagged cases are considered the most critical for further scrutiny.
 
 ```{r , message=FALSE, waning=FALSE}
 
-problem_vorlagen <- diff2 %>% 
+anomalous_topics <- diff2 %>% 
   separate(combination,into=c("vorlage1","vorlage2"), sep="_") %>% 
   filter(outlier==TRUE) %>% 
-  pivot_longer( cols = -c(canton_name,mun_name,mun_id, difference, outlier), names_to="vorlage", values_to="vorlage_id") %>% 
+  pivot_longer(cols = -c(canton_name,mun_name,mun_id, difference, outlier, median_difference), names_to="vorlage", values_to="vorlage_id") %>% 
   group_by(mun_name,mun_id,vorlage_id) %>% 
   summarize(n=n()) %>% 
   arrange(desc(n))
 
-problem_vorlagen
+anomalous_topics
   
+```
+In the context of electoral analysis, the ballot on the __Jagdgesetz__ associated with vorlage_id 6320 raises some questions in the case of the municipality of Buch am Irchel. To illustrate this further, we can examine the absolute turnout numbers provided in the column eingelegteStimmzettel.
+
+For four out of the five voting topics, the number of incoming ballots was either 484 or 486. However, for one specific topic, the count is noticeably lower, by a margin of 20 ballots. While this discrepancy does not necessarily imply an error, it is a situation that warrants further attention.
+
+## Why This Difference Matters
+
+Such deviations are noteworthy and typically prompt follow-up discussions with the municipalities involved. Possible explanations include:
+
+- Lost Ballots: There may have been a mishap leading to the loss of 20 ballots.
+
+- Data Entry Error: The discrepancy could also result from a typographical mistake during the data entry process into the election result system.
+
+While there is no immediate evidence of wrongdoing or a systemic issue, these kinds of irregularities are part of our standard review process to ensure the accuracy and integrity of the electoral data.
+
+```{r}
+
+data %>% filter(mun_name=="Buch am Irchel") %>% select(mun_name, mun_id, name, id, eingelegteStimmzettel)
+
 ```
 
