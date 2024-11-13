@@ -36,6 +36,14 @@
 
 cross_fun <- function(df, issue1, issue2, geo_cols){
 
+  if (
+    !issue1 %in% names(df) ||
+    !issue2 %in% names(df) ||
+    !all(geo_cols %in% names(df))
+  ) {
+    stop("Your input variable(s) do not appear in the column names of your provided data.")
+  }
+
   # define the name of the new comparison variable
   varname <- paste0(issue1, "_", issue2)
 
@@ -84,7 +92,7 @@ cross_fun <- function(df, issue1, issue2, geo_cols){
 
 
 
-#' Calculation of the voter turnout difference between two votes
+#' Calculation of the voter turnout difference between multiple votes
 #'
 #' This function creates a table with the differences in turnout between
 #' multiple votes for every counting circle in the original data.
