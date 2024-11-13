@@ -125,6 +125,7 @@ get_differences <- function(df, comb1, comb2, geo_cols = c("gemwkid", "gemeinde"
   # remove row names
   rownames(crosscheckdata_new) <- NULL
 
+  # return data
   return(crosscheckdata_new)
 
 }
