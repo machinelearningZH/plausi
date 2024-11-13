@@ -160,6 +160,7 @@ outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE
   # limit bandwidth in case of percentage scale
   if(percent == TRUE){
 
+
     data["lower"] <- ifelse(data$lower < 0, 0, data$lower)
     data["upper"] <- ifelse(data$upper > 100, 100, data$upper)
 
@@ -230,17 +231,15 @@ is_outlier_z <- function(x, thres = 3, na.rm = TRUE) {
 
 }
 
-
-
 #' Detect outliers using turkey's fences
 #'
 #' Outlier detection based on turkey's fences. Tukey’s fences is a technique used in box plots. The non-outlier range is defined as
-#' [Q1−k(Q3−Q1), Q3+k(Q3−Q1)], where Q1 and Q3 are the lower and upper quartiles respectively and k - some non-negative constant
+#' Q1−k(Q3−Q1), Q3+k(Q3−Q1), where Q1 and Q3 are the lower and upper quartiles respectively and k - some non-negative constant
 #' (popular choice is 1.5).
 #'
 #'
 #' @inheritParams double_mad
-#' @param k Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.
+#' @param thres Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.
 #' @param na.rm if TRUE, removes NA values before calculations. Default is TRUE.
 #' 
 #' @importFrom stats quantile

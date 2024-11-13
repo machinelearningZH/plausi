@@ -15,7 +15,7 @@ should correspond to the issue IDs (e.g., 'eidg1', 'kant2').}
 of column to be compared. The column names represent columns in df that
 contain voter turnout data of the issues of interest (e.g., "eidg1", "kant2").}
 
-\item{geocols}{The name of the geo-column containing an identifier of the
+\item{geo_cols}{The name of the geo-column containing an identifier of the
 counting circle.}
 }
 \value{
@@ -38,6 +38,6 @@ testdata <- data.frame(
 combinations <-as.data.frame(t(combn(c("eidg1", "eidg2", "kant1"), 2)))
 
 # calculate all possible differences between columns
-get_differences(testdata,combinations$V1,combinations$V2)
+get_differences(testdata,combinations$V1,combinations$V2, "gemwkid")
 
 }

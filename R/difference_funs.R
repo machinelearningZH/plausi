@@ -11,6 +11,7 @@
 #' "kant2").
 #' @param geo_cols The name of the geo-column containing an identifier of the
 #' counting circle.
+#' @importFrom stats reshape
 #'
 #' @return A dataframe with the turnout difference between two vote topics.
 #' @export
@@ -30,10 +31,10 @@
 #' combinations <- as.data.frame(t(combn(c("eidg1","eidg2","kant1"),2)))
 #'
 #' # difference between columns named as the first combination
-#' cross_fun(crosscheckdata,combinations$V1[1],combinations$V2[1])
+#' cross_fun(testdata,combinations$V1[1],combinations$V2[1], "gemwkid")
 #'
 
-cross_fun <- function(df, issue1, issue2, geo_cols = geocols){
+cross_fun <- function(df, issue1, issue2, geo_cols){
 
   # define the name of the new comparison variable
   varname <- paste0(issue1, "_", issue2)
@@ -95,7 +96,7 @@ cross_fun <- function(df, issue1, issue2, geo_cols = geocols){
 #' @param comb1,comb2 A character vector specifying the the first and second set
 #' of column to be compared. The column names represent columns in df that
 #' contain voter turnout data of the issues of interest (e.g., "eidg1", "kant2").
-#' @param geocols The name of the geo-column containing an identifier of the
+#' @param geo_cols The name of the geo-column containing an identifier of the
 #' counting circle.
 #'
 #' @return A dataframe containing voter turnout differences between all
@@ -114,7 +115,7 @@ cross_fun <- function(df, issue1, issue2, geo_cols = geocols){
 #' combinations <-as.data.frame(t(combn(c("eidg1", "eidg2", "kant1"), 2)))
 #'
 #' # calculate all possible differences between columns
-#' get_differences(testdata,combinations$V1,combinations$V2)
+#' get_differences(testdata,combinations$V1,combinations$V2, "gemwkid")
 #'
 
 get_differences <- function(df, comb1, comb2, geo_cols = c("gemwkid", "gemeinde")){
