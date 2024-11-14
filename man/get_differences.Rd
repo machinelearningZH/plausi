@@ -2,7 +2,7 @@
 % Please edit documentation in R/difference_funs.R
 \name{get_differences}
 \alias{get_differences}
-\title{Calculation of the voter turnout difference between two votes}
+\title{Calculation of the voter turnout difference between multiple votes}
 \usage{
 get_differences(df, comb1, comb2, geo_cols = c("gemwkid", "gemeinde"))
 }
@@ -35,9 +35,9 @@ testdata <- data.frame(
 )
 
 # generate combinations
-combinations <-as.data.frame(t(combn(c("eidg1", "eidg2", "kant1"), 2)))
+combinations <- as.data.frame(t(combn(c("eidg1", "eidg2", "kant1"), 2)))
 
 # calculate all possible differences between columns
-get_differences(testdata,combinations$V1,combinations$V2, "gemwkid")
+get_differences(testdata, combinations$V1, combinations$V2, "gemwkid")
 
 }

@@ -33,46 +33,34 @@ test_that("cross_fun() returns errors", {
 # TESTS FOR get_differences() ==================================================
 
 
+test_that("get_differences() returns the expected table", {
+  input <- votedata[, 1:5]
+
+  combinations <- as.data.frame(t(combn(c(names(input[-(1:2)])), 2)))
+
+  output <- get_differences(votedata[, 1:5], combinations$V1, combinations$V2, geo_cols = c("gemeinde", "v_gemwkid"))
+
+  rds_filepath <- testthat::test_path("testdata", "expected_outcome_get_differences.rds")
+
+  if (file.exists(rds_filepath)) {
+    expected_output <- readRDS(rds_filepath)
+
+    # Check if the output matches the expected RDS content
+    testthat::expect_equal(output, expected_output)
+
+  } else {
+
+    # return a warning message if the corresponding RDS file was not found
+    testthat::fail("No corresponding RDS file found to test get_differences().")
+
+  }
+})
 
 
+test_that("get_differences() returns error if combination vectors do not have the same length", {
+  combinations <- as.data.frame(t(combn(c(names(votedata[, 3:5])), 2)))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  expect_error(get_differences(votedata[, 1:5], combinations$V1, combinations$V2[-1], geo_cols = c("gemeinde", "v_gemwkid")))
+})
 
 

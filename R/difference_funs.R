@@ -36,12 +36,9 @@
 
 cross_fun <- function(df, issue1, issue2, geo_cols){
 
-  if (
-    !issue1 %in% names(df) ||
-    !issue2 %in% names(df) ||
-    !all(geo_cols %in% names(df))
-  ) {
-    stop("Your input variable(s) do not appear in the column names of your provided data.")
+  # make sure, all of the columns are i
+  if (!all(sapply(c(issue1, issue2, geo_cols), function(col) col %in% names(df)))) {
+    stop("The arguments issue1, issue2 and geo_cols must be column names of your data frame (df) in quotation marks.")
   }
 
   # define the name of the new comparison variable
@@ -120,13 +117,18 @@ cross_fun <- function(df, issue1, issue2, geo_cols){
 #' )
 #'
 #' # generate combinations
-#' combinations <-as.data.frame(t(combn(c("eidg1", "eidg2", "kant1"), 2)))
+#' combinations <- as.data.frame(t(combn(c("eidg1", "eidg2", "kant1"), 2)))
 #'
 #' # calculate all possible differences between columns
-#' get_differences(testdata,combinations$V1,combinations$V2, "gemwkid")
+#' get_differences(testdata, combinations$V1, combinations$V2, "gemwkid")
 #'
 
 get_differences <- function(df, comb1, comb2, geo_cols = c("gemwkid", "gemeinde")){
+
+  # error if combination vectors do not have the same length
+  if (length(comb1) != length(comb2)) {
+    stop("Both combination vectors comb1 and comb2 must have the same length().")
+  }
 
   # run cross_fun() over all combinations and bind rows
   crosscheckdata_new <- do.call(rbind, Map(function(x, y) cross_fun(df, x, y, geo_cols = geo_cols), comb1, comb2))
