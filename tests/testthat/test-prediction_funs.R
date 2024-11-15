@@ -1,45 +1,104 @@
 library(testthat)
 
 
-# TESTS FOR train_prediction_model(), predict_single_vote() AND predict_multiple_votes()
+# TESTS FOR predict_votes() ===========================================
 
 
-# We de facto only test the outcome of predict_multiple_votes() since this
-# function includes the other two. If something fails somewhere, it will
-# be finally noticed in predict_multiple_votes(). To do this, we run the
-# entire process using a couple of different completion states of votedata.
+# We only test the outcome of predict_multiple_votes() since this function
+# is based on both train_prediction_model() and predict_single_vote(). If
+# something fails somewhere, it will be finallynoticed in
+# predict_multiple_votes(). To do this, we run the entire process using a
+# couple of different completion states of plausi::votedata. Error handling
+# is tested in the basic functions.
 
-test_that("predict_multiple_votes() returns the expected output", {
+testthat::test_that("predict_votes() returns the expected output", {
 
-  # create different counting
+  # set seed for reproducibility of sample()
+  set.seed(1879)
+
+  # create predictions for different counting states and compare them to an expected outcome
   test_prediction_list <- lapply(
     1:6,
     function(index) {
       # create input file
-      test_input <- votedata
+      test_input <- plausi::votedata
       replacement_sequence <- sample(nrow(test_input), seq(0, 100, 20)[index])
-      test_input[c("Eidg1", "Kant1")] <- lapply(c("Eidg1", "Kant1"), function(col) replace(input0[[col]], replacement_sequence, NA))
+      test_input[c("Eidg1", "Kant1")] <- lapply(c("Eidg1", "Kant1"), function(col) replace(test_input[[col]], replacement_sequence, NA))
 
       # train model
       test_model <- train_prediction_model("Eidg1", test_input, to_exclude_vars = "Kant1", geovars = c("gemeinde", "v_gemwkid"))
 
       # predict multiple votes
-      test_prediction <- predict_multiple_votes(c("Eidg1", "Kant1"), traindata = test_input, geovars = c("gemeinde", "v_gemwkid"))
+      test_prediction <- predict_votes(c("Eidg1", "Kant1"), traindata = test_input, geovars = c("gemeinde", "v_gemwkid"))
     })
 
   # compare data to expected result
-  expect_equal(test_prediction_list, readRDS(testthat::test_path("testdata", "expected_outcome_predict_multiple_votes.rds")))
+  expect_equal(test_prediction_list, readRDS(testthat::test_path("testdata", "expected_outcome_predict_votes.rds")))
 
 })
 
 
-test_that("errors", {
+# TESTS FOR train_prediction_model() ===========================================
 
 
+testthat::test_that("train_prediction_model() returns warnings and errors", {
+
+  testthat::expect_warning(
+    train_prediction_model(
+      "Eidg1",
+      votedata,
+      to_exclude_vars = NULL, # throws a warning message for NAs in data (the columns are then excluded)
+      geovars = c("gemeinde", "v_gemwkid")
+    )
+  )
+
+  testthat::expect_error(
+    train_prediction_model(
+      "Eidg1",
+      votedata,
+      method = "undefined", # throws an error for model not being in caret's built-in library
+      to_exclude_vars = "Kant1",
+      geovars = c("gemeinde", "v_gemwkid")
+    )
+  )
+
+  testthat::expect_error(
+    train_prediction_model(
+      "undefined", # throws an error for variables that are not found in the data
+      votedata,
+      method = "svmRadial",
+      trControl = NULL,
+      to_exclude_vars = c("Kant1"),
+      geovars = c("gemeinde", "v_gemwkid")
+    )
+  )
 
 })
 
 
+
+# TESTS FOR predict_single_vote() ==============================================
+
+
+testthat::test_that("predict_single_vote() throws an error if something other than a model of class train is inserted into function", {
+
+  testthat::expect_error(
+    predict_single_vote("undefind", votedata)
+  )
+
+})
+
+
+# TESTS FOR rmse() =============================================================
+
+
+testthat::test_that("rmse() throws an error if args have not the same length", {
+
+  testthat::expect_error(
+    rmse(c(1, 1, 1, 2), c(2, 2, 4))
+  )
+
+})
 
 
 

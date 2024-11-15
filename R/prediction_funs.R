@@ -1,3 +1,73 @@
+#' Run predictions for multiple votes
+#'
+#' This function can be used to predict the outcome of multiple votes based on a number of past vote results.
+#' It uses the machine learning models available in the caret package.
+#'
+#' @inheritParams train_prediction_model
+#' @inheritParams predict_single_vote
+#' @param x Column names of the dependent variables.
+#' @param exclude_votes If set to TRUE, the variables to be predicted will be excluded from each others models.
+#' This makes sense on a vote Sunday due to differences in the counting processes. This means, that a lot of the
+#' votes in the data can contain NAs and should therefore be excluded. Defaults to TRUE.
+#'
+#' @importFrom plausi train_prediction_model
+#' @importFrom plausi predict_single_vote
+#'
+#' @return A data.frame.
+#' @export
+#'
+#' @examples
+#'
+#' predict_votes(c("Eidg1","Kant1"), plausi::votedata)
+#'
+
+predict_votes <- function(
+    x,
+    traindata,
+    testdata = traindata,
+    method = "svmRadial",
+    trControl = NULL,
+    exclude_votes = TRUE, # Question whether to even make this changeable...
+    geovars = c("gemeinde", "v_gemwkid"),
+    training_prop = NA,
+    ...
+){
+
+  # exclude the votes to be predicted from predicting other votes if exclude_votes is set to TRUE
+  to_exclude_vars <- if (exclude_votes) x else NULL
+
+  # apply train_prediction_model and predict_single_vote consecutively on each vote column in x
+  output <- lapply(x, function(vote_column) {
+
+    # train a model for this particular vote using the training data
+    trained_model <- plausi::train_prediction_model(
+      vote_column,
+      traindata = traindata,
+      method = method,
+      trControl = trControl,
+      to_exclude_vars = to_exclude_vars,
+      geovars = geovars,
+      training_prop = training_prop,
+      ...
+    )
+
+    # run predictions for the trained model using the test data (or training data, if not provided)
+    predicted_data <- plausi::predict_single_vote(
+      trained_model,
+      testdata = testdata
+    )
+
+    return(predicted_data)
+
+  })
+
+  # combine all prediction results into a single dataframe
+  do.call(rbind, output)
+
+}
+
+
+
 #' Train model for prediction of one vote
 #'
 #' This function can be used to train the model for the prediction of one vote
@@ -26,7 +96,7 @@
 #'
 #' @examples
 #'
-#' train_prediction_model("Eidg1", votedata, to_exclude_vars = "Kant1")
+#' train_prediction_model("Eidg1", plausi::votedata, to_exclude_vars = "Kant1")
 #'
 
 train_prediction_model <- function(
@@ -40,9 +110,14 @@ train_prediction_model <- function(
     ...
 ){
 
-  # stop if the data contains NAs in any of the columns that are not either the dependent variable or a column to exclude
+  # stop if any of the variables are not in the data
+  if(!all(c(x, to_exclude_vars, geovars) %in% names(votedata))) {
+    stop("Not all of your variables are found in the data.")
+  }
+
+  # warn user if the data contains NAs in any of the columns that are not either the dependent variable or a column to exclude (data is excluded)
   if (any(is.na(traindata[, !names(traindata) %in% c(x, to_exclude_vars)]))) {
-    message(
+    warning(
       "Your training data contains NAs. NAs are only allowed in the dependent variable (x)
       or in columns that are excluded for the training of the model (to_exclude_vars).
       The model therefore excludes all rows in which there are NAs."
@@ -120,12 +195,17 @@ train_prediction_model <- function(
 #'
 #' @examples
 #'
-#' test_model <- train_prediction_model("Eidg1", votedata, to_exclude_vars = "Kant1")
+#' test_model <- train_prediction_model("Eidg1", plausi::votedata, to_exclude_vars = "Kant1")
 #'
-#' predict_single_vote(test_model, votedata)
+#' predict_single_vote(test_model, plausi::votedata)
 #'
 
 predict_single_vote <- function(model, testdata){
+
+  # stop if model argument is not a model
+  if (!any(class(model) == "train")) {
+    stop("Your model argument is not of class train.")
+  }
 
   # get information from the model attributes
   x <- attr(model, "dependent_var")
@@ -166,76 +246,6 @@ predict_single_vote <- function(model, testdata){
 
 
 
-#' Run predictions for multiple votes
-#'
-#' This function can be used to predict the outcome of multiple votes based on a number of past vote results.
-#' It uses the machine learning models available in the caret package.
-#'
-#' @inheritParams train_prediction_model
-#' @inheritParams predict_single_vote
-#' @param x Column names of the dependent variables.
-#' @param exclude_votes If set to TRUE, the variables to be predicted will be excluded from each others models.
-#' This makes sense on a vote Sunday due to differences in the counting processes. This means, that a lot of the
-#' votes in the data can contain NAs and should therefore be excluded. Defaults to TRUE.
-#'
-#' @importFrom plausi train_prediction_model
-#' @importFrom plausi predict_single_vote
-#'
-#' @return A data.frame.
-#' @export
-#'
-#' @examples
-#'
-#' predict_multiple_votes(c("Eidg1","Kant1"), votedata)
-#'
-
-predict_multiple_votes <- function(
-    x,
-    traindata,
-    testdata = traindata,
-    method = "svmRadial",
-    trControl = NULL,
-    exclude_votes = TRUE, # Question wether to even make this changeable...
-    geovars = c("gemeinde", "v_gemwkid"),
-    training_prop = NA,
-    ...
-  ){
-
-  # exclude the votes to be predicted from predicting other votes if exclude_votes is set to TRUE
-  to_exclude_vars <- if (exclude_votes) x else NULL
-
-  # apply train_prediction_model and predict_single_vote consecutively on each vote column in x
-  output <- lapply(x, function(vote_column) {
-
-    # train a model for this particular vote using the training data
-    trained_model <- train_prediction_model(
-      vote_column,
-      traindata = traindata,
-      method = method,
-      trControl = trControl,
-      to_exclude_vars = to_exclude_vars,
-      geovars = geovars,
-      training_prop = training_prop,
-      ...
-    )
-
-    # run predictions for the trained model using the test data (or training data, if not provided)
-    predicted_data <- predict_single_vote(
-      trained_model,
-      testdata = testdata
-    )
-
-    return(predicted_data)
-
-  })
-
-  # combine all prediction results into a single dataframe
-  do.call(rbind, output)
-
-}
-
-
-
 #' Calculate RMSE
 #'
 #' Calculate the Root Mean Square Error (RMSE). The RMSE is the standard deviation of the residuals (prediction
@@ -250,19 +260,16 @@ predict_multiple_votes <- function(
 #'
 #' @examples
 #'
-#' library(dplyr)
-#' library(tidyr)
-#' library(kernlab)
+#' pred_data <- predict_votes(c("Eidg1", "Kant1"), plausi::votedata, exclude_votes = TRUE)
 #'
-#' pred_data  <- predict_multiple_votes(c("Eidg1","Kant1"), votedata, exclude_votes = TRUE)
-#'
-#' pred_data %>%
-#' drop_na() %>%
-#' group_by(vorlage) %>%
-#' summarize(rmse = RMSE(pred, real))
+#' pred_data$rmse <- plausi::rmse(pred_data$pred, pred_data$real)
 #'
 
 rmse = function(prediction, observation, na.rm = TRUE){
+
+  if (length(prediction) != length(observation)) {
+    stop("The vectors prediction and observation must have the same length().")
+  }
 
   sqrt(mean((prediction - observation) ^ 2, na.rm = na.rm))
 

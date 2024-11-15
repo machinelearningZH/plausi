@@ -36,7 +36,7 @@
 
 cross_fun <- function(df, issue1, issue2, geo_cols){
 
-  # make sure, all of the columns are i
+  # stop if not all columns are in the data
   if (!all(sapply(c(issue1, issue2, geo_cols), function(col) col %in% names(df)))) {
     stop("The arguments issue1, issue2 and geo_cols must be column names of your data frame (df) in quotation marks.")
   }
@@ -69,23 +69,6 @@ cross_fun <- function(df, issue1, issue2, geo_cols){
   return(df_long)
 
 }
-
-# OLD FUNCTION:
-# cross_fun <- function(df, issue1, issue2, geo_cols = geocols){
-#
-#   # define name of comparison variable
-#   varname <- paste0(issue1, "_", issue2)
-#
-#   # define content of new comparison variable (using !! to call the value of varname and := to assign the value)
-#   df %>% dplyr::mutate(!!varname := .data[[as.character(issue1)]] - .data[[as.character(issue2)]]) %>%
-#     dplyr::select(tidyselect::all_of(geo_cols), !!varname) %>%
-#     tidyr::pivot_longer(
-#       cols = varname,
-#       names_to = "combination",
-#       values_to = "difference"
-#     )
-#
-# }
 
 
 
@@ -140,4 +123,3 @@ get_differences <- function(df, comb1, comb2, geo_cols = c("gemwkid", "gemeinde"
   return(crosscheckdata_new)
 
 }
-
