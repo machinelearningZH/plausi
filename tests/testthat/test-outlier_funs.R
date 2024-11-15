@@ -121,7 +121,7 @@ test_that("is_outlier_double_mad() detects outliers based on MAD distances", {
 test_that("is_outlier_double_mad() respects threshold parameter", {
   x <- c(1, 2, 3, 5, 8, 10, 12, 50)
 
-  expect_false(any(is_outlier_double_mad(x, thres = 10))) # higher threshold, no outliers
+  expect_false(any(is_outlier_double_mad(x, threshold= 10))) # higher threshold, no outliers
 })
 
 
@@ -185,7 +185,7 @@ test_that("is_outlier_single_mad() detects symmetric outliers", {
 test_that("is_outlier_single_mad() adjusts outlier detection based on threshold", {
   x <- c(1, 2, 3, 4, 100)
 
-  expect_false(any(is_outlier_single_mad(x, thres = 80))) # high threshold
+  expect_false(any(is_outlier_single_mad(x, threshold= 80))) # high threshold
 })
 
 
@@ -215,7 +215,7 @@ test_that("is_outlier_z() detects outliers based on Z-score", {
 test_that("is_outlier_z() adjusts outlier detection based on threshold", {
   x <- c(1, 2, 3, 4, 5, 6, 7, 8, 8, 8, 9, 12, 250)
 
-  expect_false(any(is_outlier_z(x, thres = 10))) # high threshold, no outliers
+  expect_false(any(is_outlier_z(x, threshold= 10))) # high threshold, no outliers
 })
 
 
@@ -245,7 +245,7 @@ test_that("is_outlier_turkey() detects Tukey outliers", {
 
 test_that("is_outlier_turkey() adjusts outlier detection based on k threshold", {
   x <- c(1, 2, 3, 4, 20)
-  result <- is_outlier_turkey(x, thres = 10) # higher threshold, no more
+  result <- is_outlier_turkey(x, threshold= 10) # higher threshold, no more
 
   expect_false(result[5])
 })

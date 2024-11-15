@@ -102,7 +102,7 @@ double_mad_from_median <- function(x, zero_mad_action = NULL){
 #' threshold and labels the outliers.
 #'
 #' @inheritParams double_mad
-#' @param thres Z-score threshold (defaults to 3.5).
+#' @param threshold Z-score threshold (defaults to 3.5).
 #'
 #' @return A ogical vector.
 #' @export
@@ -113,9 +113,9 @@ double_mad_from_median <- function(x, zero_mad_action = NULL){
 #' is_outlier_double_mad(x)
 #'
 
-is_outlier_double_mad <- function(x, zero_mad_action = NULL, thres = 3.5){
+is_outlier_double_mad <- function(x, zero_mad_action = NULL, threshold = 3.5){
 
-  ifelse(plausi::double_mad_from_median(x, zero_mad_action) >= thres, TRUE, FALSE)
+  ifelse(plausi::double_mad_from_median(x, zero_mad_action) >= threshold, TRUE, FALSE)
 
 }
 
@@ -143,7 +143,7 @@ is_outlier_double_mad <- function(x, zero_mad_action = NULL, thres = 3.5){
 #' outlier_range(x)
 #'
 
-outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE){
+outlier_range <- function(x, zero_mad_action = NULL, threshold = 3.5, percent = TRUE){
 
   if (!is.numeric(x)) {
     stop("Your input must be numeric.")
@@ -153,8 +153,8 @@ outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE
   data <- data.frame(
     median = stats::median(x),
     iqr = stats::IQR(x),
-    lower = round(stats::median(x) - plausi::double_mad(x)[1] * thres, 2),
-    upper = round(stats::median(x) + plausi::double_mad(x)[1] * thres, 2)
+    lower = round(stats::median(x) - plausi::double_mad(x)[1] * threshold, 2),
+    upper = round(stats::median(x) + plausi::double_mad(x)[1] * threshold, 2)
   )
 
   # limit bandwidth in case of percentage scale
@@ -184,7 +184,7 @@ outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE
 #'
 #'
 #' @inheritParams double_mad
-#' @param thres Z-score threshold (defaults to 3).
+#' @param threshold Z-score threshold (defaults to 3).
 #' @param na.rm Remove NAs, defaults to TRUE.
 #'
 #' @importFrom stats median
@@ -199,9 +199,9 @@ outlier_range <- function(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE
 #' is_outlier_single_mad(x)
 #'
 
-is_outlier_single_mad <- function(x, thres = 3, na.rm = TRUE) {
+is_outlier_single_mad <- function(x, threshold = 3, na.rm = TRUE) {
 
-  abs(x - stats::median(x, na.rm = na.rm)) >= thres * stats::mad(x, na.rm = na.rm)
+  abs(x - stats::median(x, na.rm = na.rm)) >= threshold * stats::mad(x, na.rm = na.rm)
 
 }
 
@@ -225,9 +225,9 @@ is_outlier_single_mad <- function(x, thres = 3, na.rm = TRUE) {
 #' is_outlier_z(x)
 #'
 
-is_outlier_z <- function(x, thres = 3, na.rm = TRUE) {
+is_outlier_z <- function(x, threshold = 3, na.rm = TRUE) {
 
-  abs(x - mean(x, na.rm = na.rm)) >= thres * stats::sd(x, na.rm = na.rm)
+  abs(x - mean(x, na.rm = na.rm)) >= threshold * stats::sd(x, na.rm = na.rm)
 
 }
 
@@ -239,9 +239,9 @@ is_outlier_z <- function(x, thres = 3, na.rm = TRUE) {
 #'
 #'
 #' @inheritParams double_mad
-#' @param thres Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.
+#' @param threshold Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.
 #' @param na.rm if TRUE, removes NA values before calculations. Default is TRUE.
-#' 
+#'
 #' @importFrom stats quantile
 #'
 #' @return A logical vector.
@@ -254,12 +254,12 @@ is_outlier_z <- function(x, thres = 3, na.rm = TRUE) {
 #' is_outlier_turkey(x)
 #'
 
-is_outlier_turkey <- function(x, thres = 1.5, na.rm = TRUE) {
+is_outlier_turkey <- function(x, threshold = 1.5, na.rm = TRUE) {
 
   quar <- stats::quantile(x, probs = c(0.25, 0.75), na.rm = na.rm)
 
   iqr <- diff(quar)
 
-  (quar[1] - thres * iqr > x) | (x > quar[2] + thres * iqr) # must not be >= or <= since identical values would be counted as outliers
+  (quar[1] - threshold * iqr > x) | (x > quar[2] + threshold * iqr) # must not be >= or <= since identical values would be counted as outliers
 
 }

@@ -10,9 +10,6 @@
 #' This makes sense on a vote Sunday due to differences in the counting processes. This means, that a lot of the
 #' votes in the data can contain NAs and should therefore be excluded. Defaults to TRUE.
 #'
-#' @importFrom plausi train_prediction_model
-#' @importFrom plausi predict_single_vote
-#'
 #' @return A data.frame.
 #' @export
 #'
@@ -34,7 +31,7 @@ predict_votes <- function(
 ){
 
   # exclude the votes to be predicted from predicting other votes if exclude_votes is set to TRUE
-  to_exclude_vars <- if (exclude_votes) x else NULL
+  to_exclude_vars <- if (exclude_votes) {x} else {NULL}
 
   # apply train_prediction_model and predict_single_vote consecutively on each vote column in x
   output <- lapply(x, function(vote_column) {
@@ -128,7 +125,9 @@ train_prediction_model <- function(
   traindata <- traindata[!is.na(traindata[[x]]), ]
 
   # drop the dependent variable from the variables to exclude from the model (especially relevant for the function predict_multiple_votes)
-  if(!is.null(to_exclude_vars)) to_exclude_vars <- to_exclude_vars[!to_exclude_vars %in% x]
+  if(!is.null(to_exclude_vars)) {
+    to_exclude_vars <- to_exclude_vars[!to_exclude_vars %in% x]
+  }
 
   # if training_prop is defined, build the training dataset accordingly
   if (!is.na(training_prop)){
@@ -145,7 +144,9 @@ train_prediction_model <- function(
   form <- stats::as.formula(paste0(x, " ~ ."))
 
   # set default trControl if none specified
-  if(is.null(trControl)) trControl <- caret::trainControl(method = "cv", number = 10)
+  if(is.null(trControl)) {
+    trControl <- caret::trainControl(method = "cv", number = 10)
+  }
 
   # if defined, exclude to_exclude_vars from training data
   if(!is.null(to_exclude_vars)) {
@@ -187,8 +188,6 @@ train_prediction_model <- function(
 #' @param model A trained model, generated using [plausi::train_prediction_model()][plausi::train_prediction_model].
 #' @param testdata Dataset on which the prediction should be run. The data must contain all columns of the training
 #' data of the model \code{model$trainingData}.
-#'
-#' @importFrom plausi train_prediction_model
 #'
 #' @return A data.frame.
 #' @export
