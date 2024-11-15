@@ -4,7 +4,7 @@
 \alias{is_outlier_double_mad}
 \title{Detect outliers using MAD from the median for asymmetric distributions}
 \usage{
-is_outlier_double_mad(x, zero_mad_action = NULL, thres = 3.5)
+is_outlier_double_mad(x, zero_mad_action = NULL, threshold = 3.5)
 }
 \arguments{
 \item{x}{A vector of numeric values.}
@@ -17,7 +17,7 @@ Defaults to NULL. The options are:
 \item \strong{"stop"}: process is stopped
 }}
 
-\item{thres}{Z-score threshold (defaults to 3.5).}
+\item{threshold}{Z-score threshold (defaults to 3.5).}
 }
 \value{
 A ogical vector.

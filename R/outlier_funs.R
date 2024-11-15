@@ -115,7 +115,7 @@ double_mad_from_median <- function(x, zero_mad_action = NULL){
 
 is_outlier_double_mad <- function(x, zero_mad_action = NULL, threshold = 3.5){
 
-  ifelse(plausi::double_mad_from_median(x, zero_mad_action) >= threshold, TRUE, FALSE)
+  ifelse(double_mad_from_median(x, zero_mad_action) >= threshold, TRUE, FALSE)
 
 }
 
@@ -153,8 +153,8 @@ outlier_range <- function(x, zero_mad_action = NULL, threshold = 3.5, percent = 
   data <- data.frame(
     median = stats::median(x),
     iqr = stats::IQR(x),
-    lower = round(stats::median(x) - plausi::double_mad(x)[1] * threshold, 2),
-    upper = round(stats::median(x) + plausi::double_mad(x)[1] * threshold, 2)
+    lower = round(stats::median(x) - double_mad(x)[1] * threshold, 2),
+    upper = round(stats::median(x) + double_mad(x)[1] * threshold, 2)
   )
 
   # limit bandwidth in case of percentage scale

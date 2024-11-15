@@ -4,7 +4,7 @@
 \alias{outlier_range}
 \title{Get boundaries beyond which a value is an outlier via MAD from the median for asymmetric distributions and IQR}
 \usage{
-outlier_range(x, zero_mad_action = NULL, thres = 3.5, percent = TRUE)
+outlier_range(x, zero_mad_action = NULL, threshold = 3.5, percent = TRUE)
 }
 \arguments{
 \item{x}{A vector of numeric values.}
@@ -17,7 +17,7 @@ Defaults to NULL. The options are:
 \item \strong{"stop"}: process is stopped
 }}
 
-\item{thres}{Z-score threshold (defaults to 3.5).}
+\item{threshold}{Z-score threshold (defaults to 3.5).}
 
 \item{percent}{Indicator for the scale of the data. If function is run for percantage data, the lower limit will not be negative
 while the upper limit does not exceed 100 percent. Defaults to TRUE.}

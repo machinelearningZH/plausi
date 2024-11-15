@@ -15,7 +15,7 @@
 #'
 #' @examples
 #'
-#' predict_votes(c("Eidg1","Kant1"), plausi::votedata)
+#' predict_votes(c("Eidg1","Kant1"), votedata)
 #'
 
 predict_votes <- function(
@@ -37,7 +37,7 @@ predict_votes <- function(
   output <- lapply(x, function(vote_column) {
 
     # train a model for this particular vote using the training data
-    trained_model <- plausi::train_prediction_model(
+    trained_model <- train_prediction_model(
       vote_column,
       traindata = traindata,
       method = method,
@@ -49,7 +49,7 @@ predict_votes <- function(
     )
 
     # run predictions for the trained model using the test data (or training data, if not provided)
-    predicted_data <- plausi::predict_single_vote(
+    predicted_data <- predict_single_vote(
       trained_model,
       testdata = testdata
     )
@@ -93,7 +93,7 @@ predict_votes <- function(
 #'
 #' @examples
 #'
-#' train_prediction_model("Eidg1", plausi::votedata, to_exclude_vars = "Kant1")
+#' train_prediction_model("Eidg1", votedata, to_exclude_vars = "Kant1")
 #'
 
 train_prediction_model <- function(
@@ -194,9 +194,9 @@ train_prediction_model <- function(
 #'
 #' @examples
 #'
-#' test_model <- train_prediction_model("Eidg1", plausi::votedata, to_exclude_vars = "Kant1")
+#' test_model <- train_prediction_model("Eidg1", votedata, to_exclude_vars = "Kant1")
 #'
-#' predict_single_vote(test_model, plausi::votedata)
+#' predict_single_vote(test_model, votedata)
 #'
 
 predict_single_vote <- function(model, testdata){
@@ -259,9 +259,9 @@ predict_single_vote <- function(model, testdata){
 #'
 #' @examples
 #'
-#' pred_data <- predict_votes(c("Eidg1", "Kant1"), plausi::votedata, exclude_votes = TRUE)
+#' pred_data <- predict_votes(c("Eidg1", "Kant1"), votedata, exclude_votes = TRUE)
 #'
-#' pred_data$rmse <- plausi::rmse(pred_data$pred, pred_data$real)
+#' pred_data$rmse <- rmse(pred_data$pred, pred_data$real)
 #'
 
 rmse = function(prediction, observation, na.rm = TRUE){

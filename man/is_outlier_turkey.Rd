@@ -4,12 +4,12 @@
 \alias{is_outlier_turkey}
 \title{Detect outliers using turkey's fences}
 \usage{
-is_outlier_turkey(x, thres = 1.5, na.rm = TRUE)
+is_outlier_turkey(x, threshold = 1.5, na.rm = TRUE)
 }
 \arguments{
 \item{x}{A vector of numeric values.}
 
-\item{thres}{Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.}
+\item{threshold}{Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.}
 
 \item{na.rm}{if TRUE, removes NA values before calculations. Default is TRUE.}
 }

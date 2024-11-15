@@ -55,6 +55,6 @@ available in the caret package.
 }
 \examples{
 
-train_prediction_model("Eidg1", plausi::votedata, to_exclude_vars = "Kant1")
+train_prediction_model("Eidg1", votedata, to_exclude_vars = "Kant1")
 
 }

@@ -22,8 +22,8 @@ errors) and therefore an indicator of how precise the prediction of a specific v
 }
 \examples{
 
-pred_data <- predict_votes(c("Eidg1", "Kant1"), plausi::votedata, exclude_votes = TRUE)
+pred_data <- predict_votes(c("Eidg1", "Kant1"), votedata, exclude_votes = TRUE)
 
-pred_data$rmse <- plausi::rmse(pred_data$pred, pred_data$real)
+pred_data$rmse <- rmse(pred_data$pred, pred_data$real)
 
 }

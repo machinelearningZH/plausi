@@ -4,12 +4,12 @@
 \alias{is_outlier_z}
 \title{Detect outliers using classic Z-scores for symmetric distributions}
 \usage{
-is_outlier_z(x, thres = 3, na.rm = TRUE)
+is_outlier_z(x, threshold = 3, na.rm = TRUE)
 }
 \arguments{
 \item{x}{A vector of numeric values.}
 
-\item{thres}{Z-score threshold (defaults to 3).}
+\item{threshold}{Z-score threshold (defaults to 3).}
 
 \item{na.rm}{Remove NAs, defaults to TRUE.}
 }

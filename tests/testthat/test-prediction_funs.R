@@ -8,7 +8,7 @@ library(testthat)
 # is based on both train_prediction_model() and predict_single_vote(). If
 # something fails somewhere, it will be finallynoticed in
 # predict_multiple_votes(). To do this, we run the entire process using a
-# couple of different completion states of plausi::votedata. Error handling
+# couple of different completion states of votedata. Error handling
 # is tested in the basic functions.
 
 testthat::test_that("predict_votes() returns the expected output", {
@@ -21,7 +21,7 @@ testthat::test_that("predict_votes() returns the expected output", {
     1:6,
     function(index) {
       # create input file
-      test_input <- plausi::votedata
+      test_input <- votedata
       replacement_sequence <- sample(nrow(test_input), seq(0, 100, 20)[index])
       test_input[c("Eidg1", "Kant1")] <- lapply(c("Eidg1", "Kant1"), function(col) replace(test_input[[col]], replacement_sequence, NA))
 
