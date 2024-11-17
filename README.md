@@ -24,7 +24,7 @@ __remotes::install_url("https://gitlab.com/plausi_pkg/plausi.git")__
 
 **2. Explore the methodology in the Documentation**
 
-https://plausi.gitlab.io/plausi_pkg/
+https://machinelearningzh.github.io/plausi/
 
 ## What does the Plausi Package do?
 
