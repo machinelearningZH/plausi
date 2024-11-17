@@ -2,7 +2,7 @@
 # 🗳️ Plausi Package
 **Detect Anomalies in Vote-Results - powered by Statistics & Machine Learning**
 
-<img src="https://raw.githubusercontent.com/statistikZH/statR/dev/inst/extdata/Stempel_STAT-01.png" width="30%" />
+<img src="https://raw.githubusercontent.com/statistikZH/statR/dev/inst/extdata/Stempel_STAT-01.png" width="40%" />
 
 <details>
 <summary>Contents</summary>
