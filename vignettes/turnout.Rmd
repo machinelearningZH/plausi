@@ -9,19 +9,21 @@ vignette: >
 
 To detect anomalies in voter turnout, the `plausi`-package offers functions that allow for systematic comparison of turnout differences across various proposals for all precincts.
 
-Generally, there are relatively clear ranking in turnout levels. Certain proposals mobilize more than others. Factors such as the topic of the proposal, the intensity of the campaign, and the level at which the issue is addressed all play a significant role. Cantonal proposals typically show lower turnout across the board compared to national proposals on the same voting day. We can leverage this for validation purposes. The following example uses open voting data available on opendata.swiss for illustration.
+Generally, there usually is a relatively clear ranking in turnout levels. Certain proposals mobilize more than others. Factors such as the topic of the proposal, the intensity of the campaign, and the level at which the issue is addressed all play a significant role. Cantonal proposals typically show lower turnout across the board compared to national proposals on the same voting day. We can leverage this for validation purposes. The following example uses open voting data available on opendata.swiss for illustration.
 
 ```{r, include = FALSE}
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   warning = FALSE, 
-  message = FALSE) 
+  message = FALSE)
+
 ```
 
 ```{r setup, message=FALSE}
 
-# Installiere das "swissdd"-Package um die Abstimmungsdaten von opendata.swiss zu beziehen
+# Install "swissdd"-package to get result data from opendata.swiss
 
 devtools::install_github("politanch/swissdd")
 
@@ -42,22 +44,23 @@ For reproducibility, this example uses openly available data. With the `swissdd`
 data <- swissdd::get_nationalvotes(votedates = c("2020-09-27"))
 
 # # Get all possible combinations of proposals
-combinations <-as.data.frame(t(combn(unique(data$id),2)))
+combinations <-as.data.frame(t(combn(unique(data$id), 2)))
 
 # Reduce the dataset to turnout and , vote id and geographic attributes
 data_wide <- data %>% 
-  select(id, canton_name,mun_name, mun_id, stimmbeteiligungInProzent) %>% 
+  select(id, canton_name, mun_name, mun_id, stimmbeteiligungInProzent) %>% 
   # Transpose into wide format
-  pivot_wider(names_from=id,values_from=stimmbeteiligungInProzent) %>% 
-  mutate_if(is.character,as.factor) %>% 
+  pivot_wider(names_from = id, values_from = stimmbeteiligungInProzent) %>% 
+  mutate_if(is.character, as.factor) %>% 
   # Filter data for the canton of Zurich
-  filter(canton_name=="Zürich")
+  filter(canton_name == "Zürich")
 
-# Differenzen im Wide-Format
-# cross_fun(data_wide, combinations$V1[2],combinations$V2[2],geo_cols=c("canton_name","mun_name","mun_id"))
+# Differences in wide-format
+# cross_fun(data_wide, combinations$V1[2], combinations$V2[2], geo_cols = c("canton_name", "mun_name", "mun_id"))
 
-# Berechne Stimmbeteiligungsdifferenzen
-diff <- get_differences(data_wide,combinations$V1,combinations$V2,geo_cols=c("canton_name","mun_name","mun_id")) 
+# calculate turnout differences
+diff1 <- get_differences(data_wide, combinations$V1, combinations$V2, geo_cols = c("canton_name", "mun_name", "mun_id"))
+
 ```
 
 ## Identify Suspicious Voter Turnout Differences
@@ -65,20 +68,23 @@ diff <- get_differences(data_wide,combinations$V1,combinations$V2,geo_cols=c("ca
 Now that we have calculated the voter turnout differences between the various proposals for each municipality, the next step is to identify which municipalities show statistically suspicious differences for each proposal combination. For this, we use the `is_outlier_double_mad` function from the plausi package.
 
 ```{r ,message=FALSE, warning=FALSE}
-diff2 <- diff %>% 
+
+diff2 <- diff1 %>% 
   group_by(combination) %>% 
-  # Threshold für Ausreisser : Abweichung von mehr als 5 medianen Abweichungen vom Median anstatt der üblichen 3.5.
-  mutate(outlier=is_outlier_double_mad(difference,thres=5)) %>% 
-  mutate(median_difference=median(difference))
+  # Threshold for outliers: 5 median deviations from median instead of 3.5
+  mutate(outlier = is_outlier_double_mad(difference, threshold = 5)) %>% 
+  mutate(median_difference = median(difference))
+
 ```
 
 A plot helps to visualize the distribution of differences and to identify particularly  values.
 
 ```{r}
-ggplot(diff2, aes(combination, difference))+
-  geom_violin()+
-  geom_jitter(alpha=0.3, aes(color=outlier))+
-  theme_minimal()+
+
+ggplot(diff2, aes(combination, difference)) +
+  geom_violin() +
+  geom_jitter(alpha = 0.3, aes(color = outlier)) +
+  theme_minimal() +
   scale_color_viridis_d()
 
 ```
@@ -86,30 +92,33 @@ ggplot(diff2, aes(combination, difference))+
 In some combinations, there are differences of up to 3 percentage points in certain cases.
 
 ```{r}
+
 diff2 %>% 
   arrange(desc(abs(difference))) %>% 
   head()
+
 ```
 
 ## Finding Municipalities with the Most Notable Turnout Differences
 
 To pinpoint municipalities with the most suspicious turnout differences that may require further investigation, we count the number of flagged outlier combinations for each municipality.
 
-By ranking municipalities based on the number of these anomalous combinations, we can efficiently prioritize our review efforts. Municipalities with the highest count of flagged cases are considered the most critical for further scrutiny.
+By ranking municipalities based on the number of these anomalous combinations, we can efficiently prioritise our review efforts. Municipalities with the highest count of flagged cases are considered the most critical for further scrutiny.
 
 ```{r , message=FALSE, waning=FALSE}
 
 anomalous_topics <- diff2 %>% 
-  separate(combination,into=c("vorlage1","vorlage2"), sep="_") %>% 
-  filter(outlier==TRUE) %>% 
-  pivot_longer(cols = -c(canton_name,mun_name,mun_id, difference, outlier, median_difference), names_to="vorlage", values_to="vorlage_id") %>% 
-  group_by(mun_name,mun_id,vorlage_id) %>% 
-  summarize(n=n()) %>% 
+  separate(combination, into = c("vorlage1", "vorlage2"), sep = "_") %>% 
+  filter(outlier == TRUE) %>% 
+  pivot_longer(cols = -c(canton_name, mun_name, mun_id, difference, outlier, median_difference), names_to = "vorlage", values_to = "vorlage_id") %>% 
+  group_by(mun_name, mun_id, vorlage_id) %>% 
+  summarize(n = n()) %>% 
   arrange(desc(n))
 
 anomalous_topics
   
 ```
+
 In the context of electoral analysis, the ballot on the __Jagdgesetz__ associated with vorlage_id 6320 raises some questions in the case of the municipality of Buch am Irchel. To illustrate this further, we can examine the absolute turnout numbers provided in the column eingelegteStimmzettel.
 
 For four out of the five voting topics, the number of incoming ballots was either 484 or 486. However, for one specific topic, the count is noticeably lower, by a margin of 20 ballots. While this discrepancy does not necessarily imply an error, it is a situation that warrants further attention.
@@ -118,7 +127,9 @@ For four out of the five voting topics, the number of incoming ballots was eithe
 
 Such deviations are noteworthy and typically prompt follow-up discussions with the municipalities involved. Possible explanations include:
 
-- Lost Ballots: There may have been a mishap leading to the loss of 20 ballots.
+- Misplaced Ballots: There may have been a mishap leading to the misplacement of 20 ballots.
+
+- Aggregation Error: There may have been a mishap leading to an erroneous aggregation of the different bundles of ballots.
 
 - Data Entry Error: The discrepancy could also result from a typographical mistake during the data entry process into the election result system.
 
@@ -126,7 +137,7 @@ While there is no immediate evidence of wrongdoing or a systemic issue, these ki
 
 ```{r}
 
-data %>% filter(mun_name=="Buch am Irchel") %>% select(mun_name, mun_id, name, id, eingelegteStimmzettel)
+data %>% filter(mun_name == "Buch am Irchel") %>% select(mun_name, mun_id, name, id, eingelegteStimmzettel)
 
 ```
 

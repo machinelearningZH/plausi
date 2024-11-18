@@ -9,11 +9,13 @@ vignette: >
 
 
 ```{r, include = FALSE}
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   warning = FALSE, 
-  message = FALSE) 
+  message = FALSE)
+
 ```
 
 The stability of municipal voting behavior presents a significant advantage from a result verification standpoint. Municipal ideological alignment generally shifts only gradually, allowing for the identification of historical referenda that exhibit approval patterns similar to those of current proposals. Leveraging this stability, we can make precise predictions and run simulations on voting sundays to estimate the expected outcomes based on historical data trends.
@@ -22,7 +24,7 @@ The stability of municipal voting behavior presents a significant advantage from
 
 library(devtools)
 
-# Installation of the "swissdd"-Package to load vote-results from opendata.swiss
+# Installation of the "swissdd"-package to load vote-results from opendata.swiss
 devtools::install_github("politanch/swissdd")
 
 library(plausi)
@@ -33,68 +35,74 @@ library(kernlab)
 library(caret)
 
 # Municipality-codes ("BFS-Nummern") of selected municipalities
-bfs_nrs <- c(6,7,10,11,12,87,219,294,181,38,60,92,119,182,218,261)
+bfs_nrs <- c(6, 7, 10, 11, 12, 87, 219, 294, 181, 38, 60, 92, 119, 182, 218, 261)
+
 ```
 
 
 ```{r}
+
 # Get historical data
 
-results <- swissdd::get_nationalvotes(from_date="2017-03-01", to_date="2020-09-27")
+results <- swissdd::get_nationalvotes(from_date = "2017-03-01", to_date = "2020-09-27")
 
 # Introduce an artificial error
- results<- results %>%
-            mutate(jaStimmenInProzent=ifelse(mun_id==7 & id == 6310, jaStimmenInProzent+15, jaStimmenInProzent))
+results<- results %>%
+  mutate(jaStimmenInProzent = ifelse(mun_id == 7 & id == 6310, jaStimmenInProzent + 15, jaStimmenInProzent))
 
 # Transpose historical data into wide format (= one column per ballot / vote topic)
 testdata <- results %>%
-  filter(canton_id==1 & mun_id %in% bfs_nrs) %>% 
-  mutate(id=paste0("v",id)) %>%
+  filter(canton_id == 1 & mun_id %in% bfs_nrs) %>% 
+  mutate(id = paste0("v", id)) %>%
   select(jaStimmenInProzent, id, mun_id, mun_name) %>%
-  pivot_wider(names_from=id, values_from = jaStimmenInProzent) %>% 
+  pivot_wider(names_from = id, values_from = jaStimmenInProzent) %>% 
   drop_na()
 
 # "Some municipalities are more challenging to predict, especially if their voting patterns deviate significantly (e.g. the city of Zurich in our case). We can address this by increasing their weighting through upsampling.
 
 traindata <- testdata %>%
-        mutate(ntimes = ifelse(mun_id %in% c(261, 12), 3, 1)) 
+  mutate(ntimes = ifelse(mun_id %in% c(261, 12), 3, 1)) 
 
 traindata <- as_tibble(lapply(traindata, rep, traindata$ntimes)) %>%
-        select(-ntimes)
+  select(-ntimes)
 
 # Predict results
-predicted_results <- plausi::predict_multiple_votes(x=c("v6350","v6310"),
-                                   traindata=traindata, 
-                                   testdata=testdata,
-                                   method = "svmRadial",
-                                   geovars=c("mun_id","mun_name" ))
+predicted_results <- predict_votes(
+  x = c("v6350", "v6310"),
+  traindata = traindata, 
+  testdata = testdata,
+  method = "svmRadial",
+  geovars = c("mun_id","mun_name")
+)
 
 
 # Root mean squared error (RMSE) per ballot 
 predicted_results %>% 
   group_by(vorlage) %>% 
-  summarize(rmse=RMSE(pred,real))
+  summarize(rmse = RMSE(pred, real))
+
 ```
 
 
 ```{r}
-# Calculate the deviation of the reported result from the prediction and flag values that deviate by more than three RMSE as anomalous
 
+# Calculate the deviation of the reported result from the prediction and flag values that deviate by more than three RMSE as anomalous
 gem_pred <- predicted_results%>% 
-  mutate(error=real-pred) %>% 
+  mutate(error = real - pred) %>% 
   group_by(vorlage) %>% 
-  mutate(rmse=RMSE(pred,real)) %>% 
-  mutate(error_rmse=error/rmse) %>%   
-  mutate(outlier=error_rmse>3)
+  mutate(rmse = RMSE(pred, real)) %>% 
+  mutate(error_rmse = error / rmse) %>%   
+  mutate(outlier = error_rmse > 3)
 
 # Knonau with the anomalous result gets flagged
-gem_pred %>% filter(outlier==TRUE)
+gem_pred %>% filter(outlier == TRUE)
 
 # Plot the deviations
-ggplot(gem_pred, aes(vorlage,error))+
-  geom_point(aes(color=outlier))+
-  geom_violin(alpha=0.5)+
-  scale_color_viridis_d()+
+ggplot(gem_pred, aes(vorlage,error)) +
+  geom_point(aes(color = outlier)) +
+  geom_violin(alpha = 0.5) +
+  scale_color_viridis_d() +
   theme_minimal()
+
 ```
 
