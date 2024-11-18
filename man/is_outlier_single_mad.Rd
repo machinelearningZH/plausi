@@ -17,7 +17,7 @@ is_outlier_single_mad(x, threshold = 3, na.rm = TRUE)
 A logical vector.
 }
 \description{
-Outlier detection based on Median Absolute Deviation (MAD) for symetric distributions. The function calculates the distance
+Outlier detection based on Median Absolute Deviation (MAD) for symmetric distributions. The function calculates the distance
 to the median for every value in the distribution relative to the MAD. It then compares the value to your threshold and
 labels the outliers.
 }

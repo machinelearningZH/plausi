@@ -99,14 +99,14 @@ double_mad_from_median <- function(x, zero_mad_action = NULL){
 
 #' Detect outliers using MAD from the median for asymmetric distributions
 #'
-#' Outlier detection based on Median Absolute Deviation (MAD) for asymetric distributions. The function calculates the distance
+#' Outlier detection based on Median Absolute Deviation (MAD) for asymmetric distributions. The function calculates the distance
 #' to the median for every value in the distribution relative to the left or right side MAD. It then compares the value to your
 #' threshold and labels the outliers.
 #'
 #' @inheritParams double_mad
 #' @param threshold Z-score threshold (defaults to 3.5).
 #'
-#' @return A ogical vector.
+#' @return A logical vector.
 #' @export
 #'
 #' @examples
@@ -182,7 +182,7 @@ outlier_range <- function(x, zero_mad_action = NULL, threshold = 3.5, percent = 
 
 #' Detect outliers using Z-score with MAD for symmetric distributions
 #'
-#' Outlier detection based on Median Absolute Deviation (MAD) for symetric distributions. The function calculates the distance
+#' Outlier detection based on Median Absolute Deviation (MAD) for symmetric distributions. The function calculates the distance
 #' to the median for every value in the distribution relative to the MAD. It then compares the value to your threshold and
 #' labels the outliers.
 #'
@@ -206,7 +206,7 @@ outlier_range <- function(x, zero_mad_action = NULL, threshold = 3.5, percent = 
 
 is_outlier_single_mad <- function(x, threshold = 3, na.rm = TRUE) {
 
-  abs(x - stats::median(x, na.rm = na.rm)) >= threshold * stats::mad(x, na.rm = na.rm)
+  abs(x - stats::median(x, na.rm = na.rm)) > threshold * stats::mad(x, na.rm = na.rm)
 
 }
 
@@ -233,7 +233,7 @@ is_outlier_single_mad <- function(x, threshold = 3, na.rm = TRUE) {
 
 is_outlier_z <- function(x, threshold = 3, na.rm = TRUE) {
 
-  abs(x - mean(x, na.rm = na.rm)) >= threshold * stats::sd(x, na.rm = na.rm)
+  abs(x - mean(x, na.rm = na.rm)) > threshold * stats::sd(x, na.rm = na.rm)
 
 }
 

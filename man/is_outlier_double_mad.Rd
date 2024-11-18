@@ -20,10 +20,10 @@ Defaults to NULL. The options are:
 \item{threshold}{Z-score threshold (defaults to 3.5).}
 }
 \value{
-A ogical vector.
+A logical vector.
 }
 \description{
-Outlier detection based on Median Absolute Deviation (MAD) for asymetric distributions. The function calculates the distance
+Outlier detection based on Median Absolute Deviation (MAD) for asymmetric distributions. The function calculates the distance
 to the median for every value in the distribution relative to the left or right side MAD. It then compares the value to your
 threshold and labels the outliers.
 }
