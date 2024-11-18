@@ -58,6 +58,6 @@ It uses the machine learning models available in the caret package.
 }
 \examples{
 
-predict_votes(c("Eidg1","Kant1"), votedata)
+predict_votes(c("Eidg1", "Kant1"), votedata)
 
 }

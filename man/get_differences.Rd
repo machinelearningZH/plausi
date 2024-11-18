@@ -27,6 +27,7 @@ This function creates a table with the differences in turnout between
 multiple votes for every counting circle in the original data.
 }
 \examples{
+
 testdata <- data.frame(
   gemwkid = c(13,49,41,43,44),
   eidg1 = c(60.90,61.18,65.27,55.36,57.68),

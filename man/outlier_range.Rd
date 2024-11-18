@@ -31,6 +31,7 @@ calculates the distance to the median for every value in the distribution relati
 compares the value to your threshold and labels the outliers.
 }
 \examples{
+
 x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 
 outlier_range(x)

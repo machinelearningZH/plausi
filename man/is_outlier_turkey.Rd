@@ -22,6 +22,7 @@ Q1−k(Q3−Q1), Q3+k(Q3−Q1), where Q1 and Q3 are the lower and upper quartile
 (popular choice is 1.5).
 }
 \examples{
+
 x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 
 is_outlier_turkey(x)

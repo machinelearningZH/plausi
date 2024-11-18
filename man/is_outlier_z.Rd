@@ -21,6 +21,7 @@ Outlier detection based on Z-scores for symetric distributions. The function cal
 from the mean in number of standard deviations.
 }
 \examples{
+
 x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 
 is_outlier_z(x)

@@ -26,6 +26,7 @@ The function splits the values along the median and returns separate MADs for th
 https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
 }
 \examples{
+
 x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 
 double_mad(x)
