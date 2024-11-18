@@ -18,6 +18,7 @@
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
 #' double_mad(x)
@@ -68,6 +69,7 @@ double_mad <- function(x, zero_mad_action = NULL){
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
 #' double_mad_from_median(x)
@@ -108,6 +110,7 @@ double_mad_from_median <- function(x, zero_mad_action = NULL){
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
 #' is_outlier_double_mad(x)
@@ -138,6 +141,7 @@ is_outlier_double_mad <- function(x, zero_mad_action = NULL, threshold = 3.5){
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
 #' outlier_range(x)
@@ -194,6 +198,7 @@ outlier_range <- function(x, zero_mad_action = NULL, threshold = 3.5, percent = 
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
 #' is_outlier_single_mad(x)
@@ -220,6 +225,7 @@ is_outlier_single_mad <- function(x, threshold = 3, na.rm = TRUE) {
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
 #' is_outlier_z(x)
@@ -249,6 +255,7 @@ is_outlier_z <- function(x, threshold = 3, na.rm = TRUE) {
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
 #' is_outlier_turkey(x)

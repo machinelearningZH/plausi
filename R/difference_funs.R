@@ -93,6 +93,7 @@ cross_fun <- function(df, issue1, issue2, geo_cols){
 #' @export
 #'
 #' @examples
+#'
 #' testdata <- data.frame(
 #'   gemwkid = c(13,49,41,43,44),
 #'   eidg1 = c(60.90,61.18,65.27,55.36,57.68),
