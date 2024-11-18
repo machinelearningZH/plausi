@@ -15,7 +15,7 @@
 #'
 #' @examples
 #'
-#' predict_votes(c("Eidg1","Kant1"), votedata)
+#' predict_votes(c("Eidg1", "Kant1"), votedata)
 #'
 
 predict_votes <- function(
@@ -108,7 +108,7 @@ train_prediction_model <- function(
 ){
 
   # stop if any of the variables are not in the data
-  if(!all(c(x, to_exclude_vars, geovars) %in% names(votedata))) {
+  if(!all(c(x, to_exclude_vars, geovars) %in% names(traindata))) {
     stop("Not all of your variables are found in the data.")
   }
 
