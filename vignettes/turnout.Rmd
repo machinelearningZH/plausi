@@ -23,8 +23,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, message=FALSE}
 
-# Install "swissdd"-package to get result data from opendata.swiss
-
+# Install "swissdd"-package to load vote-results from opendata.swiss
 devtools::install_github("politanch/swissdd")
 
 # Load libraries
@@ -43,7 +42,7 @@ For reproducibility, this example uses openly available data. With the `swissdd`
 #  Retrieve results from September 27, 2020
 data <- swissdd::get_nationalvotes(votedates = c("2020-09-27"))
 
-# # Get all possible combinations of proposals
+# Get all possible combinations of proposals
 combinations <-as.data.frame(t(combn(unique(data$id), 2)))
 
 # Reduce the dataset to turnout and , vote id and geographic attributes
@@ -58,7 +57,7 @@ data_wide <- data %>%
 # Differences in wide-format
 # cross_fun(data_wide, combinations$V1[2], combinations$V2[2], geo_cols = c("canton_name", "mun_name", "mun_id"))
 
-# calculate turnout differences
+# Calculate turnout differences
 diff1 <- get_differences(data_wide, combinations$V1, combinations$V2, geo_cols = c("canton_name", "mun_name", "mun_id"))
 
 ```

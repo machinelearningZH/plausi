@@ -22,11 +22,10 @@ The stability of municipal voting behavior presents a significant advantage from
 
 ```{r setup}
 
-library(devtools)
-
-# Installation of the "swissdd"-package to load vote-results from opendata.swiss
+# Install "swissdd"-package to load vote-results from opendata.swiss
 devtools::install_github("politanch/swissdd")
 
+# Load libraries
 library(plausi)
 library(tidyr)
 library(dplyr)
@@ -47,7 +46,7 @@ bfs_nrs <- c(6, 7, 10, 11, 12, 87, 219, 294, 181, 38, 60, 92, 119, 182, 218, 261
 results <- swissdd::get_nationalvotes(from_date = "2017-03-01", to_date = "2020-09-27")
 
 # Introduce an artificial error
-results<- results %>%
+results <- results %>%
   mutate(jaStimmenInProzent = ifelse(mun_id == 7 & id == 6310, jaStimmenInProzent + 15, jaStimmenInProzent))
 
 # Transpose historical data into wide format (= one column per ballot / vote topic)
@@ -58,7 +57,7 @@ testdata <- results %>%
   pivot_wider(names_from = id, values_from = jaStimmenInProzent) %>% 
   drop_na()
 
-# "Some municipalities are more challenging to predict, especially if their voting patterns deviate significantly (e.g. the city of Zurich in our case). We can address this by increasing their weighting through upsampling.
+# Some municipalities are more challenging to predict, especially if their voting patterns deviate significantly (e.g. the city of Zurich in our case). We can address this by increasing their weighting through upsampling.
 
 traindata <- testdata %>%
   mutate(ntimes = ifelse(mun_id %in% c(261, 12), 3, 1)) 
@@ -72,14 +71,14 @@ predicted_results <- predict_votes(
   traindata = traindata, 
   testdata = testdata,
   method = "svmRadial",
-  geovars = c("mun_id","mun_name")
+  geovars = c("mun_id", "mun_name")
 )
 
 
 # Root mean squared error (RMSE) per ballot 
 predicted_results %>% 
   group_by(vorlage) %>% 
-  summarize(rmse = RMSE(pred, real))
+  summarize(rmse = rmse(pred, real))
 
 ```
 
