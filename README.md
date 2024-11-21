@@ -27,7 +27,7 @@ Key features include:
   (e.g., yes-vote proportions, voter turnout, etc.)
 
 It serves as a basis for the ***PlausiApp***, which is used for vote
-result quality control in different Cantons (TG / SG / ZH).
+result quality control in different cantons (TG / SG / ZH).
 
 For the moment, the ***PlausiApp*** is made available upon request via a
 private Repo (<a href="mailto:wahlen@statistik.zh.ch"
