@@ -45,9 +45,7 @@ devtools::install_github("machinelearningZH/plausi")
 
 ## Example
 
-Shall we simply reference TLR’s vignettes? Or do we need actual examples
-here? And if we need examples, shall we just quickly run some examples
-using OGD?
+We will reference the pkgdown articles shortly.
 
 ``` r
 library(plausi)

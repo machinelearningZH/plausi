@@ -1,11 +1,12 @@
 ---
-title: "Detect Anomalous Voter Turnout Rates"
+title: "turnout"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Detect Anomalous Voter Turnout Rates}
+  %\VignetteIndexEntry{turnout}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
 
 To detect anomalies in voter turnout, the `plausi`-package offers functions that allow for systematic comparison of turnout differences across various proposals for all precincts.
 
@@ -23,13 +24,9 @@ knitr::opts_chunk$set(
 
 ```{r setup, message=FALSE}
 
-# Install "swissdd"-package to load vote-results from opendata.swiss
-devtools::install_github("politanch/swissdd")
-
 # Load libraries
 library(plausi)
-library(swissdd)
-library(tidyverse)
+library(ggplot2)
 
 ```
 
@@ -39,26 +36,27 @@ For reproducibility, this example uses openly available data. With the `swissdd`
 
 ```{r ,message=FALSE, warning=FALSE}
 
-#  Retrieve results from September 27, 2020
-data <- swissdd::get_nationalvotes(votedates = c("2020-09-27"))
+#  Retrieve result data from the canton of Zurich for September 27, 2020
+data_raw <- read.csv("https://www.web.statistik.zh.ch/ogd/data/KANTON_ZUERICH_abstimmungsarchiv_gemeinden.csv")
+data <- data_raw[data_raw$ABSTIMMUNGSTAG == "27.09.2020", ]
 
 # Get all possible combinations of proposals
-combinations <-as.data.frame(t(combn(unique(data$id), 2)))
+combinations <- as.data.frame(t(combn(unique(data$STAT_VORLAGE_ID), 2)))
 
 # Reduce the dataset to turnout and , vote id and geographic attributes
-data_wide <- data %>% 
-  select(id, canton_name, mun_name, mun_id, stimmbeteiligungInProzent) %>% 
-  # Transpose into wide format
-  pivot_wider(names_from = id, values_from = stimmbeteiligungInProzent) %>% 
-  mutate_if(is.character, as.factor) %>% 
-  # Filter data for the canton of Zurich
-  filter(canton_name == "Zürich")
+data_wide <- data |> 
+  subset(select = c(STAT_VORLAGE_ID, BFS, GEMEINDE, STIMMBETEILIGUNG)) |> 
+  stats::reshape(
+    timevar = "STAT_VORLAGE_ID", 
+    idvar = c("BFS", "GEMEINDE"), 
+    direction = "wide"
+  )
 
-# Differences in wide-format
-# cross_fun(data_wide, combinations$V1[2], combinations$V2[2], geo_cols = c("canton_name", "mun_name", "mun_id"))
+# Rename
+names(data_wide) <- gsub("STIMMBETEILIGUNG.", "", names(data_wide))
 
 # Calculate turnout differences
-diff1 <- get_differences(data_wide, combinations$V1, combinations$V2, geo_cols = c("canton_name", "mun_name", "mun_id"))
+diff1 <- get_differences(data_wide, combinations$V1, combinations$V2, geo_cols = c("GEMEINDE", "BFS"))
 
 ```
 
@@ -68,11 +66,20 @@ Now that we have calculated the voter turnout differences between the various pr
 
 ```{r ,message=FALSE, warning=FALSE}
 
-diff2 <- diff1 %>% 
-  group_by(combination) %>% 
-  # Threshold for outliers: 5 median deviations from median instead of 3.5
-  mutate(outlier = is_outlier_double_mad(difference, threshold = 5)) %>% 
-  mutate(median_difference = median(difference))
+diff1_grouped <- split(diff1, diff1$combination)
+
+diff2_grouped <- lapply(diff1_grouped, function(combs) {
+  # Calculate outlier column (with a threshold of 5 median deviations from median instead of 3.5)
+  combs$outlier <- is_outlier_double_mad(combs$difference, threshold = 5)
+  
+  # Calculate median difference for the group
+  combs$median_difference <- median(combs$difference, na.rm = TRUE)
+  
+  combs
+})
+
+# Combine processed groups back into a single data frame
+diff2 <- do.call(rbind, diff2_grouped)
 
 ```
 
@@ -92,9 +99,8 @@ In some combinations, there are differences of up to 3 percentage points in cert
 
 ```{r}
 
-diff2 %>% 
-  arrange(desc(abs(difference))) %>% 
-  head()
+head(diff2[order(abs(diff2$difference), decreasing = TRUE), ])
+
 
 ```
 
@@ -105,6 +111,27 @@ To pinpoint municipalities with the most suspicious turnout differences that may
 By ranking municipalities based on the number of these anomalous combinations, we can efficiently prioritise our review efforts. Municipalities with the highest count of flagged cases are considered the most critical for further scrutiny.
 
 ```{r , message=FALSE, waning=FALSE}
+
+
+
+
+
+
+
+
+
+# STAND HIER
+
+
+
+
+
+
+
+
+
+
+
 
 anomalous_topics <- diff2 %>% 
   separate(combination, into = c("vorlage1", "vorlage2"), sep = "_") %>% 
@@ -139,4 +166,10 @@ While there is no immediate evidence of wrongdoing or a systemic issue, these ki
 data %>% filter(mun_name == "Buch am Irchel") %>% select(mun_name, mun_id, name, id, eingelegteStimmzettel)
 
 ```
+
+
+
+
+
+
 
