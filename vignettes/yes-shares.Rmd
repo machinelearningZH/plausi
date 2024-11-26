@@ -1,19 +1,127 @@
 ---
-title: "yes-shares"
+title: "Verify Yes-Shares"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{yes-shares}
+  %\VignetteIndexEntry{Verify Yes-Shares}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
+
 ```{r, include = FALSE}
+
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
-)
+  comment = "#>",
+  warning = FALSE, 
+  message = FALSE)
+
 ```
 
+The stability of municipal voting behavior presents a significant advantage from a result verification standpoint. Municipal ideological alignment generally shifts only gradually, allowing for the identification of historical referenda that exhibit approval patterns similar to those of current proposals. Leveraging this stability, we can make precise predictions and run simulations on voting sundays to estimate the expected outcomes based on historical data trends.
+
 ```{r setup}
+
 library(plausi)
+library(ggplot2)
+
+# Municipality-codes ("BFS-Nummern") of selected municipalities
+bfs_nrs <- c(6, 7, 10, 11, 12, 87, 219, 294, 181, 38, 60, 92, 119, 182, 218, 261)
+
+```
+
+
+```{r}
+
+# Get historical data
+results <- result_data
+
+# Introduce an artificial error
+results$jaStimmenInProzent <- ifelse(
+  results$mun_id == 7 & results$id == 6310,
+  results$jaStimmenInProzent + 15,
+  results$jaStimmenInProzent
+)
+
+# Transform data
+results <- results[results$mun_id %in% bfs_nrs, ]
+results$id <- paste0("v", results$id)
+results <- results[, c("jaStimmenInProzent", "id", "mun_id", "mun_name")]
+
+# Reshape data from long to wide format
+testdata <- reshape(
+  results,
+  timevar = "id",
+  idvar = c("mun_id", "mun_name"),
+  direction = "wide"
+)
+
+# Remove rows with any `NA` values
+testdata <- testdata[complete.cases(testdata), ]
+
+# Remove prefix from names
+names(testdata) <- gsub("jaStimmenInProzent.", "", names(testdata))
+
+# Prepare training data including upsampled municipalities that are usually harder to predict
+traindata <- testdata
+traindata$ntimes <- ifelse(traindata$mun_id %in% c(261, 12), 3, 1) 
+
+# Use `rep` to repeat each row the specified number of times
+traindata <- traindata[rep(seq_len(nrow(traindata)), traindata$ntimes), ]
+
+# Remove the `ntimes` column
+traindata$ntimes <- NULL
+
+# Predict results
+predicted_results <- predict_votes(
+  x = c("v6350", "v6310"),
+  traindata = traindata, 
+  testdata = testdata,
+  method = "svmRadial",
+  geovars = c("mun_id", "mun_name")
+)
+
+# Get RMSE for each vote
+grouped_data <- split(predicted_results, predicted_results$vorlage)
+
+# Calculate RMSE for each group using `lapply`
+rmse_summary <- lapply(grouped_data, function(df) {
+  rmse(df$pred, df$real)
+})
+
+# Combine the results into a data frame
+rmse_summary <- data.frame(
+  vorlage = names(rmse_summary),
+  rmse = unlist(rmse_summary)
+)
+
+# Join data
+predicted_results <- merge(
+  x = predicted_results, 
+  y = rmse_summary, 
+  by = "vorlage", 
+  all.x = TRUE
+)
+
+```
+
+
+```{r}
+
+# Calculate the deviation of the reported result from the prediction and flag values that deviate by more than three RMSE as anomalous
+gem_pred <- predicted_results
+gem_pred$error <- abs(gem_pred$real - gem_pred$pred)
+gem_pred$error_rmse <- gem_pred$error / gem_pred$rmse
+gem_pred$outlier <- gem_pred$error_rmse > 3
+
+# Knonau with the anomalous result gets flagged
+gem_pred[gem_pred$outlier == TRUE, ]
+
+# Plot the deviations
+ggplot(gem_pred, aes(vorlage, error)) +
+  geom_point(aes(color = outlier)) +
+  geom_violin(alpha = 0.5) +
+  scale_color_viridis_d() +
+  theme_minimal()
+
 ```

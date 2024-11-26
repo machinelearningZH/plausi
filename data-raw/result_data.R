@@ -17,5 +17,8 @@ result_data_raw <- swissdd::get_nationalvotes(from_date = "2017-03-01", to_date 
 # drop cantons
 result_data <- result_data_raw[result_data_raw$canton_name == "Zürich", ]
 
+# turn into data.frame
+result_data <- as.data.frame(result_data)
+
 # save data
 usethis::use_data(result_data, overwrite = TRUE)
