@@ -15,7 +15,7 @@
 #'
 #' @examples
 #'
-#' predict_votes(c("Eidg1", "Kant1"), votedata)
+#' predict_votes(c("Eidg1", "Kant1"), vote_data)
 #'
 
 predict_votes <- function(
@@ -93,7 +93,7 @@ predict_votes <- function(
 #'
 #' @examples
 #'
-#' train_prediction_model("Eidg1", votedata, to_exclude_vars = "Kant1")
+#' train_prediction_model("Eidg1", vote_data, to_exclude_vars = "Kant1")
 #'
 
 train_prediction_model <- function(
@@ -194,9 +194,9 @@ train_prediction_model <- function(
 #'
 #' @examples
 #'
-#' test_model <- train_prediction_model("Eidg1", votedata, to_exclude_vars = "Kant1")
+#' test_model <- train_prediction_model("Eidg1", vote_data, to_exclude_vars = "Kant1")
 #'
-#' predict_single_vote(test_model, votedata)
+#' predict_single_vote(test_model, vote_data)
 #'
 
 predict_single_vote <- function(model, testdata){
@@ -259,7 +259,7 @@ predict_single_vote <- function(model, testdata){
 #'
 #' @examples
 #'
-#' pred_data <- predict_votes(c("Eidg1", "Kant1"), votedata, exclude_votes = TRUE)
+#' pred_data <- predict_votes(c("Eidg1", "Kant1"), vote_data, exclude_votes = TRUE)
 #'
 #' pred_data$rmse <- rmse(pred_data$pred, pred_data$real)
 #'
