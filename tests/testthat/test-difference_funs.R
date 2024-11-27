@@ -5,7 +5,7 @@ library(testthat)
 
 
 test_that("cross_fun() returns the expected table", {
-  output <- cross_fun(votedata[, 1:4], "Eidg1", "Kant1", geo_cols = c("gemeinde", "v_gemwkid"))
+  output <- cross_fun(vote_data[, 1:4], "Eidg1", "Kant1", geo_cols = c("gemeinde", "v_gemwkid"))
 
   rds_filepath <- testthat::test_path("testdata", "expected_outcome_cross_fun.rds")
 
@@ -26,7 +26,7 @@ test_that("cross_fun() returns the expected table", {
 
 test_that("cross_fun() returns errors", {
   # Check error for non-existing columns
-  expect_error(cross_fun(votedata[, 1:4], "Eidg1", "Kant1", "non-existent-column"))
+  expect_error(cross_fun(vote_data[, 1:4], "Eidg1", "Kant1", "non-existent-column"))
 })
 
 
@@ -34,11 +34,11 @@ test_that("cross_fun() returns errors", {
 
 
 test_that("get_differences() returns the expected table", {
-  input <- votedata[, 1:5]
+  input <- vote_data[, 1:5]
 
   combinations <- as.data.frame(t(combn(c(names(input[-(1:2)])), 2)))
 
-  output <- get_differences(votedata[, 1:5], combinations$V1, combinations$V2, geo_cols = c("gemeinde", "v_gemwkid"))
+  output <- get_differences(vote_data[, 1:5], combinations$V1, combinations$V2, geo_cols = c("gemeinde", "v_gemwkid"))
 
   rds_filepath <- testthat::test_path("testdata", "expected_outcome_get_differences.rds")
 
@@ -58,9 +58,9 @@ test_that("get_differences() returns the expected table", {
 
 
 test_that("get_differences() returns error if combination vectors do not have the same length", {
-  combinations <- as.data.frame(t(combn(c(names(votedata[, 3:5])), 2)))
+  combinations <- as.data.frame(t(combn(c(names(vote_data[, 3:5])), 2)))
 
-  expect_error(get_differences(votedata[, 1:5], combinations$V1, combinations$V2[-1], geo_cols = c("gemeinde", "v_gemwkid")))
+  expect_error(get_differences(vote_data[, 1:5], combinations$V1, combinations$V2[-1], geo_cols = c("gemeinde", "v_gemwkid")))
 })
 
 

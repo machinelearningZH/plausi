@@ -28,6 +28,7 @@ Suggests:
     rmarkdown,
     devtools,
     kernlab,
+    ggplot2,
     dplyr,
     tidyr,
     testthat (>= 3.0.0)

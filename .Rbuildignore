@@ -13,3 +13,4 @@
 ^doc$
 ^Meta$
 ^vignettes
+^data-raw$

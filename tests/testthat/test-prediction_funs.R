@@ -8,7 +8,7 @@ library(testthat)
 # is based on both train_prediction_model() and predict_single_vote(). If
 # something fails somewhere, it will be finallynoticed in
 # predict_multiple_votes(). To do this, we run the entire process using a
-# couple of different completion states of votedata. Error handling
+# couple of different completion states of vote_data. Error handling
 # is tested in the basic functions.
 
 testthat::test_that("predict_votes() returns the expected output", {
@@ -21,7 +21,7 @@ testthat::test_that("predict_votes() returns the expected output", {
     1:6,
     function(index) {
       # create input file
-      test_input <- votedata
+      test_input <- vote_data
       replacement_sequence <- sample(nrow(test_input), seq(0, 100, 20)[index])
       test_input[c("Eidg1", "Kant1")] <- lapply(c("Eidg1", "Kant1"), function(col) replace(test_input[[col]], replacement_sequence, NA))
 
@@ -46,7 +46,7 @@ testthat::test_that("train_prediction_model() returns warnings and errors", {
   testthat::expect_warning(
     train_prediction_model(
       "Eidg1",
-      votedata,
+      vote_data,
       to_exclude_vars = NULL, # throws a warning message for NAs in data (the columns are then excluded)
       geovars = c("gemeinde", "v_gemwkid")
     )
@@ -55,7 +55,7 @@ testthat::test_that("train_prediction_model() returns warnings and errors", {
   testthat::expect_error(
     train_prediction_model(
       "Eidg1",
-      votedata,
+      vote_data,
       method = "undefined", # throws an error for model not being in caret's built-in library
       to_exclude_vars = "Kant1",
       geovars = c("gemeinde", "v_gemwkid")
@@ -65,7 +65,7 @@ testthat::test_that("train_prediction_model() returns warnings and errors", {
   testthat::expect_error(
     train_prediction_model(
       "undefined", # throws an error for variables that are not found in the data
-      votedata,
+      vote_data,
       method = "svmRadial",
       trControl = NULL,
       to_exclude_vars = c("Kant1"),
@@ -83,7 +83,7 @@ testthat::test_that("train_prediction_model() returns warnings and errors", {
 testthat::test_that("predict_single_vote() throws an error if something other than a model of class train is inserted into function", {
 
   testthat::expect_error(
-    predict_single_vote("undefind", votedata)
+    predict_single_vote("undefind", vote_data)
   )
 
 })
@@ -122,7 +122,7 @@ testthat::test_that("rmse() throws an error if args have not the same length", {
 #
 #
 # test_that("train_prediction_model() returns the correct outputs", {
-#   input0 <- votedata
+#   input0 <- vote_data
 #
 #   # remove some values from the data and create multiple input data frames
 #   set.seed(1879)

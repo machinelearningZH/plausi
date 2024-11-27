@@ -1,0 +1,133 @@
+---
+title: "Verify Yes-Shares"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Verify Yes-Shares}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r, include=FALSE}
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE, 
+  message = FALSE)
+
+```
+
+The stability of municipal voting behavior presents a significant advantage from a result verification standpoint. Municipal ideological alignment generally shifts only gradually, allowing for the identification of historical referenda that exhibit approval patterns similar to those of current proposals. Leveraging this stability, we can make precise predictions and run simulations on voting sundays to estimate the expected outcomes based on historical data trends.
+
+```{r setup}
+
+# Attach packages
+library(plausi)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# Municipality-codes ("BFS-Nummern") of selected municipalities
+bfs_nrs <- c(6, 7, 10, 11, 12, 87, 219, 294, 181, 38, 60, 92, 119, 182, 218, 261)
+
+```
+
+## Data Retrieval
+
+We can access all voting information on the federal level using the `swissdd` package.
+
+```{r eval=FALSE}
+
+# Install and attach package
+devtools::install_github("politanch/swissdd")
+library(swissdd)
+
+# Retrieve results from the canton of Zurich for all federal votes from 2017-03-01 until 2020-09-27
+results_raw <- swissdd::get_nationalvotes(from_date = "2017-03-01", to_date = "2020-09-27") |> 
+  filter(canton_id == 1)
+
+```
+
+For our case, we simply access the package data.
+
+```{r}
+
+# Get historical package data
+results_raw <- result_data
+
+```
+
+## Data Wrangling
+
+Some municipalities are more challenging to predict, because their voting patterns deviates significantly (e.g. the city of Zurich in our case). We address this by increasing their sample weight through upsampling.
+
+```{r message=FALSE, warning=FALSE}
+
+# Introduce an artificial error
+results <- results_raw |> 
+  mutate(jaStimmenInProzent = ifelse(mun_id == 7 & id == 6310, jaStimmenInProzent + 15, jaStimmenInProzent))
+
+# Transpose historical data into wide format (= one column per ballot / vote topic)
+testdata <- results |> 
+  filter(mun_id %in% bfs_nrs) |>  
+  mutate(id = paste0("v", id)) |> 
+  select(
+    jaStimmenInProzent, 
+    id, 
+    mun_id, 
+    mun_name
+  ) |> 
+  pivot_wider(
+    names_from = id, 
+    values_from = jaStimmenInProzent
+  ) |>  
+  drop_na()
+
+# Upsampling
+traindata <- testdata |> 
+  mutate(ntimes = ifelse(mun_id %in% c(261, 12), 3, 1)) 
+
+traindata <- as_tibble(lapply(traindata, rep, traindata$ntimes)) |> 
+  select(-ntimes)
+
+```
+
+## Prediction
+
+```{r message=FALSE, warning=FALSE}
+
+# Predict results
+predicted_results <- predict_votes(
+  x = c("v6350", "v6310"),
+  traindata = traindata, 
+  testdata = testdata,
+  method = "svmRadial",
+  geovars = c("mun_id", "mun_name")
+)
+
+```
+
+## Detect Outliers
+
+```{r message=FALSE, warning=FALSE}
+
+# Calculate the deviation of the reported result from the prediction and flag values that deviate by more than three RMSE as anomalous
+gem_pred <- predicted_results |> 
+  mutate(error = real - pred) |>  
+  group_by(vorlage) |> 
+  mutate(rmse = rmse(pred, real)) |>  
+  mutate(error_rmse = error / rmse) |>    
+  mutate(outlier = error_rmse > 3)
+
+# Knonau with the anomalous result gets flagged
+gem_pred %>% filter(outlier == TRUE)
+
+# Plot the deviations
+ggplot(gem_pred, aes(vorlage,error)) +
+  geom_point(aes(color = outlier)) +
+  geom_violin(alpha = 0.5) +
+  scale_color_viridis_d() +
+  theme_minimal()
+
+```
