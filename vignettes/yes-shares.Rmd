@@ -8,7 +8,7 @@ vignette: >
 ---
 
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -22,55 +22,80 @@ The stability of municipal voting behavior presents a significant advantage from
 
 ```{r setup}
 
+# Attach packages
 library(plausi)
 library(ggplot2)
+library(dplyr)
+library(tidyr)
 
 # Municipality-codes ("BFS-Nummern") of selected municipalities
 bfs_nrs <- c(6, 7, 10, 11, 12, 87, 219, 294, 181, 38, 60, 92, 119, 182, 218, 261)
 
 ```
 
+## Data Retrieval
+
+We can access all voting information on the federal level using the `swissdd` package.
+
+```{r eval=FALSE}
+
+# Install and attach package
+devtools::install_github("politanch/swissdd")
+library(swissdd)
+
+# Retrieve results from the canton of Zurich for all federal votes from 2017-03-01 until 2020-09-27
+results_raw <- swissdd::get_nationalvotes(from_date = "2017-03-01", to_date = "2020-09-27") |> 
+  filter(canton_id == 1)
+
+```
+
+For our case, we simply access the package data.
 
 ```{r}
 
-# Get historical data
-results <- result_data
+# Get historical package data
+results_raw <- result_data
+
+```
+
+## Data Wrangling
+
+Some municipalities are more challenging to predict, because their voting patterns deviates significantly (e.g. the city of Zurich in our case). We address this by increasing their sample weight through upsampling.
+
+```{r message=FALSE, warning=FALSE}
 
 # Introduce an artificial error
-results$jaStimmenInProzent <- ifelse(
-  results$mun_id == 7 & results$id == 6310,
-  results$jaStimmenInProzent + 15,
-  results$jaStimmenInProzent
-)
+results <- results_raw |> 
+  mutate(jaStimmenInProzent = ifelse(mun_id == 7 & id == 6310, jaStimmenInProzent + 15, jaStimmenInProzent))
 
-# Transform data
-results <- results[results$mun_id %in% bfs_nrs, ]
-results$id <- paste0("v", results$id)
-results <- results[, c("jaStimmenInProzent", "id", "mun_id", "mun_name")]
+# Transpose historical data into wide format (= one column per ballot / vote topic)
+testdata <- results |> 
+  filter(mun_id %in% bfs_nrs) |>  
+  mutate(id = paste0("v", id)) |> 
+  select(
+    jaStimmenInProzent, 
+    id, 
+    mun_id, 
+    mun_name
+  ) |> 
+  pivot_wider(
+    names_from = id, 
+    values_from = jaStimmenInProzent
+  ) |>  
+  drop_na()
 
-# Reshape data from long to wide format
-testdata <- reshape(
-  results,
-  timevar = "id",
-  idvar = c("mun_id", "mun_name"),
-  direction = "wide"
-)
+# Upsampling
+traindata <- testdata |> 
+  mutate(ntimes = ifelse(mun_id %in% c(261, 12), 3, 1)) 
 
-# Remove rows with any `NA` values
-testdata <- testdata[complete.cases(testdata), ]
+traindata <- as_tibble(lapply(traindata, rep, traindata$ntimes)) |> 
+  select(-ntimes)
 
-# Remove prefix from names
-names(testdata) <- gsub("jaStimmenInProzent.", "", names(testdata))
+```
 
-# Prepare training data including upsampled municipalities that are usually harder to predict
-traindata <- testdata
-traindata$ntimes <- ifelse(traindata$mun_id %in% c(261, 12), 3, 1) 
+## Prediction
 
-# Use `rep` to repeat each row the specified number of times
-traindata <- traindata[rep(seq_len(nrow(traindata)), traindata$ntimes), ]
-
-# Remove the `ntimes` column
-traindata$ntimes <- NULL
+```{r message=FALSE, warning=FALSE}
 
 # Predict results
 predicted_results <- predict_votes(
@@ -81,44 +106,25 @@ predicted_results <- predict_votes(
   geovars = c("mun_id", "mun_name")
 )
 
-# Get RMSE for each vote
-grouped_data <- split(predicted_results, predicted_results$vorlage)
-
-# Calculate RMSE for each group using `lapply`
-rmse_summary <- lapply(grouped_data, function(df) {
-  rmse(df$pred, df$real)
-})
-
-# Combine the results into a data frame
-rmse_summary <- data.frame(
-  vorlage = names(rmse_summary),
-  rmse = unlist(rmse_summary)
-)
-
-# Join data
-predicted_results <- merge(
-  x = predicted_results, 
-  y = rmse_summary, 
-  by = "vorlage", 
-  all.x = TRUE
-)
-
 ```
 
+## Detect Outliers
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 
 # Calculate the deviation of the reported result from the prediction and flag values that deviate by more than three RMSE as anomalous
-gem_pred <- predicted_results
-gem_pred$error <- abs(gem_pred$real - gem_pred$pred)
-gem_pred$error_rmse <- gem_pred$error / gem_pred$rmse
-gem_pred$outlier <- gem_pred$error_rmse > 3
+gem_pred <- predicted_results |> 
+  mutate(error = real - pred) |>  
+  group_by(vorlage) |> 
+  mutate(rmse = rmse(pred, real)) |>  
+  mutate(error_rmse = error / rmse) |>    
+  mutate(outlier = error_rmse > 3)
 
 # Knonau with the anomalous result gets flagged
-gem_pred[gem_pred$outlier == TRUE, ]
+gem_pred %>% filter(outlier == TRUE)
 
 # Plot the deviations
-ggplot(gem_pred, aes(vorlage, error)) +
+ggplot(gem_pred, aes(vorlage,error)) +
   geom_point(aes(color = outlier)) +
   geom_violin(alpha = 0.5) +
   scale_color_viridis_d() +
