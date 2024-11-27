@@ -1,5 +1,5 @@
 ---
-title: "Verify Yes-Shares"
+title: "Predict Yes-Shares"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Verify Yes-Shares}

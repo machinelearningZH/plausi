@@ -1,5 +1,5 @@
 ---
-title: "turnout"
+title: "Turnout Outliers"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{turnout}

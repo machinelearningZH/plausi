@@ -1,7 +1,4 @@
 url: ~
-destination: docs
 template:
   bootstrap: 5
-  bslib:
-    bootswatch: lux
-    pkgdown-nav-height: 100px
+
