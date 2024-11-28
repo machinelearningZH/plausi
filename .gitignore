@@ -3,3 +3,9 @@
 .RData
 .Ruserdata
 inst/doc
+plausi.Rcheck/
+plausi*.tar.gz
+plausi*.tgz
+/doc/
+/Meta/
+docs

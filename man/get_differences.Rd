@@ -2,39 +2,43 @@
 % Please edit documentation in R/difference_funs.R
 \name{get_differences}
 \alias{get_differences}
-\title{Calculation of voter turnout differences between all vote topics ("Vorlagen")}
+\title{Calculation of the voter turnout difference between multiple votes}
 \usage{
-get_differences(df, vorl1, vorl2, geo_cols = c("gemwkid", "gemeinde"))
+get_differences(df, comb1, comb2, geo_cols = c("gemwkid", "gemeinde"))
 }
 \arguments{
-\item{df}{A data frame containing the municipality ID and voter turnout for various vote topics,
-with each vote topic in a separate column.}
+\item{df}{A table containing the counting circle ID and voter turnout for
+various issues. Each column represents a specific issue, and the column names
+should correspond to the issue IDs (e.g., 'eidg1', 'kant2').}
 
-\item{vorl1}{A vector of proposal IDs corresponding to column names in the dataset (e.g., "eidg1", "kant2").}
+\item{comb1, comb2}{A character vector specifying the the first and second set
+of column to be compared. The column names represent columns in df that
+contain voter turnout data of the issues of interest (e.g., "eidg1", "kant2").}
 
-\item{vorl2}{A vector of proposal IDs (e.g., "eidg1", "kant2") for comparison with `vorl1`.}
+\item{geo_cols}{The name of the geo-column containing an identifier of the
+counting circle.}
 }
 \value{
-A tibble containing voter turnout differences between all possible combinations of vote topics.
+A dataframe containing voter turnout differences between all
+combinations of vote issues defined.
 }
 \description{
-Calculation of voter turnout differences between all vote topics ("Vorlagen")
+This function creates a table with the differences in turnout between
+multiple votes for every counting circle in the original data.
 }
 \examples{
-library(tibble)
 
-testdata <- tibble(gemwkid = c(13,49,41,43,44),
-eidg1 = c(60.90,61.18,65.27,55.36,57.68),
-eidg2 = c(62.16,62.54,66.95,56.65,58.68),
-kant1 = c(57.73,60.27,63.31,51.93,54.49))
+testdata <- data.frame(
+  gemwkid = c(13,49,41,43,44),
+  eidg1 = c(60.90,61.18,65.27,55.36,57.68),
+  eidg2 = c(62.16,62.54,66.95,56.65,58.68),
+  kant1 = c(57.73,60.27,63.31,51.93,54.49)
+)
 
-single_difference(testdata,"eidg1","eidg2")
-
- # generate combinations
-combinations <-as.data.frame(t(combn(c("eidg1","eidg2","kant1"),2)))
+# generate combinations
+combinations <- as.data.frame(t(combn(c("eidg1", "eidg2", "kant1"), 2)))
 
 # calculate all possible differences between columns
-
-get_differences(testdata,combinations$V1,combinations$V2)
+get_differences(testdata, combinations$V1, combinations$V2, "gemwkid")
 
 }

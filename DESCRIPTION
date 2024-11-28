@@ -1,7 +1,7 @@
 Package: plausi
 Type: Package
 Title: popular vote forensics
-Version: 0.1.0.9999
+Version: 0.2.0
 Authors@R: c(person(given = "Thomas",
              family = "Lo Russo",
              role = c("aut", "cre"),
@@ -11,21 +11,26 @@ Authors@R: c(person(given = "Thomas",
              role = c("aut"),
              email = "simon.graf@statistik.ji.zh.ch"))
 Description: Toolkit for vote and election forensics in R that allows to identify statistical anomalies in vote results.
-License: GPL-2
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
-     purrr,
-     dplyr,
-     tidyr,
-     caret,
-     stats
+    caret,
+    stats
 Depends: 
     R (>= 2.10)
 Remotes: 
-     r-lib/cli
+    r-lib/cli
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    devtools,
+    kernlab,
+    ggplot2,
+    dplyr,
+    tidyr,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3

@@ -1,226 +1,272 @@
-
-# MAD Functions
-
-#' Get the Median Absolute Deviation from the Median for asymmetric distributions
+#' Get the left and right Median Absolute Deviations (MAD) from the median for asymmetric distributions
 #'
-#' Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symetric distributions only)
+#' Suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for symmetric distributions only)
+#' The function splits the values along the median and returns separate MADs for the left and the right side of the distribution.
 #' https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
 #'
+#' @param x A vector of numeric values.
+#' @param zero_mad_action Determines the action in the event of an MAD of zero.
+#' Defaults to NULL. The options are:
+#' * \strong{NULL}: process runs with no warning
+#' * \strong{"warn"}: a warning will be displayed
+#' * \strong{"stop"}: process is stopped
 #'
-#' @param x numeric vector
-#' @param zero.mad.action defaults to "warn" : if MAD = 0 a warning will be displayed
-#' @return numeric value
+#' @return A numeric vector of length 2.
+#'
 #' @importFrom stats median
 #'
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
-#' DoubleMAD(x)
+#' double_mad(x)
 #'
 
-DoubleMAD <- function(x, zero.mad.action="warn"){
-  # The zero.mad.action determines the action in the event of an MAD of zero.
-  # Possible values: "stop", "warn", "na" and "warn and na".
-  x         <- x[!is.na(x)]
-  m         <- stats::median(x)
-  abs.dev   <- abs(x - m)
-  left.mad  <- stats::median(abs.dev[x<=m])
-  right.mad <- stats::median(abs.dev[x>=m])
-  if (left.mad == 0 || right.mad == 0){
-    if (zero.mad.action == "stop") stop("MAD is 0")
-    if (zero.mad.action %in% c("warn", "warn and na")) warning("MAD is 0")
-    if (zero.mad.action %in% c(  "na", "warn and na")){
-      if (left.mad  == 0) left.mad  <- NA
-      if (right.mad == 0) right.mad <- NA
-    }
+double_mad <- function(x, zero_mad_action = NULL){
+
+  if (!is.numeric(x)) {
+    stop("Your input must be numeric.")
   }
-  return(c(left.mad, right.mad))
+
+  # drop all NAs
+  x <- x[!is.na(x)]
+
+  # calculate the median
+  median_x <- stats::median(x)
+
+  # calculate the absolute deviations
+  abs_dev <- abs(x - median_x)
+
+  # calculate the left and the right MADs
+  left_mad <- stats::median(abs_dev[x <= median_x])
+  right_mad <- stats::median(abs_dev[x >= median_x])
+
+  # handling of MAD = 0
+  if (!is.null(zero_mad_action) && (left_mad == 0 || right_mad == 0)) {
+    if (zero_mad_action == "stop") stop("MAD is 0")
+    if (zero_mad_action == "warn") warning("MAD is 0")
+  }
+
+  return(c(left_mad, right_mad))
 }
 
 
-#' Calculate the distance of a value from the Median of a distribution in term of Median Absolute Deviations (MAD)
+
+#' Calculate the distance of a value from the median of a distribution in relation to its Median Absolute Deviation (MAD)
 #'
-#' @param x vector of numeric values
-#' @param zero.mad.action action in the event of a MAD of zero (Options: "stop", "warn", "na" and "warn and na")
+#' This function is suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for
+#' symetric distributions only). The function splits the values along the median and returns the distance for every value from the
+#' median, relative to the left or right side MAD.
+#' https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
+#'
+#' @inheritParams double_mad
+#'
 #' @importFrom stats median
 #'
-#' @return numeric vector
+#' @return A numeric vector of length \code{length(x)}.
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
-#' DoubleMADsFromMedian(x)
+#' double_mad_from_median(x)
+#'
 
-DoubleMADsFromMedian <- function(x, zero.mad.action="warn"){
-  # The zero.mad.action determines the action in the event of an MAD of zero.
-  # Possible values: "stop", "warn", "na" and "warn and na".
-  two.sided.mad <- DoubleMAD(x, zero.mad.action)
-  m <- stats::median(x, na.rm=TRUE)
-  x.mad <- rep(two.sided.mad[1], length(x))
-  x.mad[x > m] <- two.sided.mad[2]
-  mad.distance <- abs(x - m) / x.mad
-  mad.distance[x==m] <- 0
-  return(mad.distance)
+double_mad_from_median <- function(x, zero_mad_action = NULL){
+
+  # get left/right MAD
+  two_sided_mad <- double_mad(x, zero_mad_action)
+
+  # calculate the median
+  median_x <- stats::median(x)
+
+  # create vector of left/right MADs (don't do it with length(x)/2 since it is possible that x == median_x exists multiple times in the vector)
+  left_mad <- rep(two_sided_mad[1], length(x[x <= median_x]))
+  right_mad <- rep(two_sided_mad[2], length(x[x > median_x]))
+  x_mad <- c(left_mad, right_mad)
+
+  # calculate MAD distance, that is distance of every value to the median, relative to the left/right MAD
+  mad_distance <- abs(x - median_x) / x_mad
+  mad_distance[x == median_x] <- 0
+
+  return(mad_distance)
 }
 
 
-#' Detect Outliers via Median Absolute Deviation from the Median for asymmetric distributions
+
+#' Detect outliers using MAD from the median for asymmetric distributions
 #'
-#' Outlier detection based on MAD for asymetric distributions. Calculates separate MADs for each half of the distribution.
-#' Median Absolute Deviation is a robust normalization unit based on median as a population center.
+#' Outlier detection based on Median Absolute Deviation (MAD) for asymmetric distributions. The function calculates the distance
+#' to the median for every value in the distribution relative to the left or right side MAD. It then compares the value to your
+#' threshold and labels the outliers.
 #'
-#' @param value variable of interest
-#' @param thres z-score threshold (defaults to 3.5).
+#' @inheritParams double_mad
+#' @param threshold Z-score threshold (defaults to 3.5).
 #'
-#' @return logical vector
+#' @return A logical vector.
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
-#' isnt_outlier_double_mad(x)
+#' is_outlier_double_mad(x)
+#'
 
-is_outlier_double_mad <- function(value, thres=3.5){
+is_outlier_double_mad <- function(x, zero_mad_action = NULL, threshold = 3.5){
 
-  ifelse(plausi::DoubleMADsFromMedian(value)>=thres,TRUE,FALSE)
+  ifelse(double_mad_from_median(x, zero_mad_action) >= threshold, TRUE, FALSE)
 
 }
 
 
-#' Get boundaries beyond which a value is an outlier via Median Absolute Deviation from the Median for asymmetric distributions
+
+#' Get boundaries beyond which a value is an outlier via MAD from the median for asymmetric distributions and IQR
 #'
-#' @param value variable of interest
-#' @param thres z-score threshold (defaults to 3.5, which is a popular choice).
-#' @param percent defaults to TRUE. Values below zero are set to 0, values over 100 to 100.
+#' Outlier detection based on Median Absolute Deviation (MAD) for asymetric distributions and interquartile range. The function
+#' calculates the distance to the median for every value in the distribution relative to the left or right side MAD. It then
+#' compares the value to your threshold and labels the outliers.
 #'
-#' @return tibble with numeric range
+#' @inheritParams is_outlier_double_mad
+#' @param percent Indicator for the scale of the data. If function is run for percantage data, the lower limit will not be negative
+#' while the upper limit does not exceed 100 percent. Defaults to TRUE.
+#'
+#' @importFrom stats median
+#' @importFrom stats IQR
+#'
+#' @return A data.frame with numeric range.
 #' @export
+#'
+#' @examples
+#'
+#' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
+#'
+#' outlier_range(x)
+#'
 
-outlier_range<- function(value, thres=3.5,percent=TRUE){
+outlier_range <- function(x, zero_mad_action = NULL, threshold = 3.5, percent = TRUE){
 
-  # iqr_thres as argument to allow for more strict criteria for groups with high variance?
-  # if(IQR(value)>iqr_thres) thres <- 1
+  if (!is.numeric(x)) {
+    stop("Your input must be numeric.")
+  }
 
-
-  data <- tibble(median=median(value),
-         iqr=IQR(value),
-         lower=median(value)-plausi::DoubleMAD(value)[1]*thres,
-         upper=median(value)+plausi::DoubleMAD(value)[2]*thres
+  # create table
+  data <- data.frame(
+    median = stats::median(x),
+    iqr = stats::IQR(x),
+    lower = round(stats::median(x) - double_mad(x)[1] * threshold, 2),
+    upper = round(stats::median(x) + double_mad(x)[1] * threshold, 2)
   )
 
-if(percent==TRUE){
+  # limit bandwidth in case of percentage scale
+  if(percent == TRUE){
 
- data <-data %>%
-    mutate(lower=ifelse(lower<0,0,round(lower,1)),
-           upper=ifelse(upper>100,100,round(upper,1)))
+
+    data["lower"] <- ifelse(data$lower < 0, 0, data$lower)
+    data["upper"] <- ifelse(data$upper > 100, 100, data$upper)
+
+  }
+
+  # add label column
+  data["label"] <- paste0(data$lower, " - ", data$upper)
+
+  # return the table
+  return(data)
 
 }
 
-  data %>%
-    mutate(label=paste(lower,"-",upper))
-
-}
 
 
-
-
-
-# useful functions for outlier detection (combined)
-# http://www.questionflow.org/2017/12/26/combined-outlier-detection-with-dplyr-and-ruler/
-
-
-#' Z-score with MAD
+#' Detect outliers using Z-score with MAD for symmetric distributions
 #'
-#' Outlier detection based on MAD. Median Absolute Deviation is a robust normalization unit based on median as a population center. In order to use MAD “as a consistent estimator for the estimation of the standard deviation” one takes its value multiplied by a factor.
+#' Outlier detection based on Median Absolute Deviation (MAD) for symmetric distributions. The function calculates the distance
+#' to the median for every value in the distribution relative to the MAD. It then compares the value to your threshold and
+#' labels the outliers.
 #'
-#' @param x variable of interest
-#' @param thres z-score threshold (defaults to 3, which is a popular choice).
-#' @param na.rm remove NAs, defaults to TRUE
+#'
+#' @inheritParams double_mad
+#' @param threshold Z-score threshold (defaults to 3).
+#' @param na.rm Remove NAs, defaults to TRUE.
+#'
 #' @importFrom stats median
 #' @importFrom stats mad
 #'
-#' @return logical vector
+#' @return A logical vector.
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
-#' isnt_out_mad(x)
+#' is_outlier_single_mad(x)
 #'
 
-isnt_out_mad <- function(x, thres = 3, na.rm = TRUE) {
-  abs(x - stats::median(x, na.rm = na.rm)) <= thres * stats::mad(x, na.rm = na.rm)
+is_outlier_single_mad <- function(x, threshold = 3, na.rm = TRUE) {
+
+  abs(x - stats::median(x, na.rm = na.rm)) > threshold * stats::mad(x, na.rm = na.rm)
+
 }
 
 
-#' Z-score
+#' Detect outliers using classic Z-scores for symmetric distributions
 #'
-#' Z-score, also called a standard score, of an observation is broadly speaking a distance from the population center measured in number of normalization units. The default choice for center is sample mean and for normalization unit is standard deviation.
+#' Outlier detection based on Z-scores for symetric distributions. The function calculates the Z-score, i. e. the distance of a value
+#' from the mean in number of standard deviations.
 #'
-#' @param x variable of interest
-#' @param thres z-score threshold (defaults to 3, which is a popular choice).
-#' @param na.rm remove NAs, defaults to TRUE
-#' @importFrom stats quantile
+#'
+#' @inheritParams is_outlier_single_mad
+#'
 #' @importFrom stats sd
 #'
-#' @return logical vector
+#' @return A logical vector.
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
-#' isnt_out_z(x)
+#' is_outlier_z(x)
 #'
 
-isnt_out_z <- function(x, thres = 3, na.rm = TRUE) {
-  abs(x - mean(x, na.rm = na.rm)) <= thres * stats::sd(x, na.rm = na.rm)
+is_outlier_z <- function(x, threshold = 3, na.rm = TRUE) {
+
+  abs(x - mean(x, na.rm = na.rm)) > threshold * stats::sd(x, na.rm = na.rm)
+
 }
 
-
-#' Tukey’s fences
+#' Detect outliers using turkey's fences
 #'
-#' Tukey’s fences is a technique used in box plots. The non-outlier range is defined with [Q1−k(Q3−Q1), Q3+k(Q3−Q1)], where Q1 and Q3 are the lower and upper quartiles respectively, k - some nonnegative constant (popular choice is 1.5).
+#' Outlier detection based on turkey's fences. Tukey’s fences is a technique used in box plots. The non-outlier range is defined as
+#' Q1−k(Q3−Q1), Q3+k(Q3−Q1), where Q1 and Q3 are the lower and upper quartiles respectively and k - some non-negative constant
+#' (popular choice is 1.5).
 #'
-#' @param x variable of interest
-#' @param k defaults to 1.5
-#' @param na.rm remove NAs, defaults to TRUE
+#'
+#' @inheritParams double_mad
+#' @param threshold Multiplier for the IQR to set outlier boundaries. Higher values widen the range; default is 1.5.
+#' @param na.rm if TRUE, removes NA values before calculations. Default is TRUE.
+#'
 #' @importFrom stats quantile
 #'
-#' @return logical vector
+#' @return A logical vector.
+#'
 #' @export
 #'
 #' @examples
+#'
 #' x <- c(1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90)
 #'
-#' isnt_out_turkey(x)
+#' is_outlier_turkey(x)
+#'
 
-isnt_out_turkey <- function(x, k = 1.5, na.rm = TRUE) {
+is_outlier_turkey <- function(x, threshold = 1.5, na.rm = TRUE) {
+
   quar <- stats::quantile(x, probs = c(0.25, 0.75), na.rm = na.rm)
+
   iqr <- diff(quar)
 
-  (quar[1] - k * iqr <= x) & (x <= quar[2] + k * iqr)
+  (quar[1] - threshold * iqr > x) | (x > quar[2] + threshold * iqr) # must not be >= or <= since identical values would be counted as outliers
+
 }
-
-
-# maha_dist <- . %>% select_if(is.numeric) %>%
-#   mahalanobis(center = colMeans(.), cov = cov(.))
-#
-# isnt_out_maha <- function(tbl, isnt_out_f, ...) {
-#   tbl %>% maha_dist() %>% isnt_out_f(...)
-# }
-
-# isnt_out_funs_long <- funs(
-#   z_long = isnt_out_z,
-#   mad_long = isnt_out_mad,
-#   turkey_long = isnt_out_turkey
-# )
-#
-
-# isnt_out_funs_cross <- funs(
-#   z_cross = isnt_out_z,
-#   mad_cross = isnt_out_mad,
-#   turkey_cross = isnt_out_turkey
-# )
