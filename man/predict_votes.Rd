@@ -54,9 +54,13 @@ A data.frame.
 }
 \description{
 This function can be used to predict the outcome of multiple votes based on a number of past vote results.
-It uses the machine learning models available in the caret package.
+It uses the machine learning models available in the caret package. To create replicable examples, use
+the function together with set.seed().
 }
 \examples{
+
+# Set seed for reproducibility
+set.seed(42)
 
 predict_votes(c("Eidg1", "Kant1"), vote_data)
 
