@@ -4,11 +4,11 @@ Title: popular vote forensics
 Version: 0.2.0
 Authors@R: c(person(given = "Thomas",
              family = "Lo Russo",
-             role = c("aut", "cre"),
+             role = c("aut"),
              email = "thomas.lorusso@statistik.ji.zh.ch"),
              person(given = "Simon",
              family = "Graf",
-             role = c("aut"),
+             role = c("aut", "cre"),
              email = "simon.graf@statistik.ji.zh.ch"))
 Description: Toolkit for vote and election forensics in R that allows to identify statistical anomalies in vote results.
 License: MIT + file LICENSE
