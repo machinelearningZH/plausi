@@ -59,7 +59,7 @@ the function together with set.seed().
 }
 \examples{
 
-# Set seed for replicability
+# Set seed for reproducibility
 set.seed(42)
 
 predict_votes(c("Eidg1", "Kant1"), vote_data)

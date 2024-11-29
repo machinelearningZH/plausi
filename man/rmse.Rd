@@ -22,7 +22,7 @@ errors) and therefore an indicator of how precise the prediction of a specific v
 }
 \examples{
 
-# Set seed for replicability
+# Set seed for reproducibility
 set.seed(42)
 
 pred_data <- predict_votes(c("Eidg1", "Kant1"), vote_data, exclude_votes = TRUE)

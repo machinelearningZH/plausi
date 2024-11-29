@@ -56,7 +56,7 @@ function together with set.seed().
 }
 \examples{
 
-# Set seed for replicability
+# Set seed for reproducibility
 set.seed(42)
 
 train_prediction_model("Eidg1", vote_data, to_exclude_vars = "Kant1")
