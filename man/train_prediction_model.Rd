@@ -51,9 +51,13 @@ A train object.
 \description{
 This function can be used to train the model for the prediction of one vote
 based on a number of past vote results. It uses the machine learning models
-available in the caret package.
+available in the caret package. To create replicable examples, use the
+function together with set.seed().
 }
 \examples{
+
+# Set seed for reproducibility
+set.seed(42)
 
 train_prediction_model("Eidg1", vote_data, to_exclude_vars = "Kant1")
 
