@@ -22,6 +22,9 @@ errors) and therefore an indicator of how precise the prediction of a specific v
 }
 \examples{
 
+# Set seed for replicability
+set.seed(42)
+
 pred_data <- predict_votes(c("Eidg1", "Kant1"), vote_data, exclude_votes = TRUE)
 
 pred_data$rmse <- rmse(pred_data$pred, pred_data$real)

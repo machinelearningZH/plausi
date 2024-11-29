@@ -102,9 +102,18 @@ A plot helps to visualize the distribution of differences and to identify partic
 
 ggplot(diff2, aes(combination, difference)) +
   geom_violin() +
-  geom_jitter(alpha = 0.3, aes(color = outlier)) +
+  geom_jitter(alpha = 0.5, aes(color = outlier)) +
   theme_minimal() +
-  scale_color_viridis_d()
+  # theme(axis.text.x = element_text(angle = 45), vjust = 0.5, hjust = 1) +
+  theme(axis.text.x = element_text(
+    angle = 45, 
+    hjust = 1, 
+    vjust = 1
+  )) +
+  scale_colour_manual(values = c(
+    "TRUE" = "#B01657",
+    "FALSE" = "#00797B"
+  ))
 
 ```
 

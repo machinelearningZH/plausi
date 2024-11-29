@@ -97,6 +97,9 @@ traindata <- as_tibble(lapply(traindata, rep, traindata$ntimes)) |>
 
 ```{r message=FALSE, warning=FALSE}
 
+# Set seed for reblicability
+set.seed(42)
+
 # Predict results
 predicted_results <- predict_votes(
   x = c("v6350", "v6310"),
@@ -127,7 +130,10 @@ gem_pred %>% filter(outlier == TRUE)
 ggplot(gem_pred, aes(vorlage,error)) +
   geom_point(aes(color = outlier)) +
   geom_violin(alpha = 0.5) +
-  scale_color_viridis_d() +
+  scale_colour_manual(values = c(
+    "TRUE" = "#B01657",
+    "FALSE" = "#00797B"
+  )) +
   theme_minimal()
 
 ```
