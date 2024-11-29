@@ -97,7 +97,7 @@ traindata <- as_tibble(lapply(traindata, rep, traindata$ntimes)) |>
 
 ```{r message=FALSE, warning=FALSE}
 
-# Set seed for reblicability
+# Set seed for reproducibility
 set.seed(42)
 
 # Predict results

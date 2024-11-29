@@ -16,7 +16,7 @@
 #'
 #' @examples
 #'
-#' # Set seed for replicability
+#' # Set seed for reproducibility
 #' set.seed(42)
 #'
 #' predict_votes(c("Eidg1", "Kant1"), vote_data)
@@ -98,7 +98,7 @@ predict_votes <- function(
 #'
 #' @examples
 #'
-#' # Set seed for replicability
+#' # Set seed for reproducibility
 #' set.seed(42)
 #'
 #' train_prediction_model("Eidg1", vote_data, to_exclude_vars = "Kant1")
@@ -203,7 +203,7 @@ train_prediction_model <- function(
 #'
 #' @examples
 #'
-#' # Set seed for replicability
+#' # Set seed for reproducibility
 #' set.seed(42)
 #'
 #' test_model <- train_prediction_model("Eidg1", vote_data, to_exclude_vars = "Kant1")
@@ -271,7 +271,7 @@ predict_single_vote <- function(model, testdata){
 #'
 #' @examples
 #'
-#' # Set seed for replicability
+#' # Set seed for reproducibility
 #' set.seed(42)
 #'
 #' pred_data <- predict_votes(c("Eidg1", "Kant1"), vote_data, exclude_votes = TRUE)
