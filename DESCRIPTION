@@ -1,7 +1,7 @@
 Package: plausi
 Type: Package
 Title: popular vote forensics
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: c(person(given = "Thomas",
              family = "Lo Russo",
              role = c("aut"),
@@ -19,8 +19,6 @@ Imports:
     stats
 Depends: 
     R (>= 2.10)
-Remotes: 
-    r-lib/cli
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests: 
