@@ -1,3 +1,5 @@
+# plausi 0.2.2
+
 # plausi 0.2.1
 
 * Changed documentation to include set.seed() for reproducibility.
