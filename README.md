@@ -35,21 +35,32 @@ class="uri">mailto:wahlen@statistik.zh.ch</a>).
 
 ## Installation
 
-You can install the development version of plausi from
-[GitHub](https://github.com/) with:
+You can install the plausi package from [GitHub](https://github.com/)
+with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("machinelearningZH/plausi")
 ```
 
-## Example
+## Usage
 
-We will reference the pkgdown articles shortly.
+Attach the package and you are good to go.
 
 ``` r
 library(plausi)
-## basic example code
+```
+
+All you need now is data. The easiest way to access data on popular
+votes in Switzerland is via the [swissdd
+package](https://github.com/politanch/swissdd), with which you can
+easily get a wide range of vote results, for example the results of the
+national votes from 2024-11-24:
+
+``` r
+devtools::install_github("politanch/swissdd")
+
+vote_data <- swissdd::get_nationalvotes(geolevel = "municipality", votedates = "2024-11-24")
 ```
 
 ## Licensing
@@ -63,7 +74,7 @@ Election-Team](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statisti
 and [Team
 Data](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/data.html)
 of the Statistical Office of the Canton of Zurich. Responsible: Simon
-Graf, Thomas Lo Russo and Thomas Knecht
+Graf, Thomas Lo Russo and Thomas Knecht.
 
 ## Feedback and contributing
 
