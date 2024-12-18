@@ -34,7 +34,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/turnout.html">Turnout Outliers</a></li>
-    <li><a class="dropdown-item" href="../articles/yes-shares.html">Predict Yes-Shares</a></li>
+    <li><a class="dropdown-item" href="../articles/yes-shares.html">Predict and verify Yes-Shares</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -87,7 +87,8 @@ available on opendata.swiss for illustration.</p>
 <h2 id="data-retrieval">Data Retrieval<a class="anchor" aria-label="anchor" href="#data-retrieval"></a>
 </h2>
 <div class="section level3">
-<h3 id="option-1-retrieve-voting-results-dynamically-from-swissdd">Option 1: Retrieve voting results dynamically from swissdd<a class="anchor" aria-label="anchor" href="#option-1-retrieve-voting-results-dynamically-from-swissdd"></a>
+<h3 id="option-1-retrieve-voting-results-dynamically-via-swissdd-from-opendata-swiss">Option 1: Retrieve voting results dynamically via swissdd from
+opendata.swiss<a class="anchor" aria-label="anchor" href="#option-1-retrieve-voting-results-dynamically-via-swissdd-from-opendata-swiss"></a>
 </h3>
 <p>We can access all voting information on the federal level using the
 <code>swissdd</code> package.</p>
@@ -112,7 +113,7 @@ available on opendata.swiss for illustration.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="data-wrangling">Data Wrangling<a class="anchor" aria-label="anchor" href="#data-wrangling"></a>
+<h2 id="calculate-voter-turnout-differences">Calculate Voter Turnout Differences<a class="anchor" aria-label="anchor" href="#calculate-voter-turnout-differences"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
