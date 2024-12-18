@@ -35,7 +35,7 @@ bfs_nrs <- c(6, 7, 10, 11, 12, 87, 219, 294, 181, 38, 60, 92, 119, 182, 218, 261
 
 ## Data Retrieval
 
-### Option 1: Retrieve voting results dynamically from swissdd
+### Option 1: Retrieve voting results dynamically via swissdd from opendata.swiss
 We can access all voting information on the federal level using the `swissdd` package.
 
 ```{r eval=FALSE}
@@ -96,7 +96,7 @@ traindata <- as_tibble(lapply(traindata, rep, traindata$ntimes)) |>
 
 ## Prediction
 
-We use the ´svmRadial´ model (SVM algorithm with a Radial kernel) to predict the yes-shares, as it demonstrated the best performance in our benchmarks while maintaining a quick computation time.
+We use the `svmRadial` model (SVM algorithm with a radial kernel) to predict the yes-shares, as it demonstrated the best performance in our benchmarks while maintaining a quick computation time.
 
 ```{r message=FALSE, warning=FALSE}
 

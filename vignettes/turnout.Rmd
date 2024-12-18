@@ -34,7 +34,7 @@ library(tidyr)
 
 ## Data Retrieval
 
-### Option 1: Retrieve voting results dynamically from swissdd
+### Option 1: Retrieve voting results dynamically via swissdd from opendata.swiss
 We can access all voting information on the federal level using the `swissdd` package.
 
 ```{r eval=FALSE}
