@@ -1,8 +1,8 @@
 ---
-title: "Predict Yes-Shares"
+title: "Predict and verify Yes-Shares"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Verify Yes-Shares}
+  %\VignetteIndexEntry{Predict and verify Yes-Shares}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -35,6 +35,7 @@ bfs_nrs <- c(6, 7, 10, 11, 12, 87, 219, 294, 181, 38, 60, 92, 119, 182, 218, 261
 
 ## Data Retrieval
 
+### Option 1: Retrieve voting results dynamically from swissdd
 We can access all voting information on the federal level using the `swissdd` package.
 
 ```{r eval=FALSE}
@@ -49,7 +50,7 @@ results_raw <- swissdd::get_nationalvotes(from_date = "2017-03-01", to_date = "2
 
 ```
 
-For our case, we simply access the package data.
+### Option 2: Use the preloaded result_data included in the package 
 
 ```{r}
 
@@ -95,6 +96,8 @@ traindata <- as_tibble(lapply(traindata, rep, traindata$ntimes)) |>
 
 ## Prediction
 
+We use the ´svmRadial´ model (SVM algorithm with a Radial kernel) to predict the yes-shares, as it demonstrated the best performance in our benchmarks while maintaining a quick computation time.
+
 ```{r message=FALSE, warning=FALSE}
 
 # Set seed for reproducibility
@@ -105,7 +108,7 @@ predicted_results <- predict_votes(
   x = c("v6350", "v6310"),
   traindata = traindata, 
   testdata = testdata,
-  method = "svmRadial",
+  method = "svmRadial", 
   geovars = c("mun_id", "mun_name")
 )
 
