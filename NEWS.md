@@ -1,3 +1,5 @@
+# plausi 0.2.3
+
 # plausi 0.2.2
 
 * Removed cli package from dependencies.
