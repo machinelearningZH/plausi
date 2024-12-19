@@ -13,7 +13,7 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.or
 <!-- badges: end -->
 
 <p align="left">
-<img src="https://raw.githubusercontent.com/politanch/plausi/refs/heads/main/plausi_hex.png" alt="" width="100"/>
+<img src="https://raw.githubusercontent.com/machinelearningZH/plausi/refs/heads/main/plausi_hex.png" alt="" width="100"/>
 
 The Plausi package is designed for R-supported election forensics. It
 provides functions that enable the identification of statistical
