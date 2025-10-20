@@ -137,6 +137,75 @@ rmse = function(prediction, observation, na.rm = TRUE){
 
 
 
+#' Calculate RMSE after excluding the most extreme values
+#'
+#' Calculate the Root Mean Square Error (RMSE) after the exclusion of the most extreme values.
+#' The RMSE is the standard deviation of the residuals (prediction errors) and therefore an
+#' indicator of how precise the prediction of a specific vote actually is.
+#'
+#' @inheritParams rmse
+#' @param cutoff_min Numeric. Minimum absolute number of highest residuals to be cut off before calculating the RMSE.
+#' @param cutoff_perc Numeric. Percentage of highest residuals to be cut off before calculating the RMSE.
+#'
+#' @return A vector of numeric values.
+#' @export
+#'
+#' @examples
+#'
+#' # Set seed for reproducibility
+#' set.seed(42)
+#'
+#' pred_data <- predict_votes(c("Eidg1", "Kant1"), vote_data, exclude_votes = TRUE)
+#'
+#' pred_data$rmse <- rmse(pred_data$pred, pred_data$real)
+#'
+
+rmse_cutoff = function(prediction, observation, cutoff_min = 2, cutoff_perc = 5, na.rm = TRUE) {
+
+  # Check inputs
+  if (length(prediction) != length(observation)) {
+    stop("The vectors prediction and observation must have the same length().")
+  }
+
+  if (!is.numeric(cutoff_min) || !is.numeric(cutoff_perc)) {
+    stop("The cutoff values must be numeric.")
+  }
+
+  if (length(prediction) <= cutoff_min || cutoff_perc >= 100) {
+    stop("You cannot cut off more values than you are analysing.")
+  }
+
+  # Compute absolute differences
+  diffs <- abs(prediction - observation)
+
+  # Determine how many values to remove
+  n <- length(diffs)
+  n_remove <- max(cutoff_min, ceiling(0.01 * cutoff_perc * n))
+
+  # Find the indices of the n_remove largest differences
+  # Sort indices by decreasing order of differences
+  sorted_indices <- order(diffs, decreasing = TRUE)
+
+  # Remove the n_remove cases with largest differences
+  if (n_remove > 0) {
+    # Get indices of the cases to remove (those with largest differences)
+    remove_indices <- sorted_indices[1:n_remove]
+
+    # Keep all cases except those to be removed
+    keep <- !(seq_along(diffs) %in% remove_indices)
+  } else {
+    keep <- rep(TRUE, n)
+  }
+
+  # Calculate RMSE with remaining values
+  sqrt(mean((prediction - observation)[keep] ^ 2, na.rm = na.rm))
+
+}
+
+
+
+
+
 #' Detect outliers using MAD from the median for asymmetric distributions
 #'
 #' Outlier detection based on Median Absolute Deviation (MAD) for asymmetric distributions. The function calculates the distance
