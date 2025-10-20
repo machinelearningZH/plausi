@@ -73,6 +73,8 @@ cross_fun <- function(df, issue1, issue2, geo_cols){
 
 
 
+
+
 #' Calculation of the voter turnout difference between multiple votes
 #'
 #' This function creates a table with the differences in turnout between

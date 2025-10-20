@@ -69,6 +69,8 @@ predict_votes <- function(
 
 
 
+
+
 #' Train model for prediction of one vote
 #'
 #' This function can be used to train the model for the prediction of one vote
@@ -188,6 +190,8 @@ train_prediction_model <- function(
 
 
 
+
+
 #' Run prediction for one vote
 #'
 #' This function can be used to predict the outcome of one vote based on a trained model,
@@ -254,38 +258,3 @@ predict_single_vote <- function(model, testdata){
   return(output)
 
 }
-
-
-
-#' Calculate RMSE
-#'
-#' Calculate the Root Mean Square Error (RMSE). The RMSE is the standard deviation of the residuals (prediction
-#' errors) and therefore an indicator of how precise the prediction of a specific vote actually is.
-#'
-#' @param prediction Predicted value.
-#' @param observation Oserved value.
-#' @param na.rm Remove NA values, defaults to TRUE
-#'
-#' @return A vector of numeric values.
-#' @export
-#'
-#' @examples
-#'
-#' # Set seed for reproducibility
-#' set.seed(42)
-#'
-#' pred_data <- predict_votes(c("Eidg1", "Kant1"), vote_data, exclude_votes = TRUE)
-#'
-#' pred_data$rmse <- rmse(pred_data$pred, pred_data$real)
-#'
-
-rmse = function(prediction, observation, na.rm = TRUE){
-
-  if (length(prediction) != length(observation)) {
-    stop("The vectors prediction and observation must have the same length().")
-  }
-
-  sqrt(mean((prediction - observation) ^ 2, na.rm = na.rm))
-
-}
-

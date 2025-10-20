@@ -54,6 +54,8 @@ double_mad <- function(x, zero_mad_action = NULL){
 
 
 
+
+
 #' Calculate the distance of a value from the median of a distribution in relation to its Median Absolute Deviation (MAD)
 #'
 #' This function is suited to find outliers in asymetric distributions (in contrast to the standard mad() function which works for
@@ -97,6 +99,44 @@ double_mad_from_median <- function(x, zero_mad_action = NULL){
 
 
 
+
+
+#' Calculate RMSE
+#'
+#' Calculate the Root Mean Square Error (RMSE). The RMSE is the standard deviation of the residuals (prediction
+#' errors) and therefore an indicator of how precise the prediction of a specific vote actually is.
+#'
+#' @param prediction Predicted value.
+#' @param observation Oserved value.
+#' @param na.rm Remove NA values, defaults to TRUE
+#'
+#' @return A vector of numeric values.
+#' @export
+#'
+#' @examples
+#'
+#' # Set seed for reproducibility
+#' set.seed(42)
+#'
+#' pred_data <- predict_votes(c("Eidg1", "Kant1"), vote_data, exclude_votes = TRUE)
+#'
+#' pred_data$rmse <- rmse(pred_data$pred, pred_data$real)
+#'
+
+rmse = function(prediction, observation, na.rm = TRUE){
+
+  if (length(prediction) != length(observation)) {
+    stop("The vectors prediction and observation must have the same length().")
+  }
+
+  sqrt(mean((prediction - observation) ^ 2, na.rm = na.rm))
+
+}
+
+
+
+
+
 #' Detect outliers using MAD from the median for asymmetric distributions
 #'
 #' Outlier detection based on Median Absolute Deviation (MAD) for asymmetric distributions. The function calculates the distance
@@ -121,6 +161,8 @@ is_outlier_double_mad <- function(x, zero_mad_action = NULL, threshold = 3.5){
   ifelse(double_mad_from_median(x, zero_mad_action) >= threshold, TRUE, FALSE)
 
 }
+
+
 
 
 
@@ -180,6 +222,8 @@ outlier_range <- function(x, zero_mad_action = NULL, threshold = 3.5, percent = 
 
 
 
+
+
 #' Detect outliers using Z-score with MAD for symmetric distributions
 #'
 #' Outlier detection based on Median Absolute Deviation (MAD) for symmetric distributions. The function calculates the distance
@@ -211,6 +255,9 @@ is_outlier_single_mad <- function(x, threshold = 3, na.rm = TRUE) {
 }
 
 
+
+
+
 #' Detect outliers using classic Z-scores for symmetric distributions
 #'
 #' Outlier detection based on Z-scores for symetric distributions. The function calculates the Z-score, i. e. the distance of a value
@@ -236,6 +283,10 @@ is_outlier_z <- function(x, threshold = 3, na.rm = TRUE) {
   abs(x - mean(x, na.rm = na.rm)) > threshold * stats::sd(x, na.rm = na.rm)
 
 }
+
+
+
+
 
 #' Detect outliers using turkey's fences
 #'
