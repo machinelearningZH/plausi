@@ -102,6 +102,30 @@ test_that("double_mad_from_median() errors on non-numeric input", {
 })
 
 
+# TESTS FOR rmse() =============================================================
+
+
+testthat::test_that("rmse() throws an error if args have not the same length", {
+
+  testthat::expect_error(
+    rmse(c(1, 1, 1, 2), c(2, 2, 4))
+  )
+
+})
+
+
+# TESTS FOR rmse_cutoff() ======================================================
+
+
+testthat::test_that("rmse_cutoff() throws an error for too big absolute cutoff", {
+  testthat::expect_error(
+    rmse_cutoff(c(1, 1, 1, 2), c(1, 2, 2, 4), cutoff_min = 4, cutoff_perc = 10)
+  )
+
+  testthat::expect_error(
+    rmse_cutoff(c(1, 1, 1, 2), c(1, 2, 2, 4), cutoff_min = 2, cutoff_perc = 105)
+  )
+})
 
 
 # TESTS FOR is_outlier_double_mad() ============================================
@@ -227,7 +251,6 @@ test_that("is_outlier_z() handles NA values appropriately", {
   expect_true(is.na(result[4]))
   expect_true(all(!is.na(result[-4])))
 })
-
 
 
 # TESTS FOR is_outlier_turkey() ================================================
