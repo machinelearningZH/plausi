@@ -144,7 +144,7 @@ rmse = function(prediction, observation, na.rm = TRUE){
 #' indicator of how precise the prediction of a specific vote actually is.
 #'
 #' @inheritParams rmse
-#' @param cutoff_min Numeric. Minimum absolute number of highest residuals to be cut off before calculating the RMSE.
+#' @param cutoff_min Numeric. Minimum number of highest residuals to be cut off before calculating the RMSE.
 #' @param cutoff_perc Numeric. Percentage of highest residuals to be cut off before calculating the RMSE.
 #'
 #' @return A vector of numeric values.
@@ -157,7 +157,7 @@ rmse = function(prediction, observation, na.rm = TRUE){
 #'
 #' pred_data <- predict_votes(c("Eidg1", "Kant1"), vote_data, exclude_votes = TRUE)
 #'
-#' pred_data$rmse <- rmse(pred_data$pred, pred_data$real)
+#' pred_data$rmse <- rmse_cutoff(pred_data$pred, pred_data$real, 3, 4)
 #'
 
 rmse_cutoff = function(prediction, observation, cutoff_min = 2, cutoff_perc = 5, na.rm = TRUE) {

@@ -17,7 +17,7 @@ rmse_cutoff(
 
 \item{observation}{Oserved value.}
 
-\item{cutoff_min}{Numeric. Minimum absolute number of highest residuals to be cut off before calculating the RMSE.}
+\item{cutoff_min}{Numeric. Minimum number of highest residuals to be cut off before calculating the RMSE.}
 
 \item{cutoff_perc}{Numeric. Percentage of highest residuals to be cut off before calculating the RMSE.}
 
@@ -38,6 +38,6 @@ set.seed(42)
 
 pred_data <- predict_votes(c("Eidg1", "Kant1"), vote_data, exclude_votes = TRUE)
 
-pred_data$rmse <- rmse(pred_data$pred, pred_data$real)
+pred_data$rmse <- rmse_cutoff(pred_data$pred, pred_data$real, 3, 4)
 
 }
