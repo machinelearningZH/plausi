@@ -1,5 +1,7 @@
 # plausi 0.3.0
 
+* Added rmse function with a cutoff.
+
 # plausi 0.2.3
 
 # plausi 0.2.2
