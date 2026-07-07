@@ -74,9 +74,9 @@ The package is licensed under the MIT license.
 ## Project team
 
 This is a joint project of the [Vote &
-Election-Team](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/wahlen-und-abstimmungen.html)
+Election-Team](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/amt-fuer-statistik-und-daten/wahlen-und-abstimmungen.html)
 and [Team
-Data](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/statistisches-amt/data.html)
+Data](https://www.zh.ch/de/direktion-der-justiz-und-des-innern/amt-fuer-statistik-und-daten/data.html)
 of the Statistical Office of the Canton of Zurich. Responsible: Simon
 Graf, Thomas Lo Russo and Thomas Knecht.
 
