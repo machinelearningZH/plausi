@@ -1,0 +1,61 @@
+publiccodeYmlVersion: 0.5.0
+name: Plausibilisierung von Abstimmungs- und Wahlresultaten
+url: https://github.com/machinelearningZH/plausi
+releaseDate: 2024-11-28
+logo: https://raw.githubusercontent.com/machinelearningZH/plausi/refs/heads/main/plausi_hex.png
+platforms:
+  - web
+  - windows
+  - mac
+  - linux
+categories:
+  - predictive-analysis
+usedBy:
+  - Kanton Zürich
+  - Kanton St. Gallen
+  - Kanton Thurgau
+developmentStatus: stable
+softwareType: library
+intendedAudience:
+  countries:
+    - CH
+  scope:
+    - government
+organisation:
+  uri: https://ld.admin.ch/canton/1
+  name: Zurich
+description:
+  en:
+    localisedName: Plausi Package
+    shortDescription: Predict votes and detect anomalies using R.
+    longDescription: Plausi is a statistical toolkit that helps ensure the integrity
+      of vote and election results by automatically flagging patterns that
+      warrant a closer look. Using robust statistical methods and machine
+      learning, it detects irregularities such as unusual voter turnout patterns
+      or results that deviate unexpectedly from what similar municipalities
+      would be expected to show. It systematically compares results across all
+      voting districts, making it possible to catch anomalies that would be
+      difficult to spot by manually reviewing individual results one by one.
+      Plausi forms the statistical foundation of the PlausiApp, which is already
+      used for vote result quality control in the Cantons of Zurich, St. Gallen,
+      and Thurgau. In short, it's a proven, science-based safeguard that
+      supports confidence in the electoral process by helping authorities catch
+      potential errors before results are finalized.
+    documentation: https://github.com/machinelearningZH/plausi/blob/main/README.md
+    features:
+      - LLM
+      - Dataset Description Generation
+      - Metadata Generation
+      - Structured Guidance
+      - DCAT-AP ch Alignment
+legal:
+  license: MIT
+maintenance:
+  type: internal
+  contacts:
+    - name: Team Data, Amt für Statistik und Daten
+      email: datashop@statistik.zh.ch
+localisation:
+  localisationReady: true
+  availableLanguages:
+    - de-CH
