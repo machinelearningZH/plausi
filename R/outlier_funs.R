@@ -86,9 +86,7 @@ double_mad_from_median <- function(x, zero_mad_action = NULL){
   median_x <- stats::median(x)
 
   # create vector of left/right MADs (don't do it with length(x)/2 since it is possible that x == median_x exists multiple times in the vector)
-  left_mad <- rep(two_sided_mad[1], length(x[x <= median_x]))
-  right_mad <- rep(two_sided_mad[2], length(x[x > median_x]))
-  x_mad <- c(left_mad, right_mad)
+  x_mad <- ifelse(x <= median_x, two_sided_mad[1], two_sided_mad[2])
 
   # calculate MAD distance, that is distance of every value to the median, relative to the left/right MAD
   mad_distance <- abs(x - median_x) / x_mad
